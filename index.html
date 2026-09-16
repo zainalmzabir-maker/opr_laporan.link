@@ -62,14 +62,14 @@
           <i data-lucide="file-check" class="w-8 h-8"></i>
         </div>
         <h2 class="text-xl font-black text-slate-800 uppercase tracking-wide">Sistem Pelaporan Digital</h2>
-        <p class="text-xs text-slate-500 mt-1">OPR Online &bull; Minit Curai &bull; Panel Kawalan Admin</p>
+        <p class="text-xs text-slate-500 mt-1">OPR Online &bull; Minit Curai &bull; Panel Pengurusan</p>
       </div>
 
       <!-- BORANG LOG MASUK -->
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Username</label>
-          <input type="text" id="loginUser" required placeholder="Masukkan username anda" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+          <input type="text" id="loginUser" required placeholder="Masukkan username" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
         </div>
         <div>
           <div class="flex justify-between items-center mb-1">
@@ -83,15 +83,15 @@
         </button>
         <p class="text-xs text-center text-slate-500 pt-2">
           Belum mempunyai akaun? 
-          <a href="javascript:void(0)" onclick="toggleAuth('register')" class="text-sky-600 font-bold underline">Daftar Akaun Baru</a>
+          <a href="javascript:void(0)" onclick="toggleAuth('register')" class="text-sky-600 font-bold underline">Daftar Sekolah Baru</a>
         </p>
       </form>
 
-      <!-- BORANG DAFTAR AKAUN (USER BIASA) -->
+      <!-- BORANG DAFTAR AKAUN (SEKALI ISI SAHAJA) -->
       <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-3.5 hidden">
         <div class="border-b pb-2 mb-2">
           <span class="text-xs font-black uppercase text-indigo-700 flex items-center gap-1">
-            <i data-lucide="user-plus" class="w-4 h-4"></i> Pendaftaran Sekolah Baru
+            <i data-lucide="user-plus" class="w-4 h-4"></i> Pendaftaran Profil Sekolah
           </span>
           <p class="text-[10px] text-slate-400 mt-0.5">Logo dan maklumat sekolah hanya perlu diisi sekali sahaja.</p>
         </div>
@@ -108,7 +108,7 @@
         </div>
 
         <div>
-          <label class="block text-[11px] font-bold text-slate-700">Emel Sah *</label>
+          <label class="block text-[11px] font-bold text-slate-700">Emel Rasmi / Pengguna *</label>
           <input type="email" id="regEmail" required placeholder="nama@gmail.com" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
         </div>
 
@@ -123,7 +123,7 @@
         </div>
 
         <div>
-          <label class="block text-[11px] font-bold text-slate-700">Pilih Logo Sekolah</label>
+          <label class="block text-[11px] font-bold text-slate-700">Logo Sekolah (PNG / JPG)</label>
           <input type="file" id="regLogoInput" accept="image/*" onchange="compressLogo(this)" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-sky-50 file:text-sky-700">
         </div>
 
@@ -167,9 +167,9 @@
             Curai Online <span class="text-[9px] bg-sky-500 text-white px-1.5 py-0.2 rounded-full ml-1">Akan Datang</span>
           </button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">
-            Senarai Rekod
+            Rekod Pelaporan Saya
           </button>
-          <!-- BUTANG PANEL ADMIN (HANYA MUNCUL KEPADA ADMIN) -->
+          <!-- BUTANG PANEL ADMIN -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1">
             <i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin
           </button>
@@ -204,9 +204,9 @@
               <h2 class="text-lg font-black text-slate-800 flex items-center gap-2">
                 <i data-lucide="file-pen" class="text-sky-600"></i> Penjana Laporan Satu Muka (OPR)
               </h2>
-              <p class="text-xs text-slate-500 mt-0.5">Maklumat dan logo sekolah anda diisi secara automatik.</p>
+              <p class="text-xs text-slate-500 mt-0.5">Kepala surat dan logo sekolah anda dimasukkan secara automatik.</p>
             </div>
-            <span class="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200">Auto-Profile Aktif</span>
+            <span class="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200">Profil Sendiri</span>
           </div>
 
           <form id="oprForm" onsubmit="handleSaveOPR(event)" class="space-y-4">
@@ -291,19 +291,19 @@
         </div>
         <h3 class="text-xl font-black text-slate-800">Modul Minit Curai Online</h3>
         <p class="text-xs text-slate-500 mt-2 max-w-md mx-auto">
-          Tapak modul Minit Curai Online telah sedia dihubungkan dengan akaun langganan anda. Ciri kemasukan butiran mesyuarat luar dan taklimat akan diaktifkan tidak lama lagi!
+          Tapak modul Minit Curai Online telah sedia dihubungkan dengan akaun anda. Ciri kemasukan butiran mesyuarat luar dan taklimat akan diaktifkan tidak lama lagi!
         </p>
         <span class="inline-block mt-4 text-[11px] font-bold text-sky-700 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200">
           Status: Pembangunan Peringkat Akhir
         </span>
       </section>
 
-      <!-- ==================== TAB 3: SENARAI REKOD ==================== -->
+      <!-- ==================== TAB 3: REKOD PELAPORAN SAYA ==================== -->
       <section id="view-records" class="hidden space-y-4">
         <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <div>
-            <h3 class="text-sm font-bold text-slate-800">Senarai Laporan OPR</h3>
-            <p class="text-xs text-slate-400">Papar dan cetak lembaran OPR A4.</p>
+            <h3 class="text-sm font-bold text-slate-800">Rekod Pelaporan Sekolah Saya</h3>
+            <p class="text-xs text-slate-400">Hanya rekod yang dijana oleh akaun anda dipaparkan di sini.</p>
           </div>
           <button onclick="fetchUserReports()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1">
             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
@@ -328,40 +328,71 @@
         </div>
       </section>
 
-      <!-- ==================== TAB 4: PANEL ADMIN (EKSKLUSIF ADMIN) ==================== -->
+      <!-- ==================== TAB 4: PANEL ADMIN (PENGURUSAN SEMUA USER) ==================== -->
       <section id="view-admin" class="hidden space-y-6">
-        <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-5 rounded-2xl shadow-md flex justify-between items-center">
+        <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-wrap justify-between items-center gap-4">
           <div>
-            <h2 class="text-lg font-black flex items-center gap-2 text-amber-300">
-              <i data-lucide="shield-check" class="w-5 h-5"></i> Panel Pengurusan Admin
+            <h2 class="text-xl font-black flex items-center gap-2 text-amber-300">
+              <i data-lucide="shield-check" class="w-6 h-6"></i> Panel Pengurusan Admin
             </h2>
-            <p class="text-xs text-slate-300 mt-1">Urus semua akaun sekolah, semak status langganan, dan aktifkan secara manual.</p>
+            <p class="text-xs text-slate-300 mt-1">Urus semua akaun sekolah, lihat butiran penuh, dan aktifkan langganan manual.</p>
           </div>
-          <button onclick="loadAdminAllUsers()" class="px-3 py-1.5 bg-amber-400 text-slate-950 font-bold rounded-lg text-xs flex items-center gap-1">
-            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Muat Semula Data
-          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="loadAdminAllUsers()" class="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black rounded-xl text-xs flex items-center gap-1.5 shadow transition">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula Senarai
+            </button>
+          </div>
         </div>
 
-        <!-- JADUAL SEMUA PENGGUNA -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-x-auto">
-          <div class="p-4 border-b flex justify-between items-center">
-            <h3 class="font-bold text-slate-800 text-sm">Senarai Semua Akaun Pengguna Berdaftar</h3>
-            <span id="adminTotalUsersBadge" class="text-xs bg-slate-100 text-slate-700 font-bold px-2.5 py-1 rounded-full">-</span>
+        <!-- STATISTIK RINGKAS ADMIN -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-[11px] font-bold text-slate-400 uppercase">Jumlah Akaun</span>
+            <p id="statTotalUsers" class="text-2xl font-black text-slate-800 mt-1">0</p>
           </div>
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b">
-              <tr>
-                <th class="p-3">Sekolah</th>
-                <th class="p-3">Username & Emel</th>
-                <th class="p-3">Status Langganan</th>
-                <th class="p-3">Tarikh Tamat</th>
-                <th class="p-3 text-center">Tindakan Admin</th>
-              </tr>
-            </thead>
-            <tbody id="tblAdminUsersBody" class="divide-y text-slate-600">
-              <tr><td colspan="5" class="p-5 text-center text-slate-400">Tekan 'Muat Semula Data' untuk memaparkan senarai pengguna...</td></tr>
-            </tbody>
-          </table>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-[11px] font-bold text-emerald-600 uppercase">Langganan Aktif</span>
+            <p id="statActiveUsers" class="text-2xl font-black text-emerald-600 mt-1">0</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-[11px] font-bold text-rose-600 uppercase">Tamat / Belum Aktif</span>
+            <p id="statInactiveUsers" class="text-2xl font-black text-rose-600 mt-1">0</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <span class="text-[11px] font-bold text-sky-600 uppercase">Jumlah Laporan Dijana</span>
+            <p id="statTotalReports" class="text-2xl font-black text-sky-600 mt-1">0</p>
+          </div>
+        </div>
+
+        <!-- JADUAL PENGGUNA DENGAN FUNGSI CARIAN -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <div class="p-4 border-b flex flex-wrap justify-between items-center gap-3 bg-slate-50">
+            <div>
+              <h3 class="font-bold text-slate-800 text-sm">Senarai Semua Sekolah Berdaftar</h3>
+              <p class="text-[11px] text-slate-400">Klik butang "Detail" untuk melihat maklumat terperinci sekolah.</p>
+            </div>
+            <div class="w-full sm:w-64">
+              <input type="text" id="adminSearchInput" onkeyup="filterAdminUsersTable()" placeholder="Cari nama sekolah / username..." class="w-full border border-slate-300 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-amber-400 outline-none">
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs" id="tblAdminUsers">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b">
+                <tr>
+                  <th class="p-3">Sekolah & Kod</th>
+                  <th class="p-3">Username & Emel</th>
+                  <th class="p-3">Status Langganan</th>
+                  <th class="p-3">Tarikh Tamat</th>
+                  <th class="p-3 text-center">Laporan</th>
+                  <th class="p-3 text-center">Tindakan Admin</th>
+                </tr>
+              </thead>
+              <tbody id="tblAdminUsersBody" class="divide-y text-slate-600">
+                <tr><td colspan="6" class="p-5 text-center text-slate-400">Memuat senarai pengguna...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -434,6 +465,68 @@
     </main>
   </div>
 
+  <!-- ==================== MODAL 1: DETAIL PENGGUNA (UNTUK ADMIN) ==================== -->
+  <div id="modalAdminUserDetail" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative my-auto">
+      <button onclick="closeAdminUserDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-3 border-b pb-4 mb-4">
+        <img id="mUserLogo" class="w-14 h-14 object-contain bg-slate-50 rounded-xl p-1 border border-slate-200 shadow-sm">
+        <div>
+          <h3 id="mUserSchool" class="text-base font-black text-slate-900 uppercase leading-tight">-</h3>
+          <p id="mUserRoleBadge" class="mt-1 inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">-</p>
+        </div>
+      </div>
+
+      <!-- BUTIRAN TERPERINCI -->
+      <div class="space-y-2.5 text-xs text-slate-700 mb-5">
+        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+          <span class="font-bold text-slate-500">Username:</span>
+          <span id="mUserUsername" class="col-span-2 font-mono font-bold text-slate-900">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+          <span class="font-bold text-slate-500">Kata Laluan:</span>
+          <span id="mUserPassword" class="col-span-2 font-mono font-bold text-slate-900">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+          <span class="font-bold text-slate-500">Emel:</span>
+          <span id="mUserEmail" class="col-span-2 font-semibold text-sky-700">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+          <span class="font-bold text-slate-500">Alamat / Info:</span>
+          <span id="mUserInfo" class="col-span-2 text-slate-800">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+          <span class="font-bold text-slate-500">Tarikh Daftar:</span>
+          <span id="mUserRegistered" class="col-span-2 text-slate-800">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+          <span class="font-bold text-slate-500">Langganan:</span>
+          <span id="mUserSubExpiry" class="col-span-2 font-bold text-emerald-700">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+          <span class="font-bold text-slate-500">Laporan Dijana:</span>
+          <span id="mUserReportsCount" class="col-span-2 font-black text-sky-800 text-sm">-</span>
+        </div>
+      </div>
+
+      <!-- TINDAKAN ADMIN TERHADAP AKAUN INI -->
+      <div class="border-t pt-3 flex flex-wrap gap-2 justify-end">
+        <button id="btnGrantSub30" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Tambah 30 Hari
+        </button>
+        <button id="btnGrantSub365" class="px-3 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold flex items-center gap-1">
+          <i data-lucide="calendar" class="w-3.5 h-3.5"></i> Tambah 1 Tahun
+        </button>
+        <button id="btnDeleteUserModal" class="px-3 py-2 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-1">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Padam Akaun
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: LUPA KATA LALUAN -->
   <div id="modalForgotPassword" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 text-center shadow-xl">
@@ -454,6 +547,7 @@
     let base64RegLogo = "";
     const oprImages = ["", "", "", ""];
     let userReports = [];
+    let adminUsersList = [];
 
     lucide.createIcons();
 
@@ -585,7 +679,7 @@
       if (currentUser.role === "ADMIN") {
         adminRoleBadge.classList.remove('hidden');
         navAdmin.classList.remove('hidden');
-        badge.textContent = "Akses Admin Penuh";
+        badge.textContent = "Akses Penuh Admin";
         badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-amber-500 text-slate-950";
         alertBox.classList.add('hidden');
       } else {
@@ -606,10 +700,10 @@
       lucide.createIcons();
     }
 
-    // ==================== FUNGSI KHAS ADMIN ====================
+    // ==================== PANEL ADMIN ====================
     async function loadAdminAllUsers() {
       const tbody = document.getElementById('tblAdminUsersBody');
-      tbody.innerHTML = `<tr><td colspan="5" class="p-5 text-center text-slate-400">Sedang memuat senarai pengguna...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-slate-400">Sedang memuat senarai pengguna...</td></tr>`;
 
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL, {
@@ -618,29 +712,49 @@
         });
         const result = await res.json();
         if (result.status === "success") {
-          renderAdminUsersTable(result.users);
+          adminUsersList = result.users;
+          updateAdminMetrics(adminUsersList);
+          renderAdminUsersTable(adminUsersList);
         } else {
-          tbody.innerHTML = `<tr><td colspan="5" class="p-5 text-center text-red-500">Ralat: ${result.message}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-red-500">Ralat: ${result.message}</td></tr>`;
         }
       } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-5 text-center text-red-500">Gagal berhubung: ${err.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-red-500">Gagal berhubung: ${err.message}</td></tr>`;
       }
+    }
+
+    function updateAdminMetrics(users) {
+      let active = 0, inactive = 0, totalReports = 0;
+      users.forEach(u => {
+        if (u.statusLangganan === "AKTIF" || u.role === "ADMIN") active++;
+        else inactive++;
+        totalReports += (u.totalLaporan || 0);
+      });
+
+      document.getElementById('statTotalUsers').textContent = users.length;
+      document.getElementById('statActiveUsers').textContent = active;
+      document.getElementById('statInactiveUsers').textContent = inactive;
+      document.getElementById('statTotalReports').textContent = totalReports;
     }
 
     function renderAdminUsersTable(users) {
       const tbody = document.getElementById('tblAdminUsersBody');
       tbody.innerHTML = '';
-      document.getElementById('adminTotalUsersBadge').textContent = `${users.length} Akaun`;
 
-      users.forEach(u => {
+      if (users.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-slate-400">Tiada akaun ditemui.</td></tr>`;
+        return;
+      }
+
+      users.forEach((u, index) => {
         const isAdm = u.role === "ADMIN";
         const isAct = u.statusLangganan === "AKTIF" || isAdm;
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 border-b";
         tr.innerHTML = `
           <td class="p-3">
-            <span class="font-black text-slate-800">${u.namaSekolah}</span>
-            <span class="block text-[10px] text-slate-400">Daftar: ${u.tarikhDaftar}</span>
+            <span class="font-black text-slate-800 text-xs">${u.namaSekolah}</span>
+            <span class="block text-[10px] text-slate-400 truncate max-w-xs">${u.maklumatSekolah}</span>
           </td>
           <td class="p-3">
             <span class="font-bold text-slate-800">${u.username}</span> ${isAdm ? '<span class="text-[9px] bg-amber-400 text-slate-900 font-bold px-1.5 py-0.2 rounded ml-1">ADMIN</span>' : ''}
@@ -652,17 +766,18 @@
             </span>
           </td>
           <td class="p-3 font-mono text-[11px]">${u.tarikhTamat}</td>
+          <td class="p-3 text-center font-bold text-sky-800">${u.totalLaporan || 0}</td>
           <td class="p-3 text-center">
-            ${!isAdm ? `
-              <div class="flex items-center justify-center gap-1.5">
-                <button onclick="adminGrantSubscription('${u.username}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="openAdminUserDetailModal(${index})" class="px-2.5 py-1 bg-sky-100 hover:bg-sky-200 text-sky-800 rounded font-bold text-[10px] flex items-center gap-1">
+                <i data-lucide="eye" class="w-3 h-3"></i> Detail
+              </button>
+              ${!isAdm ? `
+                <button onclick="adminGrantSubscription('${u.username}', 30)" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold">
                   +30 Hari
                 </button>
-                <button onclick="adminDeleteUser('${u.username}')" class="px-2 py-1 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded text-[10px] font-bold">
-                  Padam
-                </button>
-              </div>
-            ` : '<span class="text-[10px] text-slate-400 italic">Utama</span>'}
+              ` : ''}
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
@@ -670,15 +785,63 @@
       lucide.createIcons();
     }
 
-    async function adminGrantSubscription(targetUsername) {
-      if (!confirm(`Adakah anda pasti mahu menambah 30 hari langganan untuk akaun ${targetUsername}?`)) return;
+    function filterAdminUsersTable() {
+      const q = document.getElementById('adminSearchInput').value.toLowerCase();
+      const filtered = adminUsersList.filter(u => 
+        u.namaSekolah.toLowerCase().includes(q) || 
+        u.username.toLowerCase().includes(q) || 
+        u.email.toLowerCase().includes(q)
+      );
+      renderAdminUsersTable(filtered);
+    }
+
+    // MODAL BUTIRAN PENUH PENGGUNA
+    function openAdminUserDetailModal(index) {
+      const u = adminUsersList[index];
+      if (!u) return;
+
+      document.getElementById('mUserSchool').textContent = u.namaSekolah;
+      document.getElementById('mUserUsername').textContent = u.username;
+      document.getElementById('mUserPassword').textContent = u.password;
+      document.getElementById('mUserEmail').textContent = u.email;
+      document.getElementById('mUserInfo').textContent = u.maklumatSekolah;
+      document.getElementById('mUserRegistered').textContent = u.tarikhDaftar;
+      document.getElementById('mUserSubExpiry').textContent = `${u.statusLangganan} (Tamat: ${u.tarikhTamat})`;
+      document.getElementById('mUserReportsCount').textContent = `${u.totalLaporan || 0} Rekod Laporan`;
+      document.getElementById('mUserRoleBadge').textContent = u.role === "ADMIN" ? "PENTADBIR SISTEM (ADMIN)" : "PENGGUNA BIASA (SEKOLAH)";
+
+      const logoEl = document.getElementById('mUserLogo');
+      if (u.logoSekolah && u.logoSekolah.trim() !== '') {
+        logoEl.src = u.logoSekolah;
+        logoEl.classList.remove('hidden');
+      } else {
+        logoEl.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>";
+        logoEl.classList.add('hidden');
+      }
+
+      // Butang modal
+      document.getElementById('btnGrantSub30').onclick = () => adminGrantSubscription(u.username, 30);
+      document.getElementById('btnGrantSub365').onclick = () => adminGrantSubscription(u.username, 365);
+      document.getElementById('btnDeleteUserModal').onclick = () => adminDeleteUser(u.username);
+
+      document.getElementById('modalAdminUserDetail').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeAdminUserDetailModal() {
+      document.getElementById('modalAdminUserDetail').classList.add('hidden');
+    }
+
+    async function adminGrantSubscription(targetUsername, days) {
+      if (!confirm(`Sahkan penambahan ${days} hari langganan untuk akaun ${targetUsername}?`)) return;
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: "admin_update_sub", targetUsername: targetUsername, days: 30 })
+          body: JSON.stringify({ action: "admin_update_sub", targetUsername: targetUsername, days: days })
         });
         const result = await res.json();
         alert(result.message);
+        closeAdminUserDetailModal();
         loadAdminAllUsers();
       } catch (err) {
         alert("Ralat: " + err.message);
@@ -686,7 +849,7 @@
     }
 
     async function adminDeleteUser(targetUsername) {
-      if (!confirm(`AMARAN: Adakah anda pasti mahu memadam akaun ${targetUsername}?`)) return;
+      if (!confirm(`AMARAN: Adakah anda pasti mahu memadam akaun ${targetUsername}? Semua akses akaun ini akan ditamatkan.`)) return;
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
@@ -694,13 +857,14 @@
         });
         const result = await res.json();
         alert(result.message);
+        closeAdminUserDetailModal();
         loadAdminAllUsers();
       } catch (err) {
         alert("Ralat: " + err.message);
       }
     }
 
-    // ==================== OPERASI UMUM ====================
+    // ==================== OPERASI UMUM & PRIVASI ====================
     async function payWithToyyibPay() {
       const btn = document.getElementById('btnPaySubscription');
       btn.disabled = true;
@@ -838,11 +1002,11 @@
       }
     }
 
+    // PENGAMBILAN DATA KETAT IKUT USERNAME
     function fetchUserReports() {
       if (!currentUser) return;
-      const isAdm = currentUser.role === "ADMIN" ? "&all=true" : "";
       const script = document.createElement('script');
-      script.src = `${GOOGLE_SCRIPT_URL}?username=${currentUser.username}${isAdm}&callback=renderReportsTable&t=${Date.now()}`;
+      script.src = `${GOOGLE_SCRIPT_URL}?username=${encodeURIComponent(currentUser.username)}&callback=renderReportsTable&t=${Date.now()}`;
       document.body.appendChild(script);
     }
 
@@ -852,7 +1016,7 @@
       tbody.innerHTML = '';
 
       if (userReports.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod laporan ditemui.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod laporan ditemui bagi akaun anda.</td></tr>`;
         return;
       }
 
@@ -875,9 +1039,16 @@
       lucide.createIcons();
     };
 
+    // SEKATAN KETAT: MEMBUKA & MENCETAK REKOD HANYA MILIK SENDIRI
     function viewPrintRecord(index) {
       const d = userReports[index];
       if (!d) return;
+
+      // Semakan hak milik rekod
+      if (currentUser.role !== "ADMIN" && d['Username'] && d['Username'] !== currentUser.username) {
+        alert("Akses Ditolak: Anda hanya dibenarkan membuka rekod pelaporan milik sekolah anda sahaja!");
+        return;
+      }
 
       document.getElementById('p-school-name').textContent = currentUser.namaSekolah;
       document.getElementById('p-school-info').textContent = currentUser.maklumatSekolah;
