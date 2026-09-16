@@ -224,7 +224,6 @@
             <input type="hidden" id="curaiRowIndex" value="">
             <input type="hidden" id="curaiExistingApproverTimestamp" value="">
 
-            <!-- MAKLUMAT PENULIS -->
             <div class="p-3 bg-slate-50 border rounded-xl space-y-3">
               <h4 class="text-xs font-bold text-slate-800 uppercase flex items-center gap-1.5"><i data-lucide="user-pen" class="w-3.5 h-3.5 text-sky-600"></i> 1. Maklumat Penulis (Pegawai Pelapor)</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -238,7 +237,6 @@
               </div>
             </div>
 
-            <!-- BUTIRAN MESYUARAT -->
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="curTajuk" required placeholder="cth: Taklimat Pengurusan Disiplin Murid Peringkat Daerah" class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -250,15 +248,13 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="curAnjuran" required placeholder="cth: Sektor Pembangunan Murid" class="w-full border rounded-lg p-2.5 text-xs"></div>
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="curPengerusi" required placeholder="cth: En. Azman bin Rahim" class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <!-- DIUBAH KEPADA JUMLAH & CATATAN KEHADIRAN -->
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Jumlah & Catatan Kehadiran *</label><input type="text" id="curKehadiran" required placeholder="cth: 45 orang / Semua PK HEM" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Jumlah & Catatan Kehadiran *</label><input type="text" id="curKehadiran" required placeholder="cth: 45 orang / Semua PK HEM Sekolah Daerah" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="curButiran" rows="3" required placeholder="cth: Pematuhan garis panduan salah laku murid dan pengisian SSDM versi baharu..." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Implikasi Kepada Sekolah *</label><textarea id="curImplikasi" rows="2" required placeholder="cth: Guru kelas perlu mengemas kini data salahlaku selewat-lewatnya sebelum 28hb." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Sekolah *</label><textarea id="curTindakan" rows="2" required placeholder="cth: Mesyuarat khas bersama Unit Disiplin pada hari Khamis." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
 
-            <!-- BAHAGIAN PENGESAH -->
             <div class="p-3 bg-emerald-50/50 border border-emerald-200 rounded-xl space-y-3">
               <div class="flex justify-between items-center">
                 <h4 class="text-xs font-bold text-emerald-900 uppercase flex items-center gap-1.5"><i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-600"></i> 2. Pengesahan (Pengetua / Guru Besar / Pentadbir)</h4>
@@ -275,7 +271,6 @@
               </div>
             </div>
 
-            <!-- KAWALAN KATA LALUAN -->
             <div class="p-3 bg-slate-50 border rounded-xl mb-4 space-y-2">
               <div class="flex items-center gap-2">
                 <input type="checkbox" id="portalIsKawalan" onchange="togglePortalCuraiKekunci()" class="rounded border-slate-300">
@@ -364,7 +359,6 @@
           </div>
         </div>
 
-        <!-- BARISAN PENAPIS BUTANG UNIT -->
         <div id="oprUnitFilterBar" class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center gap-1.5">
           <span class="text-[11px] font-bold text-slate-500 uppercase mr-1 flex items-center gap-1"><i data-lucide="filter" class="w-3 h-3"></i> Tapis Unit:</span>
           <button type="button" onclick="setOprUnitFilter('Semua')" id="unit-btn-Semua" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-black transition bg-slate-900 text-white shadow-xs">Semua</button>
@@ -421,7 +415,7 @@
               </div>
 
               <table class="w-full text-[11px] border-collapse border border-slate-300 rounded-lg overflow-hidden leading-snug">
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 w-1/4">Nama Program</td><td id="p-aktiviti" class="border border-slate-300 p-1.5 font-black text-slate-900" colspan="3">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 w-1/4">Nama Program/Aktiviti</td><td id="p-aktiviti" class="border border-slate-300 p-1.5 font-black text-slate-900" colspan="3">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700">Tarikh & Masa</td><td id="p-datetime" class="border border-slate-300 p-1.5 font-medium text-slate-800" colspan="3">-</td></tr>
                 <tr>
                   <td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700">Tempat</td>
@@ -434,6 +428,7 @@
               </table>
             </div>
 
+            <!-- BAHAGIAN EVIDENS GAMBAR (PENYUSUNAN DINAMIK: 1 DI TENGAH, 3 SEBALIKNYA 2+1) -->
             <div class="flex-1 min-h-0 flex flex-col justify-between my-2 overflow-hidden">
               <div class="shrink-0 flex items-center justify-between border-b pb-1 mb-1.5 border-slate-200">
                 <h4 class="text-[11px] font-black uppercase text-slate-800 tracking-wider flex items-center gap-1.5"><i data-lucide="camera" class="w-3.5 h-3.5 text-slate-600"></i> Evidens & Dokumentasi Bergambar:</h4>
@@ -455,7 +450,7 @@
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI (TARIKH/MASA DIASINGKAN DARI TEMPAT & ANJURAN DARI PENGERUSI) -->
+          <!-- CETAKAN MINIT CURAI (TARIKH/MASA & TEMPAT DIASINGKAN | ANJURAN & PENGERUSI DIASINGKAN) -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -474,10 +469,10 @@
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 w-1/3">1. Nama Pegawai</td><td id="pc-nama" class="border border-slate-300 p-1.5 font-bold text-slate-900">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">2. Jawatan</td><td id="pc-jawatan" class="border border-slate-300 p-1.5 text-slate-800">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">3. Tajuk / Perkara</td><td id="pc-tajuk" class="border border-slate-300 p-1.5 font-black text-slate-900">-</td></tr>
-                <!-- TARIKH & MASA DIASINGKAN DARI TEMPAT -->
+                <!-- DIASINGKAN -->
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">4. Tarikh & Masa</td><td id="pc-datetime" class="border border-slate-300 p-1.5">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">5. Tempat</td><td id="pc-tempat" class="border border-slate-300 p-1.5">-</td></tr>
-                <!-- ANJURAN DIASINGKAN DARI PENGERUSI -->
+                <!-- DIASINGKAN -->
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">6. Anjuran</td><td id="pc-anjuran" class="border border-slate-300 p-1.5">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">7. Pengerusi</td><td id="pc-pengerusi" class="border border-slate-300 p-1.5">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">8. Jumlah & Catatan Kehadiran</td><td id="pc-kehadiran" class="border border-slate-300 p-1.5">-</td></tr>
@@ -1148,7 +1143,7 @@
       lucide.createIcons();
     }
 
-    // PAPAR & CETAK DOKUMEN (TARIKH/MASA DIASINGKAN DARI TEMPAT DAN ANJURAN DARI PENGERUSI)
+    // PAPAR & CETAK DOKUMEN (NAMA PROGRAM/AKTIVITI & SUSUNAN GAMBAR DINAMIK 1 TENGAH / 3 = 2+1)
     function viewPrintRecord(index, type) {
       const d = userReports[index];
       if (!d) return;
@@ -1211,13 +1206,10 @@
         if (document.getElementById('pc-nama')) document.getElementById('pc-nama').textContent = d['Nama Pegawai'] || '-';
         if (document.getElementById('pc-jawatan')) document.getElementById('pc-jawatan').textContent = d['Jawatan'] || '-';
         if (document.getElementById('pc-tajuk')) document.getElementById('pc-tajuk').textContent = d['Tajuk / Perkara'] || '-';
-        
-        // TARIKH & MASA DIASINGKAN DARI TEMPAT PADA CETAKAN
         if (document.getElementById('pc-datetime')) document.getElementById('pc-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Masa'] || '-'})`;
         if (document.getElementById('pc-tempat')) document.getElementById('pc-tempat').textContent = d['Tempat'] || '-';
         if (document.getElementById('pc-anjuran')) document.getElementById('pc-anjuran').textContent = d['Anjuran'] || '-';
         if (document.getElementById('pc-pengerusi')) document.getElementById('pc-pengerusi').textContent = d['Pengerusi'] || '-';
-        
         if (document.getElementById('pc-kehadiran')) document.getElementById('pc-kehadiran').textContent = d['Kehadiran'] || '-';
         if (document.getElementById('pc-butiran')) document.getElementById('pc-butiran').textContent = d['Butiran'] || '-';
         if (document.getElementById('pc-implikasi')) document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
@@ -1282,17 +1274,32 @@
       window.print();
     }
 
+    // SUSUNAN DINAMIK EVIDENS GAMBAR OPR (1 = TENGAH, 3 = BARIS PERTAMA 2 DAN BARIS KEDUA 1 DI TENGAH)
     function renderDynamicImages(container, images) {
       if (!container) return;
       container.innerHTML = '';
       const valid = images.filter(img => img && img.trim() !== '');
-      if (valid.length === 0) {
+      const count = valid.length;
+
+      if (count === 0) {
         container.innerHTML = `<div class="text-center text-slate-400 p-4 text-xs font-semibold">Tiada foto dokumentasi dimuat naik</div>`;
         return;
       }
-      if (valid.length === 1) {
-        container.className = "w-full h-full flex flex-col justify-between items-center bg-slate-50 rounded-xl p-1.5 border overflow-hidden min-h-0";
+
+      if (count === 1) {
+        container.className = "w-full h-full flex items-center justify-center bg-slate-50 rounded-xl p-1.5 border overflow-hidden min-h-0";
         container.innerHTML = `<img src="${valid[0]}" class="max-w-full max-h-full object-contain rounded-lg">`;
+      } else if (count === 3) {
+        container.className = "w-full h-full flex flex-col gap-2 min-h-0 overflow-hidden";
+        container.innerHTML = `
+          <div class="grid grid-cols-2 gap-2 h-1/2">
+            <div class="flex items-center justify-center bg-slate-50 rounded-xl p-1 border overflow-hidden"><img src="${valid[0]}" class="max-w-full max-h-full object-contain rounded-lg"></div>
+            <div class="flex items-center justify-center bg-slate-50 rounded-xl p-1 border overflow-hidden"><img src="${valid[1]}" class="max-w-full max-h-full object-contain rounded-lg"></div>
+          </div>
+          <div class="flex justify-center h-1/2">
+            <div class="w-1/2 flex items-center justify-center bg-slate-50 rounded-xl p-1 border overflow-hidden"><img src="${valid[2]}" class="max-w-full max-h-full object-contain rounded-lg"></div>
+          </div>
+        `;
       } else {
         container.className = "w-full h-full grid grid-cols-2 gap-2 min-h-0 overflow-hidden";
         container.innerHTML = valid.slice(0, 4).map(src => `<div class="flex items-center justify-center bg-slate-50 rounded-xl p-1 border overflow-hidden"><img src="${src}" class="max-w-full max-h-full object-contain rounded-lg"></div>`).join('');
