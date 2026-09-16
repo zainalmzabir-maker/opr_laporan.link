@@ -275,7 +275,7 @@
               </div>
             </div>
 
-            <!-- CURAI SHEET (STRUKTUR PENANDATANGAN SELARAS: TANDATANGAN -> NAMA -> JAWATAN) -->
+            <!-- CURAI SHEET -->
             <div id="preview-curai-sheet" class="hidden h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0">
                 <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -999,7 +999,7 @@
       finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
     }
 
-    // SIMPAN MINIT CURAI PORTAL
+    // SIMPAN MINIT CURAI PORTAL DENGAN DIALOG LOADING
     async function handleSaveCurai(e) {
       e.preventDefault();
       if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
@@ -1015,7 +1015,9 @@
 
       const btn = document.getElementById('btnSavePortalCurai');
       btn.disabled = true;
-      btn.textContent = "Menyimpan Minit Curai...";
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Sedang memuat naik minit curai ke Cloud... Sila tunggu...`;
+      lucide.createIcons();
 
       const payload = {
         action: "save_curai",
@@ -1049,7 +1051,58 @@
           switchMenu('records');
         } else { alert("Ralat: " + result.message); }
       } catch (err) { alert("Ralat sambungan: " + err.message); }
-      finally { btn.disabled = false; btn.textContent = "Simpan Minit Curai ke Google Sheets"; }
+      finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        lucide.createIcons();
+      }
+    }
+
+    // SIMPAN OPR DENGAN DIALOG LOADING SEPERTI DIMINTA
+    async function handleSaveOPR(e) {
+      e.preventDefault();
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
+        alert("Langganan belum aktif!"); return;
+      }
+
+      const btn = document.getElementById('btnSaveOPR');
+      btn.disabled = true;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Sedang memuat naik laporan & imej ke Cloud... Sila tunggu...`;
+      lucide.createIcons();
+
+      const payload = {
+        action: "save_opr",
+        username: currentUser.username,
+        unit: document.getElementById('oprUnit').value,
+        tarikh: document.getElementById('oprTarikh').value,
+        hari: document.getElementById('oprHari').value,
+        masa: document.getElementById('oprMasa').value,
+        aktiviti: document.getElementById('oprAktiviti').value,
+        namaPelapor: document.getElementById('oprPelapor').value,
+        jawatan: document.getElementById('oprJawatan').value,
+        penerangan: document.getElementById('oprPenerangan').value,
+        hasil: document.getElementById('oprHasil').value,
+        images: oprImages
+      };
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        const result = await res.json();
+        if (result.status === "success") { 
+          alert("Disimpan!"); 
+          fetchUserReports(); 
+          switchMenu('records'); 
+        } else {
+          alert("Ralat: " + (result.message || "Gagal menyimpan"));
+        }
+      } catch (err) { 
+        alert("Ralat: " + err.message); 
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        lucide.createIcons();
+      }
     }
 
     function renderDynamicImages(container, images) {
@@ -1177,12 +1230,7 @@
       document.getElementById('trialPrintSheet')?.classList.remove('print-active');
       document.getElementById('officialPrintSheetOPR')?.classList.remove('print-active');
       document.getElementById('officialPrintSheetCurai')?.classList.remove('print-active');
-      const isOprVisible = !document.getElementById('preview-opr-sheet').classList.contains('hidden');
-      if (isOprVisible) {
-        document.getElementById('trialPrintSheet').classList.add('print-active');
-      } else {
-        document.getElementById('trialPrintSheet').classList.add('print-active');
-      }
+      document.getElementById('trialPrintSheet').classList.add('print-active');
       window.print();
     }
 
@@ -1424,32 +1472,6 @@
       }
     }
 
-    async function handleSaveOPR(e) {
-      e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
-        alert("Langganan belum aktif!"); return;
-      }
-      const payload = {
-        action: "save_opr",
-        username: currentUser.username,
-        unit: document.getElementById('oprUnit').value,
-        tarikh: document.getElementById('oprTarikh').value,
-        hari: document.getElementById('oprHari').value,
-        masa: document.getElementById('oprMasa').value,
-        aktiviti: document.getElementById('oprAktiviti').value,
-        namaPelapor: document.getElementById('oprPelapor').value,
-        jawatan: document.getElementById('oprJawatan').value,
-        penerangan: document.getElementById('oprPenerangan').value,
-        hasil: document.getElementById('oprHasil').value,
-        images: oprImages
-      };
-      try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = await res.json();
-        if (result.status === "success") { alert("Disimpan!"); fetchUserReports(); switchMenu('records'); }
-      } catch (err) { alert("Ralat: " + err.message); }
-    }
-
     function fetchUserReports() {
       if (!currentUser) return;
       const type = document.getElementById('recordTypeSelect').value || "opr";
@@ -1554,7 +1576,7 @@
         document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
         document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || '-';
         
-        // SUSUNAN: TANDATANGAN -> NAMA -> JAWATAN
+        // SUSUNAN SERAGAM: TANDATANGAN -> NAMA -> JAWATAN
         document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || '-';
         document.getElementById('pc-sig-jawatan').textContent = d['Jawatan'] || '-';
 
