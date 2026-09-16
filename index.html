@@ -105,7 +105,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
-  <!-- SKRIN 1: MOD PERCUBAAN -->
+  <!-- SKRIN 1: MOD PERCUBAAN (SANDBOX TERKINI) -->
   <div id="trialSandboxScreen" class="hidden min-h-screen flex-1 flex flex-col bg-slate-100">
     <header class="bg-amber-500 text-slate-950 p-4 shadow-md sticky top-0 z-40 no-print border-b-2 border-amber-600">
       <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
@@ -116,7 +116,7 @@
               <h1 class="text-base font-black uppercase tracking-wider">Mod Percubaan Percuma (Demo Sandbox)</h1>
               <span class="bg-slate-950 text-amber-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Tiada Simpanan</span>
             </div>
-            <p class="text-[11px] text-slate-900 font-medium">Uji format laporan OPR & Curai Satu Muka A4 sebelum mendaftar.</p>
+            <p class="text-[11px] text-slate-900 font-medium">Uji format OPR & Minit Curai lengkap dengan tandatangan digital sebelum mendaftar.</p>
           </div>
         </div>
         <button onclick="exitTrialMode()" class="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
@@ -131,10 +131,11 @@
           <i data-lucide="file-pen" class="w-4 h-4"></i> 1. Uji OPR Online
         </button>
         <button onclick="switchTrialTab('curai')" id="tab-trial-curai" class="px-4 py-2 bg-white hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold border border-slate-300 flex items-center gap-1.5 transition">
-          <i data-lucide="clipboard-list" class="w-4 h-4"></i> 2. Uji Minit Curai
+          <i data-lucide="clipboard-list" class="w-4 h-4"></i> 2. Uji Minit Curai (Lengkap)
         </button>
       </div>
 
+      <!-- BORANG OPR PERCUBAAN -->
       <div id="trial-opr-container" class="space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <form onsubmit="generateTrialPreview(event, 'opr')" class="space-y-4">
@@ -161,32 +162,61 @@
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Penerangan</label><textarea id="t_opr_penerangan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Hasil & Refleksi</label><textarea id="t_opr_hasil" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Gambar (1 hingga 4)</label><div class="grid grid-cols-2 sm:grid-cols-4 gap-2"><input type="file" accept="image/*" onchange="previewTrialImg(this, 0)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewTrialImg(this, 1)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewTrialImg(this, 2)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewTrialImg(this, 3)" class="text-[10px]"></div></div>
-            <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5"><i data-lucide="eye" class="w-4 h-4 text-amber-400"></i> Jana Pratonton Lembaran A4</button>
+            <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5"><i data-lucide="eye" class="w-4 h-4 text-amber-400"></i> Jana Pratonton OPR A4</button>
           </form>
         </div>
       </div>
 
+      <!-- BORANG MINIT CURAI PERCUBAAN (STRUKTUR TERKINI DENGAN TANDATANGAN & KAWALAN) -->
       <div id="trial-curai-container" class="hidden space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <form onsubmit="generateTrialPreview(event, 'curai')" class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai</label><input type="text" id="t_cur_nama" required class="w-full border rounded-lg p-2 text-xs"></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan</label><input type="text" id="t_cur_jawatan" required class="w-full border rounded-lg p-2 text-xs"></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai *</label><input type="text" id="t_cur_nama" required placeholder="cth: Cikgu Zulkifli" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan & Gred *</label><input type="text" id="t_cur_jawatan" required placeholder="cth: GPK Kokurikulum (DG48)" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk Kursus</label><input type="text" id="t_cur_tajuk" required class="w-full border rounded-lg p-2 text-xs"></div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh</label><input type="date" id="t_cur_tarikh" required class="w-full border rounded-lg p-2 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa</label><input type="text" id="t_cur_masa" required class="w-full border rounded-lg p-2 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat</label><input type="text" id="t_cur_tempat" required class="w-full border rounded-lg p-2 text-xs"></div>
+
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="t_cur_tajuk" required placeholder="cth: Mesyuarat Penyelarasan Sukan MSSD" class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh *</label><input type="date" id="t_cur_tarikh" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="t_cur_masa" required placeholder="8.00 pagi - 5.00 ptg" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="t_cur_tempat" required placeholder="PPD / Hotel" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Pengerusi</label><input type="text" id="t_cur_anjuran" required class="w-full border rounded-lg p-2 text-xs"></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Isu Penting</label><textarea id="t_cur_isu" rows="3" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan</label><textarea id="t_cur_tindakan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
-            <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5"><i data-lucide="eye" class="w-4 h-4 text-emerald-400"></i> Jana Pratonton Minit Curai</button>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="t_cur_anjuran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="t_cur_pengerusi" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="t_cur_kehadiran" required placeholder="cth: Semua Pengetua" class="w-full border rounded-lg p-2.5 text-xs"></div>
+            </div>
+
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="t_cur_butiran" rows="3" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Implikasi Kepada Sekolah *</label><textarea id="t_cur_implikasi" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Sekolah *</label><textarea id="t_cur_tindakan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+
+            <div class="mb-3">
+              <label class="block text-xs font-bold text-slate-700 mb-1">Tandatangan Digital Penulis (Lukis di sini):</label>
+              <canvas id="trialCuraiCanvas" class="sig-canvas"></canvas>
+              <button type="button" class="mt-1 text-xs text-rose-600 font-semibold underline" onclick="clearTrialCuraiSig()">Padam Tandatangan</button>
+            </div>
+
+            <div class="p-3 bg-slate-50 border rounded-xl mb-4 space-y-2">
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="trialIsKawalan" onchange="toggleTrialCuraiKekunci()" class="rounded border-slate-300">
+                <label for="trialIsKawalan" class="text-xs font-bold text-rose-700 cursor-pointer">Simpan sebagai Minit Curai Kawalan (Rahsia Ber-password)</label>
+              </div>
+              <div id="trialRuangKekunci" class="hidden pt-1">
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Cipta Kata Laluan Dokumen:</label>
+                <input type="password" id="trialPassword" placeholder="Kata laluan rahsia..." class="w-full border rounded-lg p-2 text-xs">
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-slate-900 text-white font-black py-3 rounded-xl text-xs flex items-center justify-center gap-1.5"><i data-lucide="eye" class="w-4 h-4 text-emerald-400"></i> Jana Pratonton Minit Curai A4</button>
           </form>
         </div>
       </div>
 
+      <!-- LEMBARAN CETAKAN PERCUBAAN A4 -->
       <div id="trialPrintWrapper" class="hidden space-y-4">
         <div class="no-print max-w-4xl mx-auto bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl flex justify-between items-center gap-3">
           <span class="text-xs font-extrabold text-amber-900">Lembaran A4 Memenuhi Ruang & Disediakan Oleh Di Bawah</span>
@@ -194,10 +224,16 @@
         </div>
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
           <div id="trialPrintSheet" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 relative overflow-hidden">
+            
             <div class="demo-watermark-grid">
               <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
               <div class="demo-watermark-row">HAK CIPTA TERPELIHARA &bull; LANGGAN RM20/BULAN UNTUK CETAKAN BERSIH</div>
+              <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
+              <div class="demo-watermark-row">HAK CIPTA TERPELIHARA &bull; LANGGAN RM20/BULAN UNTUK CETAKAN BERSIH</div>
+              <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
             </div>
+
+            <!-- OPR SHEET -->
             <div id="preview-opr-sheet" class="h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0 space-y-2">
                 <div id="tp-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
@@ -235,24 +271,49 @@
                 </div>
               </div>
             </div>
+
+            <!-- CURAI SHEET -->
             <div id="preview-curai-sheet" class="hidden h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0">
-                <div class="border-b-2 border-slate-900 pb-2 mb-3 text-center"><h2 class="text-base font-black uppercase text-slate-900">MINIT CURAI</h2></div>
-                <table class="w-full text-[11px] border border-slate-300 mb-3">
-                  <tr><td class="border border-slate-300 p-2 font-bold bg-slate-100">1. Nama Pegawai</td><td id="tc-nama" class="border border-slate-300 p-2 font-bold">-</td></tr>
-                  <tr><td class="border border-slate-300 p-2 font-bold bg-slate-100">2. Jawatan & Gred</td><td id="tc-jawatan" class="border border-slate-300 p-2">-</td></tr>
-                  <tr><td class="border border-slate-300 p-2 font-bold bg-slate-100">3. Kursus Dihadiri</td><td id="tc-tajuk" class="border border-slate-300 p-2 font-bold">-</td></tr>
-                  <tr><td class="border border-slate-300 p-2 font-bold bg-slate-100">4. Anjuran</td><td id="tc-anjuran" class="border border-slate-300 p-2">-</td></tr>
-                  <tr><td class="border border-slate-300 p-2 font-bold bg-slate-100">5. Tarikh & Tempat</td><td id="tc-datetime" class="border border-slate-300 p-2">-</td></tr>
-                  <tr><td class="border border-slate-300 p-2 font-bold bg-slate-100 align-top">6. Kandungan</td><td id="tc-isu" class="border border-slate-300 p-2 whitespace-pre-line">-</td></tr>
-                  <tr><td class="border border-slate-300 p-2 font-bold bg-slate-100 align-top">7. Tindakan</td><td id="tc-tindakan" class="border border-slate-300 p-2 whitespace-pre-line">-</td></tr>
+                <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <img id="tc-logo" class="w-12 h-12 object-contain bg-white rounded-lg p-0.5 hidden shadow-sm">
+                    <div>
+                      <h2 id="tc-school-name" class="text-sm font-black uppercase text-white tracking-wide leading-tight">NAMA SEKOLAH</h2>
+                      <p id="tc-school-address" class="text-[9.5px] text-white/90 leading-tight mt-0.5">-</p>
+                      <span class="text-[10px] font-extrabold uppercase text-amber-300 tracking-wider inline-block mt-0.5">MINIT CURAI RASMI</span>
+                    </div>
+                  </div>
+                  <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-0.5 rounded border border-white/20">Format 1 Muka</span>
+                </div>
+
+                <table class="w-full text-[11px] border border-slate-300 mb-2 leading-snug">
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 w-1/3">1. Nama Pegawai</td><td id="tc-nama" class="border border-slate-300 p-1.5 font-bold text-slate-900">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">2. Jawatan & Gred</td><td id="tc-jawatan" class="border border-slate-300 p-1.5">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">3. Tajuk / Perkara</td><td id="tc-tajuk" class="border border-slate-300 p-1.5 font-black text-slate-900">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">4. Tarikh, Masa & Tempat</td><td id="tc-datetime" class="border border-slate-300 p-1.5">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">5. Anjuran & Pengerusi</td><td id="tc-anjuran" class="border border-slate-300 p-1.5">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">6. Kehadiran</td><td id="tc-kehadiran" class="border border-slate-300 p-1.5">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">7. Butiran Mesyuarat</td><td id="tc-butiran" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">8. Implikasi Kepada Sekolah</td><td id="tc-implikasi" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+                  <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">9. Tindakan Susulan</td><td id="tc-tindakan" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
                 </table>
               </div>
-              <div class="shrink-0 border-t-2 border-slate-200 pt-3 flex justify-between items-end text-xs mt-auto">
-                <div><p class="text-[10px] text-slate-500 uppercase">Pelapor:</p><div class="h-10"></div><p id="tc-pelapor-sign" class="font-bold border-t border-slate-400 pt-1">-</p></div>
-                <div class="text-right"><p class="text-[10px] text-slate-500 uppercase">Pengetua:</p><div class="h-10"></div><p class="font-bold border-t border-slate-400 pt-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p></div>
+
+              <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
+                <div>
+                  <p class="text-[10px] text-slate-500 uppercase font-semibold">Tandatangan Pegawai Pelapor:</p>
+                  <div id="tc-sig-area" class="my-1"></div>
+                  <p id="tc-sig-nama" class="font-bold border-t border-slate-400 pt-1 text-[11px]">-</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-[10px] text-slate-500 uppercase font-semibold">Pengesahan Pengetua / Guru Besar:</p>
+                  <div class="h-10"></div>
+                  <p class="font-bold border-t border-slate-400 pt-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -322,10 +383,8 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Pelaporan Saya</button>
           
-          <!-- PANEL ADMIN - DIKUNCI KETAT (HIDDEN SECARA MUTLAK UNTUK USER BIASA) -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin</button>
 
-          <!-- WHATSAPP HUBUNGI ADMIN -->
           <a href="https://wa.me/?text=Hai%20Admin,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (Whatsapp)
           </a>
@@ -375,7 +434,7 @@
         </div>
       </section>
 
-      <!-- TAB CURAI ONLINE (DIKEMASKINI DENGAN BORANG LENGKAP & TANDATANGAN) -->
+      <!-- TAB CURAI ONLINE -->
       <section id="view-curai" class="hidden space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
           <div class="border-b pb-4 mb-5 flex justify-between items-center">
@@ -416,22 +475,22 @@
 
             <div class="mb-3">
               <label class="block text-xs font-bold text-slate-700 mb-1">Tandatangan Digital Penulis (Lukis di sini):</label>
-              <canvas id="curWriterCanvas" class="sig-canvas"></canvas>
-              <button type="button" class="mt-1 text-xs text-rose-600 font-semibold underline" onclick="clearCuraiSig()">Padam Tandatangan</button>
+              <canvas id="portalCuraiCanvas" class="sig-canvas"></canvas>
+              <button type="button" class="mt-1 text-xs text-rose-600 font-semibold underline" onclick="clearPortalCuraiSig()">Padam Tandatangan</button>
             </div>
 
             <div class="p-3 bg-slate-50 border rounded-xl mb-4 space-y-2">
               <div class="flex items-center gap-2">
-                <input type="checkbox" id="curIsKawalan" onchange="toggleCuraiKekunci()" class="rounded border-slate-300">
-                <label for="curIsKawalan" class="text-xs font-bold text-rose-700 cursor-pointer">Simpan sebagai Minit Curai Kawalan (Rahsia Ber-password)</label>
+                <input type="checkbox" id="portalIsKawalan" onchange="togglePortalCuraiKekunci()" class="rounded border-slate-300">
+                <label for="portalIsKawalan" class="text-xs font-bold text-rose-700 cursor-pointer">Simpan sebagai Minit Curai Kawalan (Rahsia Ber-password)</label>
               </div>
-              <div id="curRuangKekunci" class="hidden pt-1">
+              <div id="portalRuangKekunci" class="hidden pt-1">
                 <label class="block text-[11px] font-semibold text-slate-600 mb-1">Cipta Kata Laluan Dokumen:</label>
-                <input type="password" id="curPassword" placeholder="Kata laluan rahsia..." class="w-full border rounded-lg p-2 text-xs">
+                <input type="password" id="portalPassword" placeholder="Kata laluan rahsia..." class="w-full border rounded-lg p-2 text-xs">
               </div>
             </div>
 
-            <button type="submit" id="btnSaveCurai" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
+            <button type="submit" id="btnSavePortalCurai" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
               <i data-lucide="save" class="w-4 h-4"></i> Simpan Minit Curai ke Google Sheets
             </button>
           </form>
@@ -553,7 +612,7 @@
         </div>
       </section>
 
-      <!-- TAB PANEL ADMIN (TERKUNCI SECARA MUTLAK UNTUK ADMIN SAHAJA) -->
+      <!-- TAB PANEL ADMIN -->
       <section id="view-admin" class="hidden space-y-6">
         <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex justify-between items-center">
           <div><h2 class="text-xl font-black flex items-center gap-2 text-amber-300"><i data-lucide="shield-check" class="w-6 h-6"></i> Panel Pengurusan Admin</h2></div>
@@ -570,7 +629,7 @@
         </div>
       </section>
 
-      <!-- TEMPLAT CETAKAN A4 (OPR & CURAI) -->
+      <!-- TEMPLAT CETAKAN A4 -->
       <section id="view-print" class="hidden space-y-4">
         <div class="no-print flex justify-between items-center bg-white p-3.5 rounded-xl border max-w-4xl mx-auto">
           <button onclick="switchMenu('records')" class="text-xs font-bold text-slate-600">&larr; Kembali ke Senarai</button>
@@ -725,6 +784,7 @@
 
     let trialLogo = "";
     let curaiWriterSig = "";
+    let trialCuraiWriterSig = "";
     const trialImages = ["", "", "", ""];
 
     lucide.createIcons();
@@ -738,11 +798,12 @@
         currentUser = JSON.parse(savedUser);
         loadAppScreen();
       }
-      initCanvas('curaiWriterCanvas');
+      initCanvas('portalCuraiCanvas', sig => { curaiWriterSig = sig; });
+      initCanvas('trialCuraiCanvas', sig => { trialCuraiWriterSig = sig; });
     };
 
     // INISIALISASI CANVAS TANDATANGAN DIGITAL
-    function initCanvas(canvasId) {
+    function initCanvas(canvasId, callback) {
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
@@ -756,7 +817,18 @@
       }
 
       function start(e) { painting = true; draw(e); }
-      function end() { painting = false; ctx.beginPath(); saveCuraiSig(); }
+      function end() {
+        painting = false;
+        ctx.beginPath();
+        const blank = document.createElement('canvas');
+        blank.width = canvas.width;
+        blank.height = canvas.height;
+        if (canvas.toDataURL() !== blank.toDataURL()) {
+          callback(canvas.toDataURL('image/png'));
+        } else {
+          callback("");
+        }
+      }
       function draw(e) {
         if (!painting) return;
         e.preventDefault();
@@ -778,28 +850,26 @@
       canvas.addEventListener('touchmove', draw, { passive: false });
     }
 
-    function clearCuraiSig() {
-      const canvas = document.getElementById('curaiWriterCanvas');
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function clearPortalCuraiSig() {
+      const canvas = document.getElementById('portalCuraiCanvas');
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
       curaiWriterSig = "";
     }
 
-    function saveCuraiSig() {
-      const canvas = document.getElementById('curaiWriterCanvas');
-      const blank = document.createElement('canvas');
-      blank.width = canvas.width;
-      blank.height = canvas.height;
-      if (canvas.toDataURL() !== blank.toDataURL()) {
-        curaiWriterSig = canvas.toDataURL('image/png');
-      } else {
-        curaiWriterSig = "";
-      }
+    function clearTrialCuraiSig() {
+      const canvas = document.getElementById('trialCuraiCanvas');
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      trialCuraiWriterSig = "";
     }
 
-    function toggleCuraiKekunci() {
-      const checked = document.getElementById('curIsKawalan').checked;
-      document.getElementById('curRuangKekunci').classList.toggle('hidden', !checked);
+    function togglePortalCuraiKekunci() {
+      const checked = document.getElementById('portalIsKawalan').checked;
+      document.getElementById('portalRuangKekunci').classList.toggle('hidden', !checked);
+    }
+
+    function toggleTrialCuraiKekunci() {
+      const checked = document.getElementById('trialIsKawalan').checked;
+      document.getElementById('trialRuangKekunci').classList.toggle('hidden', !checked);
     }
 
     function loadSchoolInfoForm() {
@@ -845,10 +915,7 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
+        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         const result = await res.json();
         if (result.status === "success") {
           alert(result.message);
@@ -898,10 +965,7 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
+        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         const result = await res.json();
         if (result.status === "success") {
           alert(result.message);
@@ -918,21 +982,21 @@
       finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
     }
 
-    // SIMPAN MINIT CURAI KE GOOGLE SHEETS
+    // SIMPAN MINIT CURAI PORTAL
     async function handleSaveCurai(e) {
       e.preventDefault();
       if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
         alert("Langganan belum aktif!"); return;
       }
 
-      const isKawalan = document.getElementById('curIsKawalan').checked;
-      const pass = document.getElementById('curPassword').value.trim();
+      const isKawalan = document.getElementById('portalIsKawalan').checked;
+      const pass = document.getElementById('portalPassword').value.trim();
       if (isKawalan && !pass) {
         alert("Sila masukkan kata laluan untuk Minit Curai Kawalan.");
         return;
       }
 
-      const btn = document.getElementById('btnSaveCurai');
+      const btn = document.getElementById('btnSavePortalCurai');
       btn.disabled = true;
       btn.textContent = "Menyimpan Minit Curai...";
 
@@ -958,26 +1022,17 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
+        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         const result = await res.json();
         if (result.status === "success") {
           alert("Minit Curai berjaya disimpan!");
           document.getElementById('curaiForm').reset();
-          clearCuraiSig();
+          clearPortalCuraiSig();
           fetchUserReports();
           switchMenu('records');
-        } else {
-          alert("Ralat: " + result.message);
-        }
-      } catch (err) {
-        alert("Ralat sambungan: " + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Simpan Minit Curai ke Google Sheets";
-      }
+        } else { alert("Ralat: " + result.message); }
+      } catch (err) { alert("Ralat sambungan: " + err.message); }
+      finally { btn.disabled = false; btn.textContent = "Simpan Minit Curai ke Google Sheets"; }
     }
 
     function renderDynamicImages(container, images) {
@@ -1039,6 +1094,7 @@
       }
     }
 
+    // GENERATE PRATONTON TRIAL (OPR ATAU CURAI LENGKAP)
     function generateTrialPreview(e, type) {
       e.preventDefault();
       if (type === 'opr') {
@@ -1065,14 +1121,29 @@
       } else {
         document.getElementById('preview-curai-sheet').classList.remove('hidden');
         document.getElementById('preview-opr-sheet').classList.add('hidden');
+
+        document.getElementById('tc-school-name').textContent = document.getElementById('t_opr_school')?.value || "SMK CONTOH";
+        document.getElementById('tc-school-address').textContent = document.getElementById('t_opr_address')?.value || "Selangor";
+        const tcLogo = document.getElementById('tc-logo');
+        if (trialLogo) { tcLogo.src = trialLogo; tcLogo.classList.remove('hidden'); } else { tcLogo.classList.add('hidden'); }
+
         document.getElementById('tc-nama').textContent = document.getElementById('t_cur_nama').value || "-";
         document.getElementById('tc-jawatan').textContent = document.getElementById('t_cur_jawatan').value || "-";
         document.getElementById('tc-tajuk').textContent = document.getElementById('t_cur_tajuk').value || "-";
-        document.getElementById('tc-anjuran').textContent = document.getElementById('t_cur_anjuran').value || "-";
         document.getElementById('tc-datetime').textContent = `${document.getElementById('t_cur_tarikh').value} (${document.getElementById('t_cur_masa').value}) di ${document.getElementById('t_cur_tempat').value}`;
-        document.getElementById('tc-isu').textContent = document.getElementById('t_cur_isu').value || "-";
+        document.getElementById('tc-anjuran').textContent = `${document.getElementById('t_cur_anjuran').value} (Pengerusi: ${document.getElementById('t_cur_pengerusi').value})`;
+        document.getElementById('tc-kehadiran').textContent = document.getElementById('t_cur_kehadiran').value || "-";
+        document.getElementById('tc-butiran').textContent = document.getElementById('t_cur_butiran').value || "-";
+        document.getElementById('tc-implikasi').textContent = document.getElementById('t_cur_implikasi').value || "-";
         document.getElementById('tc-tindakan').textContent = document.getElementById('t_cur_tindakan').value || "-";
-        document.getElementById('tc-pelapor-sign').textContent = document.getElementById('t_cur_nama').value || "-";
+        document.getElementById('tc-sig-nama').textContent = `${document.getElementById('t_cur_nama').value} (${document.getElementById('t_cur_jawatan').value})`;
+
+        const sigArea = document.getElementById('tc-sig-area');
+        if (trialCuraiWriterSig) {
+          sigArea.innerHTML = `<img src="${trialCuraiWriterSig}" class="sig-img" alt="Tandatangan">`;
+        } else {
+          sigArea.innerHTML = `<div style="height: 40px;"></div>`;
+        }
       }
       document.getElementById('trialPrintWrapper').classList.remove('hidden');
       document.getElementById('trialPrintWrapper').scrollIntoView({ behavior: 'smooth' });
@@ -1350,7 +1421,6 @@
       } catch (err) { alert("Ralat: " + err.message); }
     }
 
-    // AMBIL SENARAI REKOD (BERDASARKAN PILIHAN OPR ATAU CURAI)
     function fetchUserReports() {
       if (!currentUser) return;
       const type = document.getElementById('recordTypeSelect').value || "opr";
@@ -1428,7 +1498,6 @@
 
         renderDynamicImages(document.getElementById('p-images-grid'), [d['Gambar 1'], d['Gambar 2'], d['Gambar 3'], d['Gambar 4']]);
       } else {
-        // Paparan Cetakan Minit Curai
         if (d['StatusKawalan'] === 'Kawalan') {
           let pass = prompt("Minit Curai ini dilindungi kata laluan rahsia. Sila masukkan kata laluan:");
           if (pass !== d['Password']) {
@@ -1471,8 +1540,14 @@
 
     function executeOfficialPrint() {
       document.getElementById('trialPrintSheet')?.classList.remove('print-active');
-      document.getElementById('officialPrintSheetOPR')?.classList.add('print-active');
-      document.getElementById('officialPrintSheetCurai')?.classList.add('print-active');
+      document.getElementById('officialPrintSheetOPR')?.classList.remove('print-active');
+      document.getElementById('officialPrintSheetCurai')?.classList.remove('print-active');
+      const isOprVisible = !document.getElementById('officialPrintSheetOPR').classList.contains('hidden');
+      if (isOprVisible) {
+        document.getElementById('officialPrintSheetOPR').classList.add('print-active');
+      } else {
+        document.getElementById('officialPrintSheetCurai').classList.add('print-active');
+      }
       window.print();
     }
 
