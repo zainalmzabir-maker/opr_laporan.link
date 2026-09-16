@@ -90,6 +90,7 @@
         <h2 class="text-xl font-black text-slate-800 uppercase tracking-wide">Sistem Pelaporan Digital</h2>
       </div>
 
+      <!-- BORANG LOGIN -->
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Username</label>
@@ -107,6 +108,7 @@
         </p>
       </form>
 
+      <!-- BORANG REGISTER -->
       <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-3 hidden">
         <div class="border-b pb-2 mb-2"><span class="text-xs font-black uppercase text-indigo-700">Pendaftaran Profil Sekolah</span></div>
         <div class="grid grid-cols-2 gap-2">
@@ -218,7 +220,7 @@
             <input type="hidden" id="curaiRowIndex" value="">
             <input type="hidden" id="curaiExistingApproverTimestamp" value="">
 
-            <!-- MAKLUMAT PENULIS -->
+            <!-- MAKLUMAT PENULIS (HANYA JAWATAN, TIADA GRED) -->
             <div class="p-3 bg-slate-50 border rounded-xl space-y-3">
               <h4 class="text-xs font-bold text-slate-800 uppercase flex items-center gap-1.5"><i data-lucide="user-pen" class="w-3.5 h-3.5 text-sky-600"></i> 1. Maklumat Penulis (Pegawai Pelapor)</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -423,14 +425,14 @@
                   <div><p class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider">Disediakan Oleh:</p><p id="p-pelapor-nama" class="font-black text-slate-900 text-xs">-</p><p id="p-pelapor-jawatan" class="text-[10px] text-slate-600 font-semibold">-</p></div>
                 </div>
                 <div class="text-right">
-                  <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[9px] font-black uppercase">Laporan Sah</span>
+                  <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[9px] font-black uppercase">Laporan Lengkap & Sah</span>
                   <p class="text-[8px] text-slate-400 mt-0.5">Kemaskini: <span id="p-last-updated">-</span></p>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI (LENGKAP DENGAN TARIKH PENGESAHAN) -->
+          <!-- CETAKAN MINIT CURAI (STRUKTUR PENULIS & PENGESAH) -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -460,7 +462,7 @@
 
             <!-- BAHAGIAN PENANDATANGAN -->
             <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
-              <!-- PENULIS -->
+              <!-- SISI KIRI: PENULIS -->
               <div style="width: 45%;">
                 <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Disediakan Oleh:</p>
                 <div id="pc-sig-area" class="my-1 flex items-center" style="height: 50px;"></div>
@@ -470,7 +472,7 @@
                 </div>
               </div>
 
-              <!-- PENGESAH -->
+              <!-- SISI KANAN: PENGESAH -->
               <div style="width: 45%;" class="text-right">
                 <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Disahkan Oleh:</p>
                 <div id="pc-pengesah-sig-area" class="my-1 flex items-center justify-end" style="height: 50px;"></div>
@@ -513,6 +515,40 @@
 
     lucide.createIcons();
 
+    // PENGENDALI PANGGILAN SELAMAT (MENGELAKKAN CRASH 'UNEXPECTED TOKEN <')
+    async function safeFetchJSON(url, payload) {
+      let res;
+      try {
+        res = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+      } catch (netErr) {
+        throw new Error("Ralat rangkaian: Tidak dapat menghubungi pelayan Google. Sila semak sambungan internet anda.");
+      }
+
+      const text = await res.text();
+      const trimmed = text.trim();
+
+      if (trimmed.startsWith("<")) {
+        throw new Error(
+          "Pelayan Google membalas dengan laman web (HTML) dan bukannya data JSON.\n\n" +
+          "PUNCA & CARA SELESAIKAN:\n" +
+          "1. Buka Apps Script, pilih fungsi 'doGet', dan klik Run (tekan 'Allow' kebenaran).\n" +
+          "2. Klik 'Deploy' > 'Manage deployments' > Edit (pensel).\n" +
+          "3. Pastikan 'Who has access' diset kepada 'Anyone'.\n" +
+          "4. Pilih 'New version' dan klik 'Deploy'."
+        );
+      }
+
+      try {
+        return JSON.parse(trimmed);
+      } catch (err) {
+        throw new Error("Format respons tidak sah: " + trimmed.substring(0, 150));
+      }
+    }
+
+    // SAFE BOOTSTRAP
     window.onload = function() {
       try {
         const saved = localStorage.getItem("opr_logged_user");
@@ -750,15 +786,12 @@
       lucide.createIcons();
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: "login",
-            username: document.getElementById('loginUser').value.trim(),
-            password: document.getElementById('loginPass').value.trim()
-          })
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+          action: "login",
+          username: document.getElementById('loginUser').value.trim(),
+          password: document.getElementById('loginPass').value.trim()
         });
-        const result = await res.json();
+
         if (result.status === "success") {
           currentUser = result.user;
           currentUser.password = document.getElementById('loginPass').value.trim();
@@ -768,7 +801,7 @@
           alert(result.message);
         }
       } catch (err) {
-        alert("Ralat sambungan log masuk.");
+        alert("Ralat sambungan log masuk:\n\n" + err.message);
       } finally {
         btn.disabled = false;
         btn.innerHTML = `Log Masuk`;
@@ -797,8 +830,7 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = await res.json();
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
         if (result.status === "success") {
           alert("Pendaftaran berjaya!");
           toggleAuth('login');
@@ -806,7 +838,7 @@
           alert(result.message);
         }
       } catch (err) {
-        alert("Ralat pendaftaran.");
+        alert("Ralat pendaftaran:\n\n" + err.message);
       } finally {
         btn.disabled = false;
         btn.innerHTML = `Daftar Akaun Baru (RM20/Bulan)`;
@@ -898,8 +930,7 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = await res.json();
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
         if (result.status === "success") {
           alert(result.message);
           currentUser.email = newEmail;
@@ -929,8 +960,7 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = await res.json();
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
         if (result.status === "success") {
           alert(result.message);
           currentUser.namaSekolah = payload.namaSekolah;
@@ -976,8 +1006,7 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = await res.json();
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
         if (result.status === "success") {
           alert("Laporan OPR berjaya disimpan!");
           resetOprFormMode();
@@ -987,7 +1016,7 @@
           alert("Ralat: " + (result.message || "Gagal menyimpan"));
         }
       } catch (err) {
-        alert("Ralat sambungan: " + err.message);
+        alert("Ralat sambungan:\n\n" + err.message);
       } finally {
         btn.disabled = false;
         btn.innerHTML = originalText;
@@ -1041,15 +1070,14 @@
       };
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = await res.json();
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
         if (result.status === "success") {
           alert("Minit Curai berjaya disimpan!");
           resetCuraiFormMode();
           switchRecordFilter('curai');
           switchMenu('records');
         } else { alert("Ralat: " + result.message); }
-      } catch (err) { alert("Ralat sambungan: " + err.message); }
+      } catch (err) { alert("Ralat sambungan:\n\n" + err.message); }
       finally {
         btn.disabled = false;
         btn.innerHTML = originalText;
@@ -1066,18 +1094,19 @@
       lucide.createIcons();
 
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: "get_reports", username: currentUser.username, type: type })
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+          action: "get_reports",
+          username: currentUser.username,
+          type: type
         });
-        const result = await res.json();
+
         if (result.status === "success") {
           renderReportsTable(result.data, type);
         } else {
           if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod.</td></tr>`;
         }
       } catch (err) {
-        if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">Gagal memuatkan rekod. Sila tekan butang Segar Semula.</td></tr>`;
+        if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">${err.message}</td></tr>`;
       }
     }
 
@@ -1176,7 +1205,6 @@
       lucide.createIcons();
     }
 
-    // KEMASKINI CURAI (DENGAN KAWALAN KATA LALUAN & KEKALKAN TARIKH PENGESAHAN)
     function prepareEditCurai(index) {
       const d = userReports[index];
       if (!d) return;
@@ -1275,7 +1303,6 @@
       lucide.createIcons();
     }
 
-    // PAPAR & CETAK DOKUMEN
     function viewPrintRecord(index, type) {
       const d = userReports[index];
       if (!d) return;
@@ -1339,21 +1366,20 @@
           }
         }
 
-        if (document.getElementById('pc-nama')) document.getElementById('pc-nama').textContent = d['Nama Pegawai'] || '-';
+        if (document.getElementById('pc-nama')) document.getElementById('pc-nama').textContent = d['Nama Pegawai'] || d['Nama'] || '-';
         if (document.getElementById('pc-jawatan')) document.getElementById('pc-jawatan').textContent = d['Jawatan'] || '-';
-        if (document.getElementById('pc-tajuk')) document.getElementById('pc-tajuk').textContent = d['Tajuk / Perkara'] || '-';
+        if (document.getElementById('pc-tajuk')) document.getElementById('pc-tajuk').textContent = d['Tajuk / Perkara'] || d['Tajuk'] || '-';
         if (document.getElementById('pc-datetime')) document.getElementById('pc-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Masa'] || '-'}) di ${d['Tempat'] || '-'}`;
         if (document.getElementById('pc-anjuran')) document.getElementById('pc-anjuran').textContent = `${d['Anjuran'] || '-'} (Pengerusi: ${d['Pengerusi'] || '-'})`;
         if (document.getElementById('pc-kehadiran')) document.getElementById('pc-kehadiran').textContent = d['Kehadiran'] || '-';
         if (document.getElementById('pc-butiran')) document.getElementById('pc-butiran').textContent = d['Butiran'] || '-';
         if (document.getElementById('pc-implikasi')) document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
-        if (document.getElementById('pc-tindakan')) document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || '-';
+        if (document.getElementById('pc-tindakan')) document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || d['Tindakan'] || '-';
         
-        // PAPARAN TANDATANGAN PENULIS
-        if (document.getElementById('pc-sig-nama')) document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || '-';
+        if (document.getElementById('pc-sig-nama')) document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || d['Nama'] || '-';
         if (document.getElementById('pc-sig-jawatan')) document.getElementById('pc-sig-jawatan').textContent = d['Jawatan'] || '-';
 
-        const sigPenulis = d['Signature'] || '';
+        const sigPenulis = d['Signature'] || d['Tandatangan'] || '';
         const pcSigArea = document.getElementById('pc-sig-area');
         if (pcSigArea) {
           if (sigPenulis && (sigPenulis.startsWith('data:') || sigPenulis.startsWith('http'))) {
@@ -1363,7 +1389,6 @@
           }
         }
 
-        // PAPARAN PENGESAH & TARIKH PENGESAHAN
         const namaPengesah = (d['ApproverName'] || d['Nama Pengesah'] || '').toString().trim();
         const jawatanPengesah = (d['ApproverJawatan'] || d['Jawatan Pengesah'] || '').toString().trim();
         const sigPengesah = d['ApproverSig'] || d['Tandatangan Pengesah'] || '';
@@ -1430,11 +1455,13 @@
 
     async function payWithToyyibPay() {
       try {
-        const res = await fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: "create_payment", username: currentUser.username, email: currentUser.email, namaSekolah: currentUser.namaSekolah, returnUrl: window.location.href.split('?')[0] })
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+          action: "create_payment",
+          username: currentUser.username,
+          email: currentUser.email,
+          namaSekolah: currentUser.namaSekolah,
+          returnUrl: window.location.href.split('?')[0]
         });
-        const result = await res.json();
         if (result.status === "success" && result.billUrl) { window.location.href = result.billUrl; }
         else { alert("Ralat: " + result.message); }
       } catch (err) { alert("Ralat: " + err.message); }
