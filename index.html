@@ -315,10 +315,11 @@
           <button onclick="switchMenu('opr')" id="nav-opr" class="nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow">OPR Online</button>
           <button onclick="switchMenu('curai')" id="nav-curai" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Curai Online</button>
           <button onclick="switchMenu('school')" id="nav-school" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Sekolah</button>
+          <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Pelaporan Saya</button>
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin</button>
 
-          <!-- WHATSAPP HUBUNGI ADMIN - HANYA MUNCUL APABILA LOG MASUK -->
+          <!-- WHATSAPP HUBUNGI ADMIN TANPA @cikguenal -->
           <a href="https://wa.me/?text=Hai%20Admin,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (Whatsapp)
           </a>
@@ -395,33 +396,60 @@
               </div>
             </div>
 
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Nama Penuh Sekolah *</label>
-              <input type="text" id="upSchoolName" required class="w-full border rounded-lg p-2.5 text-xs uppercase font-bold bg-white">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">Alamat Lengkap Sekolah *</label>
-              <input type="text" id="upSchoolAddress" required class="w-full border rounded-lg p-2.5 text-xs bg-white">
-            </div>
-
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Penuh Sekolah *</label><input type="text" id="upSchoolName" required class="w-full border rounded-lg p-2.5 text-xs uppercase font-bold bg-white"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Alamat Lengkap Sekolah *</label><input type="text" id="upSchoolAddress" required class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">Kod Sekolah *</label>
-                <input type="text" id="upSchoolCode" required class="w-full border rounded-lg p-2.5 text-xs uppercase font-mono bg-white">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">No. Telefon Sekolah *</label>
-                <input type="text" id="upSchoolPhone" required class="w-full border rounded-lg p-2.5 text-xs bg-white">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">Emel Rasmi Sekolah *</label>
-                <input type="email" id="upSchoolEmail" required class="w-full border rounded-lg p-2.5 text-xs bg-white">
-              </div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Kod Sekolah *</label><input type="text" id="upSchoolCode" required class="w-full border rounded-lg p-2.5 text-xs uppercase font-mono bg-white"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">No. Telefon Sekolah *</label><input type="text" id="upSchoolPhone" required class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Emel Rasmi Sekolah *</label><input type="email" id="upSchoolEmail" required class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
             </div>
 
             <button type="submit" id="btnUpdateSchool" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
               <i data-lucide="save" class="w-4 h-4"></i> Simpan Perubahan Maklumat Sekolah
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- TAB MAKLUMAT AKAUN (BAHARU) -->
+      <section id="view-account" class="hidden space-y-6">
+        <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+          <div class="border-b pb-4 mb-5">
+            <h2 class="text-lg font-black text-slate-800 flex items-center gap-2">
+              <i data-lucide="user-cog" class="text-sky-600"></i> Tetapan & Maklumat Akaun Pengguna
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">Semak butiran keahlian anda, kemas kini emel pendaftar, atau tukar kata laluan.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Status Langganan</span>
+              <p id="accStatusText" class="text-sm font-black text-emerald-700 mt-1">-</p>
+            </div>
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tarikh Pendaftaran Akaun</span>
+              <p id="accRegDateText" class="text-sm font-bold text-slate-700 mt-1">-</p>
+            </div>
+          </div>
+
+          <form id="accountForm" onsubmit="handleUpdateAccount(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Username (ID Akaun - Tidak boleh diubah)</label>
+              <input type="text" id="accUsername" readonly class="w-full bg-slate-100 border rounded-lg p-2.5 text-xs font-mono font-bold text-slate-600 cursor-not-allowed">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Emel Pendaftar / Akaun *</label>
+              <input type="email" id="accEmail" required class="w-full border rounded-lg p-2.5 text-xs bg-white">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Kata Laluan Baharu (Kosongkan jika tiada perubahan)</label>
+              <input type="password" id="accPassword" placeholder="Masukkan kata laluan baharu..." class="w-full border rounded-lg p-2.5 text-xs bg-white">
+            </div>
+
+            <button type="submit" id="btnUpdateAccount" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
+              <i data-lucide="save" class="w-4 h-4"></i> Simpan Perubahan Maklumat Akaun
             </button>
           </form>
         </div>
@@ -596,6 +624,54 @@
       }
     }
 
+    function loadAccountInfoForm() {
+      if (!currentUser) return;
+      document.getElementById('accUsername').value = currentUser.username || '';
+      document.getElementById('accEmail').value = currentUser.email || '';
+      document.getElementById('accPassword').value = '';
+      document.getElementById('accStatusText').textContent = currentUser.statusLangganan || 'TIDAK AKTIF';
+      document.getElementById('accRegDateText').textContent = currentUser.tarikhDaftar || '-';
+    }
+
+    async function handleUpdateAccount(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnUpdateAccount');
+      btn.disabled = true;
+      btn.textContent = "Menyimpan Akaun...";
+
+      const newPass = document.getElementById('accPassword').value.trim();
+      const newEmail = document.getElementById('accEmail').value.trim();
+
+      const payload = {
+        action: "update_account",
+        username: currentUser.username,
+        email: newEmail,
+        password: newPass ? newPass : currentUser.password
+      };
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if (result.status === "success") {
+          alert(result.message);
+          currentUser.email = newEmail;
+          if (newPass) currentUser.password = newPass;
+          localStorage.setItem("opr_logged_user", JSON.stringify(currentUser));
+          loadAccountInfoForm();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        alert("Ralat: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Simpan Perubahan Maklumat Akaun";
+      }
+    }
+
     function compressUpdateLogo(input) {
       if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -657,16 +733,26 @@
       container.innerHTML = '';
       const validImages = images.filter(img => img && img.trim() !== '');
       const total = validImages.length;
+
       if (total === 0) {
-        container.innerHTML = `<div class="text-center text-slate-400 p-4"><p class="text-xs font-semibold">Tiada foto dokumentasi</p></div>`;
+        container.className = "w-full h-full flex items-center justify-center bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 p-4";
+        container.innerHTML = `<div class="text-center text-slate-400"><p class="text-xs font-semibold">Tiada foto dokumentasi dimuat naik</p></div>`;
         return;
       }
+
       if (total === 1) {
-        container.className = "w-full h-full flex flex-col justify-between items-center bg-slate-50 rounded-xl p-1.5 border min-h-0 overflow-hidden";
+        container.className = "w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden";
         container.innerHTML = `<div class="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden"><img src="${validImages[0]}" class="max-w-full max-h-full object-contain rounded-lg"></div>`;
       } else {
-        container.className = "w-full h-full grid grid-cols-2 gap-2 items-stretch min-h-0 overflow-hidden";
-        container.innerHTML = validImages.slice(0, 4).map(src => `<div class="w-full h-full flex items-center justify-center bg-slate-50 rounded-xl p-1 border overflow-hidden"><img src="${src}" class="max-w-full max-h-full object-contain rounded-lg"></div>`).join('');
+        container.className = "w-full h-full grid grid-cols-2 gap-2.5 items-stretch min-h-0 overflow-hidden";
+        container.innerHTML = validImages.slice(0, 4).map((src, i) => `
+          <div class="w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden">
+            <div class="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden">
+              <img src="${src}" class="max-w-full max-h-full object-contain rounded-lg">
+            </div>
+            <span class="text-[8px] font-bold text-slate-600">Foto ${i+1}</span>
+          </div>
+        `).join('');
       }
       lucide.createIcons();
     }
@@ -868,6 +954,7 @@
       }
 
       loadSchoolInfoForm();
+      loadAccountInfoForm();
       switchMenu('opr');
       fetchUserReports();
       lucide.createIcons();
@@ -879,7 +966,7 @@
         switchMenu('opr');
         return;
       }
-      ['opr', 'curai', 'school', 'records', 'admin', 'print'].forEach(m => {
+      ['opr', 'curai', 'school', 'account', 'records', 'admin', 'print'].forEach(m => {
         document.getElementById(`view-${m}`)?.classList.add('hidden');
         const nav = document.getElementById(`nav-${m}`);
         if (nav) {
