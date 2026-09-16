@@ -321,10 +321,10 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Pelaporan Saya</button>
           
-          <!-- PANEL ADMIN - DISEMBUNYIKAN SECARA MUTLAK KECUALI ROLE ADMIN -->
+          <!-- PANEL ADMIN - DISEMBUNYIKAN SECARA MUTLAK (HANYA MUNCUL JIKA ROLE ADMIN) -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin</button>
 
-          <!-- WHATSAPP HUBUNGI ADMIN TANPA @cikguenal -->
+          <!-- WHATSAPP HUBUNGI ADMIN -->
           <a href="https://wa.me/?text=Hai%20Admin,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (Whatsapp)
           </a>
@@ -368,7 +368,7 @@
             </div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Penerangan Ringkas Program *</label><textarea id="oprPenerangan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Hasil / Refleksi Program *</label><textarea id="oprHasil" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Dokumentasi (1 hingga 4)</label><div class="grid grid-cols-2 sm:grid-cols-4 gap-2"><input type="file" accept="image/*" onchange="previewImg(this, 0)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewImg(this, 1)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewImg(this, 2)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewImg(this, 3)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewImg(this, 3)" class="text-[10px]"></div></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Dokumentasi (1 hingga 4)</label><div class="grid grid-cols-2 sm:grid-cols-4 gap-2"><input type="file" accept="image/*" onchange="previewImg(this, 0)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewImg(this, 1)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewImg(this, 2)" class="text-[10px]"><input type="file" accept="image/*" onchange="previewImg(this, 3)" class="text-[10px]"></div></div>
             <button type="submit" id="btnSaveOPR" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2"><i data-lucide="printer" class="w-4 h-4"></i> Simpan & Jana Lembaran A4 Rasmi</button>
           </form>
         </div>
@@ -474,7 +474,7 @@
         </div>
       </section>
 
-      <!-- TAB PANEL ADMIN (TERKUNCI SECARA MUTLAK UNTUK USER BIASA) -->
+      <!-- TAB PANEL ADMIN (TERKUNCI KUKUH UNTUK ADMIN SAHAJA) -->
       <section id="view-admin" class="hidden space-y-6">
         <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex justify-between items-center">
           <div><h2 class="text-xl font-black flex items-center gap-2 text-amber-300"><i data-lucide="shield-check" class="w-6 h-6"></i> Panel Pengurusan Admin</h2></div>
@@ -938,7 +938,8 @@
       const navAdmin = document.getElementById('nav-admin');
       const alertBox = document.getElementById('subscriptionAlert');
 
-      if (currentUser.role === "ADMIN") {
+      // KAWALAN PAPARAN PANEL ADMIN YANG KETAT
+      if (currentUser && currentUser.role === "ADMIN") {
         adminBadge.classList.remove('hidden');
         navAdmin.classList.remove('hidden');
         badge.textContent = "Admin";
@@ -946,7 +947,7 @@
         alertBox.classList.add('hidden');
       } else {
         adminBadge.classList.add('hidden');
-        navAdmin.classList.add('hidden');
+        navAdmin.classList.add('hidden'); // Sembunyikan mutlak untuk pengguna biasa
         if (currentUser.statusLangganan === "AKTIF") {
           badge.textContent = `Aktif (${currentUser.tarikhTamat})`;
           badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-emerald-600 text-white";
@@ -954,7 +955,7 @@
         } else {
           badge.textContent = "Tidak Aktif";
           badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-rose-600 text-white";
-          alertBox.classList.add('hidden'); // Sembunyikan alert jika mengganggu, atau biarkan
+          alertBox.classList.remove('hidden');
         }
       }
 
@@ -975,15 +976,29 @@
         document.getElementById(`view-${m}`)?.classList.add('hidden');
         const nav = document.getElementById(`nav-${m}`);
         if (nav) {
-          nav.className = `nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition ${m === 'admin' ? 'text-amber-300 hover:bg-amber-400' : 'text-slate-300 hover:text-white'}`;
+          if (m === 'admin') {
+            if (currentUser && currentUser.role === 'ADMIN') {
+              nav.classList.remove('hidden');
+              nav.className = "hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1".replace('hidden ', '');
+            } else {
+              nav.classList.add('hidden');
+            }
+          } else {
+            nav.className = `nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white`;
+          }
         }
       });
+
       document.getElementById(`view-${menu}`)?.classList.remove('hidden');
       const activeNav = document.getElementById(`nav-${menu}`);
       if (activeNav) {
-        activeNav.className = `nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition ${menu === 'admin' ? 'bg-amber-400 text-slate-950 shadow font-black' : 'bg-white text-slate-900 shadow'}`;
+        if (menu === 'admin') {
+          activeNav.className = `nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition bg-amber-400 text-slate-950 shadow flex items-center gap-1 font-black`;
+          loadAdminAllUsers();
+        } else {
+          activeNav.className = `nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow`;
+        }
       }
-      if (menu === 'admin') loadAdminAllUsers();
     }
 
     async function loadAdminAllUsers() {
