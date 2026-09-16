@@ -163,7 +163,7 @@
     </div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full">
-      <!-- 1. VIEW OPR ONLINE (TEMPAT & ANJURAN DIASINGKAN) -->
+      <!-- 1. VIEW OPR ONLINE -->
       <section id="view-opr" class="space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
           <div class="border-b pb-4 mb-5 flex justify-between items-center">
@@ -181,7 +181,6 @@
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Hari</label><input type="text" id="oprHari" readonly placeholder="Auto-papar" class="w-full bg-slate-100 border rounded-lg p-2.5 text-xs text-slate-600"></div>
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="oprMasa" required placeholder="cth: 7.30 pagi - 12.00 tengah hari" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
-            <!-- TEMPAT & ANJURAN DIASINGKAN (ANJURAN DITUKAR KEPADA 'JIKA ADA') -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div><label class="block text-xs font-bold text-slate-700 mb-1">Tempat Pelaksanaan *</label><input type="text" id="oprTempat" required placeholder="cth: Padang SK Taman Nusa / Dewan Seri Budiman" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
               <div><label class="block text-xs font-bold text-slate-700 mb-1">Anjuran (Jika ada)</label><input type="text" id="oprAnjuran" placeholder="cth: Unit Kokurikulum SK Taman Nusa" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
@@ -251,7 +250,8 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="curAnjuran" required placeholder="cth: Sektor Pembangunan Murid" class="w-full border rounded-lg p-2.5 text-xs"></div>
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="curPengerusi" required placeholder="cth: En. Azman bin Rahim" class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="curKehadiran" required placeholder="cth: Semua PK HEM Sekolah Daerah" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <!-- DIUBAH KEPADA JUMLAH & CATATAN KEHADIRAN -->
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Jumlah & Catatan Kehadiran *</label><input type="text" id="curKehadiran" required placeholder="cth: 45 orang / Semua PK HEM" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="curButiran" rows="3" required placeholder="cth: Pematuhan garis panduan salah laku murid dan pengisian SSDM versi baharu..." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
@@ -404,7 +404,7 @@
         </div>
 
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
-          <!-- CETAKAN OPR (TEMPAT & ANJURAN DIASINGKAN PADA JADUAL) -->
+          <!-- CETAKAN OPR -->
           <div id="officialPrintSheetOPR" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden">
             <div class="shrink-0 space-y-2">
               <div id="p-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
@@ -455,7 +455,7 @@
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI -->
+          <!-- CETAKAN MINIT CURAI (TARIKH/MASA DIASINGKAN DARI TEMPAT & ANJURAN DARI PENGERUSI) -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -474,12 +474,16 @@
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 w-1/3">1. Nama Pegawai</td><td id="pc-nama" class="border border-slate-300 p-1.5 font-bold text-slate-900">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">2. Jawatan</td><td id="pc-jawatan" class="border border-slate-300 p-1.5 text-slate-800">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">3. Tajuk / Perkara</td><td id="pc-tajuk" class="border border-slate-300 p-1.5 font-black text-slate-900">-</td></tr>
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">4. Tarikh, Masa & Tempat</td><td id="pc-datetime" class="border border-slate-300 p-1.5">-</td></tr>
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">5. Anjuran & Pengerusi</td><td id="pc-anjuran" class="border border-slate-300 p-1.5">-</td></tr>
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">6. Kehadiran</td><td id="pc-kehadiran" class="border border-slate-300 p-1.5">-</td></tr>
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">7. Butiran Mesyuarat</td><td id="pc-butiran" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">8. Implikasi Kepada Sekolah</td><td id="pc-implikasi" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">9. Tindakan Susulan</td><td id="pc-tindakan" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+                <!-- TARIKH & MASA DIASINGKAN DARI TEMPAT -->
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">4. Tarikh & Masa</td><td id="pc-datetime" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">5. Tempat</td><td id="pc-tempat" class="border border-slate-300 p-1.5">-</td></tr>
+                <!-- ANJURAN DIASINGKAN DARI PENGERUSI -->
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">6. Anjuran</td><td id="pc-anjuran" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">7. Pengerusi</td><td id="pc-pengerusi" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">8. Jumlah & Catatan Kehadiran</td><td id="pc-kehadiran" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">9. Butiran Mesyuarat</td><td id="pc-butiran" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">10. Implikasi Kepada Sekolah</td><td id="pc-implikasi" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">11. Tindakan Susulan</td><td id="pc-tindakan" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
               </table>
             </div>
 
@@ -866,7 +870,6 @@
       } catch (err) { alert("Ralat: " + err.message); } finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
     }
 
-    // SIMPAN OPR (DENGAN TEMPAT & ANJURAN JIKA ADA)
     async function handleSaveOPR(e) {
       e.preventDefault();
       if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Langganan belum aktif!"); return; }
@@ -1145,7 +1148,7 @@
       lucide.createIcons();
     }
 
-    // PAPAR & CETAK DOKUMEN (TEMPAT & ANJURAN DIASINGKAN PADA JADUAL A4 OPR)
+    // PAPAR & CETAK DOKUMEN (TARIKH/MASA DIASINGKAN DARI TEMPAT DAN ANJURAN DARI PENGERUSI)
     function viewPrintRecord(index, type) {
       const d = userReports[index];
       if (!d) return;
@@ -1172,7 +1175,6 @@
         if (document.getElementById('p-aktiviti')) document.getElementById('p-aktiviti').textContent = d['Aktiviti'] || '-';
         if (document.getElementById('p-datetime')) document.getElementById('p-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Hari'] || '-'}) | Masa: ${d['Masa'] || '-'}`;
         
-        // PAPAR TEMPAT & ANJURAN PADA JADUAL ASING
         if (document.getElementById('p-tempat')) document.getElementById('p-tempat').textContent = d['Tempat'] || '-';
         if (document.getElementById('p-anjuran')) document.getElementById('p-anjuran').textContent = d['Anjuran'] || '-';
 
@@ -1209,8 +1211,13 @@
         if (document.getElementById('pc-nama')) document.getElementById('pc-nama').textContent = d['Nama Pegawai'] || '-';
         if (document.getElementById('pc-jawatan')) document.getElementById('pc-jawatan').textContent = d['Jawatan'] || '-';
         if (document.getElementById('pc-tajuk')) document.getElementById('pc-tajuk').textContent = d['Tajuk / Perkara'] || '-';
-        if (document.getElementById('pc-datetime')) document.getElementById('pc-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Masa'] || '-'}) di ${d['Tempat'] || '-'}`;
-        if (document.getElementById('pc-anjuran')) document.getElementById('pc-anjuran').textContent = `${d['Anjuran'] || '-'} (Pengerusi: ${d['Pengerusi'] || '-'})`;
+        
+        // TARIKH & MASA DIASINGKAN DARI TEMPAT PADA CETAKAN
+        if (document.getElementById('pc-datetime')) document.getElementById('pc-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Masa'] || '-'})`;
+        if (document.getElementById('pc-tempat')) document.getElementById('pc-tempat').textContent = d['Tempat'] || '-';
+        if (document.getElementById('pc-anjuran')) document.getElementById('pc-anjuran').textContent = d['Anjuran'] || '-';
+        if (document.getElementById('pc-pengerusi')) document.getElementById('pc-pengerusi').textContent = d['Pengerusi'] || '-';
+        
         if (document.getElementById('pc-kehadiran')) document.getElementById('pc-kehadiran').textContent = d['Kehadiran'] || '-';
         if (document.getElementById('pc-butiran')) document.getElementById('pc-butiran').textContent = d['Butiran'] || '-';
         if (document.getElementById('pc-implikasi')) document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
