@@ -144,7 +144,7 @@
             </span>
             <h3 class="text-lg font-black tracking-wide">Data Sekolah Diasingkan & Susun Atur A4 Kemas</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-              Anda tidak perlu lagi bersusah payah menaip simbol pemisah (`|`). Masukkan data sekolah secara berasingan dan sistem akan menyusun kepala surat secara automatik.
+              Anda tidak perlu lagi bersusah payah menaip simbol pemisah. Masukkan data sekolah secara berasingan dan sistem akan menyusun kepala surat secara automatik.
             </p>
             <ul class="text-[11px] text-slate-300 list-disc list-inside space-y-0.5 pt-1">
               <li><b>Nisbah Gambar Dikekalkan:</b> Foto tidak penyek atau terpotong (`object-contain`).</li>
@@ -173,7 +173,7 @@
         </button>
       </div>
 
-      <!-- ==================== BORANG 1: OPR PERCUBAAN ==================== -->
+      <!-- BORANG OPR PERCUBAAN -->
       <div id="trial-opr-container" class="space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <div class="border-b pb-3 mb-4">
@@ -184,7 +184,6 @@
           </div>
 
           <form onsubmit="generateTrialPreview(event, 'opr')" class="space-y-4">
-            <!-- MAKLUMAT SEKOLAH DIASINGKAN -->
             <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 space-y-3">
               <h4 class="text-xs font-bold text-indigo-900 uppercase">Kepala Surat Sekolah</h4>
               
@@ -219,7 +218,6 @@
               </div>
             </div>
 
-            <!-- BUTIRAN AKTIVITI -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Aktiviti Unit</label>
@@ -278,7 +276,7 @@
         </div>
       </div>
 
-      <!-- ==================== BORANG 2: MINIT CURAI PERCUBAAN ==================== -->
+      <!-- BORANG MINIT CURAI PERCUBAAN -->
       <div id="trial-curai-container" class="hidden space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <div class="border-b pb-3 mb-4">
@@ -342,10 +340,8 @@
         </div>
       </div>
 
-      <!-- ==================== LEMBARAN CETAKAN PERCUBAAN A4 ==================== -->
+      <!-- LEMBARAN CETAKAN PERCUBAAN A4 -->
       <div id="trialPrintWrapper" class="hidden space-y-4">
-        
-        <!-- BAR TINDAKAN CETAK PERCUBAAN -->
         <div class="no-print max-w-4xl mx-auto bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl flex flex-wrap justify-between items-center gap-3 shadow-sm">
           <div>
             <span class="text-xs font-extrabold text-amber-900 flex items-center gap-1.5">
@@ -363,11 +359,9 @@
           </div>
         </div>
 
-        <!-- SHEET A4 PERCUBAAN -->
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
           <div id="trialPrintSheet" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 relative overflow-hidden">
             
-            <!-- OVERLAY TERA AIR PADAT -->
             <div class="demo-watermark-grid">
               <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
               <div class="demo-watermark-row">HAK CIPTA TERPELIHARA &bull; LANGGAN RM20/BULAN UNTUK CETAKAN BERSIH</div>
@@ -378,8 +372,6 @@
 
             <!-- KANDUNGAN A4: OPR PERCUBAAN -->
             <div id="preview-opr-sheet" class="h-full flex flex-col justify-between overflow-hidden">
-              
-              <!-- 1. KEPALA SURAT DENGAN DATA TERSUSUN AUTOMATIK (SHRINK-0) -->
               <div class="shrink-0 space-y-2">
                 <div id="tp-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
                   <div class="flex items-center gap-3">
@@ -394,7 +386,6 @@
                   <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-0.5 rounded border border-white/20">Format 1 Muka OPR</span>
                 </div>
 
-                <!-- JADUAL BUTIRAN MAKLUMAT -->
                 <table class="w-full text-[11px] border-collapse border border-slate-300 rounded-lg overflow-hidden leading-snug">
                   <tr>
                     <td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 w-1/4">Nama Program</td>
@@ -417,7 +408,6 @@
                 </table>
               </div>
 
-              <!-- 2. GAMBAR EVIDENS BERSKALA DINAMIK (FLEX-1 MIN-H-0) -->
               <div class="flex-1 min-h-0 flex flex-col justify-between my-2 overflow-hidden">
                 <div class="shrink-0 flex items-center justify-between border-b pb-1 mb-1.5 border-slate-200">
                   <h4 class="text-[11px] font-black uppercase text-slate-800 tracking-wider flex items-center gap-1.5">
@@ -428,7 +418,6 @@
                 <div id="tp-images-grid" class="flex-1 min-h-0 w-full overflow-hidden"></div>
               </div>
 
-              <!-- 3. PANEL DISEDIAKAN OLEH: TERKUNCI DI DASAR BAWAH A4 (SHRINK-0 MT-AUTO) -->
               <div class="shrink-0 pt-2 border-t border-slate-300 mt-auto">
                 <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs">
                   <div class="flex items-center gap-3">
@@ -495,7 +484,6 @@
                 </table>
               </div>
 
-              <!-- RUANGAN TANDATANGAN DI BAWAH A4 -->
               <div class="shrink-0 border-t-2 border-slate-200 pt-3 flex justify-between items-end text-xs mt-auto">
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase font-semibold">Tandatangan Pegawai Pelapor:</p>
@@ -660,6 +648,7 @@
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">
             Rekod Pelaporan Saya
           </button>
+          <!-- BUTANG PANEL ADMIN (KEKAL HIDDEN SECARA MUTLAK UNTUK USER BIASA) -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1">
             <i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin
           </button>
@@ -814,7 +803,7 @@
         </div>
       </section>
 
-      <!-- TAB PANEL ADMIN -->
+      <!-- TAB PANEL ADMIN (TERKUNCI KUKUH UNTUK ADMIN SAHAJA) -->
       <section id="view-admin" class="hidden space-y-6">
         <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-wrap justify-between items-center gap-4">
           <div>
@@ -873,7 +862,6 @@
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
           <div id="officialPrintSheet" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300">
             
-            <!-- 1. KEPALA SURAT DENGAN DATA TERSUSUN AUTOMATIK (SHRINK-0) -->
             <div class="shrink-0 space-y-2">
               <div id="p-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
                 <div class="flex items-center gap-3">
@@ -888,7 +876,6 @@
                 <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-0.5 rounded border border-white/20">Format 1 Muka OPR</span>
               </div>
 
-              <!-- JADUAL BUTIRAN AKTIVITI -->
               <table class="w-full text-[11px] border-collapse border border-slate-300 rounded-lg overflow-hidden leading-snug">
                 <tr>
                   <td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 w-1/4">Nama Program</td>
@@ -909,7 +896,6 @@
               </table>
             </div>
 
-            <!-- 2. GAMBAR EVIDENS BERSKALA DINAMIK (FLEX-1 MIN-H-0) -->
             <div class="flex-1 min-h-0 flex flex-col justify-between my-2 overflow-hidden">
               <div class="shrink-0 flex items-center justify-between border-b pb-1 mb-1.5 border-slate-200">
                 <h4 class="text-[11px] font-black uppercase text-slate-800 tracking-wider flex items-center gap-1.5">
@@ -920,7 +906,6 @@
               <div id="p-images-grid" class="flex-1 min-h-0 w-full overflow-hidden"></div>
             </div>
 
-            <!-- 3. PANEL DISEDIAKAN OLEH: TERKUNCI DI DASAR BAWAH A4 (SHRINK-0 MT-AUTO) -->
             <div class="shrink-0 pt-2 border-t border-slate-300 mt-auto">
               <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs">
                 <div class="flex items-center gap-3">
@@ -1214,7 +1199,6 @@
         document.getElementById('tp-school').textContent = document.getElementById('t_opr_school').value || "SMK SEKSYEN 9, SHAH ALAM";
         document.getElementById('tp-address').textContent = document.getElementById('t_opr_address').value || "Jalan Tengku Ampuan Rahimah 9/20, Seksyen 9, 40100 Shah Alam, Selangor";
         
-        // Cantumkan kod, tel dan emel secara automatik tanpa pengguna perlu cari simbol
         const kod = document.getElementById('t_opr_code').value || "BEA8653";
         const tel = document.getElementById('t_opr_phone').value || "03-55106782";
         const emel = document.getElementById('t_opr_email').value || "bea8653@moe.edu.my";
@@ -1267,7 +1251,7 @@
     }
 
     // ==========================================
-    // LOGIK LOG MASUK, DAFTAR & PORTAL
+    // LOGIK LOG MASUK, DAFTAR & KESELAMATAN PORTAL
     // ==========================================
     function toggleAuth(mode) {
       if (mode === 'register') {
@@ -1357,6 +1341,8 @@
         const result = await res.json();
         if (result.status === "success") {
           currentUser = result.user;
+          // Simpan kata laluan dalam memori sesi untuk pengesahan Admin yang selamat
+          currentUser.password = document.getElementById('loginPass').value.trim();
           localStorage.setItem("opr_logged_user", JSON.stringify(currentUser));
           loadAppScreen();
         } else {
@@ -1387,9 +1373,11 @@
       const badge = document.getElementById('lblSubscriptionBadge');
       const adminRoleBadge = document.getElementById('lblAdminRoleBadge');
       const navAdmin = document.getElementById('nav-admin');
+      const viewAdmin = document.getElementById('view-admin');
       const alertBox = document.getElementById('subscriptionAlert');
 
-      if (currentUser.role === "ADMIN") {
+      // KAWALAN KESELAMATAN PERANAN (ROLE)
+      if (currentUser && currentUser.role === "ADMIN") {
         adminRoleBadge.classList.remove('hidden');
         navAdmin.classList.remove('hidden');
         badge.textContent = "Akses Penuh Admin";
@@ -1398,6 +1386,8 @@
       } else {
         adminRoleBadge.classList.add('hidden');
         navAdmin.classList.add('hidden');
+        if (viewAdmin) viewAdmin.classList.add('hidden');
+        
         if (currentUser.statusLangganan === "AKTIF") {
           badge.textContent = `Langganan Aktif (Tamat: ${currentUser.tarikhTamat})`;
           badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-emerald-600 text-white";
@@ -1409,19 +1399,71 @@
         }
       }
 
+      // Sentiasa tetapkan skrin mula pada OPR (Bukan Admin)
+      switchMenu('opr');
       fetchUserReports();
       lucide.createIcons();
     }
 
+    // ==========================================
+    // NAVIGASI MENU DENGAN SEKATAN ADMIN
+    // ==========================================
+    function switchMenu(menu) {
+      // SEKATAN KETAT: Jika bukan Admin, tolak serta-merta sebarang cubaan ke panel admin
+      if (menu === 'admin') {
+        if (!currentUser || currentUser.role !== 'ADMIN') {
+          alert("Akses Ditolak: Anda tidak mempunyai kebenaran untuk membuka Panel Admin!");
+          switchMenu('opr');
+          return;
+        }
+      }
+
+      const menuList = ['opr', 'curai', 'records', 'admin', 'print'];
+      menuList.forEach(m => {
+        const el = document.getElementById(`view-${m}`);
+        if (el) el.classList.add('hidden');
+        
+        const nav = document.getElementById(`nav-${m}`);
+        if (nav) {
+          nav.classList.remove('bg-white', 'text-slate-900', 'bg-amber-400', 'text-slate-950', 'shadow');
+          if (m === 'admin') {
+            nav.classList.add('text-amber-300');
+          } else {
+            nav.classList.add('text-slate-300');
+          }
+        }
+      });
+
+      const activeView = document.getElementById(`view-${menu}`);
+      if (activeView) activeView.classList.remove('hidden');
+
+      const activeNav = document.getElementById(`nav-${menu}`);
+      if (activeNav) {
+        if (menu === 'admin') {
+          activeNav.classList.remove('text-amber-300');
+          activeNav.classList.add('bg-amber-400', 'text-slate-950', 'shadow');
+          loadAdminAllUsers();
+        } else {
+          activeNav.classList.remove('text-slate-300');
+          activeNav.classList.add('bg-white', 'text-slate-900', 'shadow');
+        }
+      }
+    }
+
     // ==================== PANEL ADMIN ====================
     async function loadAdminAllUsers() {
+      if (!currentUser || currentUser.role !== 'ADMIN') return;
       const tbody = document.getElementById('tblAdminUsersBody');
       tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-slate-400">Sedang memuat senarai pengguna...</td></tr>`;
 
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: "admin_get_all_users" })
+          body: JSON.stringify({ 
+            action: "admin_get_all_users",
+            adminUser: currentUser.username,
+            adminPass: currentUser.password
+          })
         });
         const result = await res.json();
         if (result.status === "success") {
@@ -1537,7 +1579,13 @@
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: "admin_update_sub", targetUsername: targetUsername, days: days })
+          body: JSON.stringify({ 
+            action: "admin_update_sub", 
+            targetUsername: targetUsername, 
+            days: days,
+            adminUser: currentUser.username,
+            adminPass: currentUser.password
+          })
         });
         const result = await res.json();
         alert(result.message);
@@ -1553,7 +1601,12 @@
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: "admin_delete_user", targetUsername: targetUsername })
+          body: JSON.stringify({ 
+            action: "admin_delete_user", 
+            targetUsername: targetUsername,
+            adminUser: currentUser.username,
+            adminPass: currentUser.password
+          })
         });
         const result = await res.json();
         alert(result.message);
@@ -1614,32 +1667,6 @@
       const result = await res.json();
       alert(result.message);
       closeForgotPasswordModal();
-    }
-
-    function switchMenu(menu) {
-      ['opr', 'curai', 'records', 'admin', 'print'].forEach(m => {
-        const el = document.getElementById(`view-${m}`);
-        if (el) el.classList.add('hidden');
-        const nav = document.getElementById(`nav-${m}`);
-        if (nav) {
-          if (m === 'admin') {
-            nav.className = "nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1";
-          } else {
-            nav.className = "nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white";
-          }
-        }
-      });
-
-      document.getElementById(`view-${menu}`).classList.remove('hidden');
-      const activeNav = document.getElementById(`nav-${menu}`);
-      if (activeNav) {
-        if (menu === 'admin') {
-          activeNav.className = "nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition bg-amber-400 text-slate-950 shadow flex items-center gap-1";
-          loadAdminAllUsers();
-        } else {
-          activeNav.className = "nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow";
-        }
-      }
     }
 
     function autoFillDay(dateStr) {
@@ -1798,6 +1825,15 @@
     function logout() {
       localStorage.removeItem("opr_logged_user");
       currentUser = null;
+
+      // Bersihkan dan sembunyikan semua elemen Admin
+      const navAdmin = document.getElementById('nav-admin');
+      if (navAdmin) navAdmin.classList.add('hidden');
+      const viewAdmin = document.getElementById('view-admin');
+      if (viewAdmin) viewAdmin.classList.add('hidden');
+      const adminBadge = document.getElementById('lblAdminRoleBadge');
+      if (adminBadge) adminBadge.classList.add('hidden');
+
       document.getElementById('mainAppScreen').classList.add('hidden');
       document.getElementById('authScreen').classList.remove('hidden');
     }
