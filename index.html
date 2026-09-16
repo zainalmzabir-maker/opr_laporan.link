@@ -219,7 +219,7 @@
           <form id="curaiForm" onsubmit="handleSaveCurai(event)" class="space-y-4">
             <input type="hidden" id="curaiRowIndex" value="">
 
-            <!-- MAKLUMAT PENULIS (TIADA GRED) -->
+            <!-- MAKLUMAT PENULIS (HANYA JAWATAN, TIADA GRED) -->
             <div class="p-3 bg-slate-50 border rounded-xl space-y-3">
               <h4 class="text-xs font-bold text-slate-800 uppercase flex items-center gap-1.5"><i data-lucide="user-pen" class="w-3.5 h-3.5 text-sky-600"></i> 1. Maklumat Penulis (Pegawai Pelapor)</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -252,14 +252,14 @@
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Implikasi Kepada Sekolah *</label><textarea id="curImplikasi" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Sekolah *</label><textarea id="curTindakan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
 
-            <!-- BAHAGIAN PENGESAH (PILIHAN) -->
+            <!-- BAHAGIAN PENGESAH -->
             <div class="p-3 bg-emerald-50/50 border border-emerald-200 rounded-xl space-y-3">
               <div class="flex justify-between items-center">
                 <h4 class="text-xs font-bold text-emerald-900 uppercase flex items-center gap-1.5"><i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-600"></i> 2. Pengesahan (Pengetua / Guru Besar / Pentadbir)</h4>
                 <span class="text-[10px] text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded font-bold">Pilihan / Boleh Isi Kemudian</span>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div><label class="block text-xs font-semibold mb-1">Nama Pengesah</label><input type="text" id="curNamaPengesah" placeholder="Nama Pengetua / GB" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+                <div><label class="block text-xs font-semibold mb-1">Nama Pengesah</label><input type="text" id="curNamaPengesah" placeholder="Nama Pengetua / Guru Besar" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
                 <div><label class="block text-xs font-semibold mb-1">Jawatan Pengesah</label><input type="text" id="curJawatanPengesah" placeholder="Pengetua / Guru Besar" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
               </div>
               <div>
@@ -334,32 +334,40 @@
         </div>
       </section>
 
-      <!-- 5. VIEW REKOD PELAPORAN (DASHBOARD) -->
+      <!-- 5. VIEW REKOD PELAPORAN (DASHBOARD DENGAN GAYA BUTANG OPR / CURAI) -->
       <section id="view-records" class="hidden space-y-4">
-        <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
           <div>
             <h3 class="text-sm font-bold text-slate-800">Rekod Pelaporan Sekolah Saya (OPR & Curai)</h3>
             <p class="text-xs text-slate-400">Pilih jenis laporan untuk menyemak status dan membuat kemas kini.</p>
           </div>
-          <div class="flex items-center gap-2">
-            <select id="recordTypeSelect" onchange="fetchUserReports()" class="border rounded-lg px-2.5 py-1.5 text-xs bg-white font-semibold">
-              <option value="opr">Laporan OPR</option>
-              <option value="curai">Minit Curai</option>
-            </select>
-            <button onclick="fetchUserReports()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1">
+          
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- GAYA BUTANG PILIHAN (MENGGANTIKAN DROPDOWN) -->
+            <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
+              <button type="button" id="btnFilterOpr" onclick="switchRecordFilter('opr')" class="px-3.5 py-1.5 rounded-lg text-xs font-black transition bg-slate-900 text-white shadow-sm flex items-center gap-1.5">
+                <i data-lucide="file-pen" class="w-3.5 h-3.5"></i> Laporan OPR
+              </button>
+              <button type="button" id="btnFilterCurai" onclick="switchRecordFilter('curai')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
+                <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i> Minit Curai
+              </button>
+            </div>
+
+            <!-- BUTANG SEGAR SEMULA -->
+            <button onclick="fetchUserReports()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-1 border border-slate-200 shadow-sm transition">
               <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
             </button>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-sm">
           <table class="w-full text-left text-xs">
             <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b">
               <tr>
                 <th class="p-3">Tarikh</th>
-                <th class="p-3">Tajuk / Perkara</th>
-                <th class="p-3">Pegawai / Pelapor</th>
-                <th class="p-3 text-center">Status Pengesahan</th>
+                <th id="thColTitle" class="p-3">Nama Program / Aktiviti</th>
+                <th id="thColPerson" class="p-3">Pelapor</th>
+                <th id="thColStatus" class="p-3 text-center">Status</th>
                 <th class="p-3 text-center">Tindakan</th>
               </tr>
             </thead>
@@ -425,7 +433,7 @@
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI (STRUKTUR PENULIS & PENGESAH) -->
+          <!-- CETAKAN MINIT CURAI -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -442,7 +450,6 @@
 
               <table class="w-full text-[11px] border border-slate-300 mb-2 leading-snug">
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 w-1/3">1. Nama Pegawai</td><td id="pc-nama" class="border border-slate-300 p-1.5 font-bold text-slate-900">-</td></tr>
-                <!-- HANYA JAWATAN (TIADA GRED) -->
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">2. Jawatan</td><td id="pc-jawatan" class="border border-slate-300 p-1.5 text-slate-800">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">3. Tajuk / Perkara</td><td id="pc-tajuk" class="border border-slate-300 p-1.5 font-black text-slate-900">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">4. Tarikh, Masa & Tempat</td><td id="pc-datetime" class="border border-slate-300 p-1.5">-</td></tr>
@@ -499,6 +506,9 @@
     let oprImages = ["", "", "", ""];
     let userReports = [];
     
+    // STATUS BUTANG FILTER DASHBOARD
+    let currentRecordFilter = 'opr';
+
     // TANDATANGAN DIGITAL
     let curaiWriterSig = "";
     let curaiApproverSig = "";
@@ -526,6 +536,33 @@
       initSigCanvas('portalCuraiCanvas', sig => { curaiWriterSig = sig; });
       initSigCanvas('portalPengesahCanvas', sig => { curaiApproverSig = sig; });
     };
+
+    // FUNGSI PERTUKARAN GAYA BUTANG OPR / CURAI
+    function switchRecordFilter(type) {
+      currentRecordFilter = type;
+      const btnOpr = document.getElementById('btnFilterOpr');
+      const btnCurai = document.getElementById('btnFilterCurai');
+      const thTitle = document.getElementById('thColTitle');
+      const thPerson = document.getElementById('thColPerson');
+      const thStatus = document.getElementById('thColStatus');
+
+      if (type === 'opr') {
+        btnOpr.className = "px-3.5 py-1.5 rounded-lg text-xs font-black transition bg-slate-900 text-white shadow-sm flex items-center gap-1.5";
+        btnCurai.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5";
+        if (thTitle) thTitle.textContent = "Nama Program / Aktiviti";
+        if (thPerson) thPerson.textContent = "Pelapor";
+        if (thStatus) thStatus.textContent = "Status";
+      } else {
+        btnCurai.className = "px-3.5 py-1.5 rounded-lg text-xs font-black transition bg-slate-900 text-white shadow-sm flex items-center gap-1.5";
+        btnOpr.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5";
+        if (thTitle) thTitle.textContent = "Tajuk / Perkara Mesyuarat";
+        if (thPerson) thPerson.textContent = "Pegawai Pelapor";
+        if (thStatus) thStatus.textContent = "Status Pengesahan";
+      }
+
+      lucide.createIcons();
+      fetchUserReports();
+    }
 
     // MAMPATKAN GAMBAR AUTO (JPEG 70%)
     function compressImageBase64(input, callback) {
@@ -803,7 +840,7 @@
       loadSchoolInfoForm();
       loadAccountInfoForm();
       switchMenu('opr');
-      fetchUserReports();
+      switchRecordFilter('opr');
       lucide.createIcons();
     }
 
@@ -820,6 +857,10 @@
       const activeNav = document.getElementById(`nav-${menu}`);
       if (activeNav) {
         activeNav.className = "nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow";
+      }
+
+      if (menu === 'records') {
+        fetchUserReports();
       }
     }
 
@@ -923,7 +964,7 @@
         if (result.status === "success") {
           alert("Laporan OPR berjaya disimpan!");
           resetOprFormMode();
-          fetchUserReports();
+          switchRecordFilter('opr');
           switchMenu('records');
         } else {
           alert("Ralat: " + (result.message || "Gagal menyimpan"));
@@ -987,7 +1028,7 @@
         if (result.status === "success") {
           alert("Minit Curai berjaya disimpan!");
           resetCuraiFormMode();
-          fetchUserReports();
+          switchRecordFilter('curai');
           switchMenu('records');
         } else { alert("Ralat: " + result.message); }
       } catch (err) { alert("Ralat sambungan: " + err.message); }
@@ -998,10 +1039,10 @@
       }
     }
 
-    // AMBIL REKOD PANTAS
+    // AMBIL REKOD PANTAS DENGAN FILTER BUTANG
     async function fetchUserReports() {
       if (!currentUser) return;
-      const type = document.getElementById('recordTypeSelect')?.value || "opr";
+      const type = currentRecordFilter || "opr";
       const tbody = document.getElementById('tblReportsBody');
       if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-500"><i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto mb-1"></i> Mengambil rekod terkini...</td></tr>`;
       lucide.createIcons();
@@ -1018,7 +1059,7 @@
           if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod.</td></tr>`;
         }
       } catch (err) {
-        if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">Gagal memuatkan rekod. Sila segar semula.</td></tr>`;
+        if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">Gagal memuatkan rekod. Sila tekan butang Segar Semula.</td></tr>`;
       }
     }
 
@@ -1028,7 +1069,7 @@
       if (!tbody) return;
 
       if (userReports.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod dijumpai.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod ${type === 'opr' ? 'OPR' : 'Minit Curai'} dijumpai.</td></tr>`;
         return;
       }
 
@@ -1037,10 +1078,10 @@
           return `
             <tr class="hover:bg-slate-50 border-b">
               <td class="p-3">${item['Tarikh'] || '-'}</td>
-              <td class="p-3 font-semibold">${item['Aktiviti'] || '-'}</td>
+              <td class="p-3 font-semibold text-slate-900">${item['Aktiviti'] || '-'}</td>
               <td class="p-3">${item['Nama Pelapor'] || '-'}</td>
-              <td class="p-3 text-center"><span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-bold">Tersimpan</span></td>
-              <td class="p-3 text-center">
+              <td class="p-3 text-center"><span class="px-2.5 py-0.5 bg-slate-100 text-slate-700 rounded text-[10px] font-bold">Tersimpan</span></td>
+              <td class="p-3 text-center whitespace-nowrap">
                 <button onclick="prepareEditOpr(${index})" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[11px] me-1 shadow-sm">Kemaskini</button>
                 <button onclick="viewPrintRecord(${index}, 'opr')" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white rounded font-bold text-[11px] shadow-sm">Cetak OPR</button>
               </td>
@@ -1053,17 +1094,17 @@
             <tr class="hover:bg-slate-50 border-b">
               <td class="p-3">${item['Tarikh'] || '-'}</td>
               <td class="p-3">
-                <span class="font-bold block">${item['Tajuk / Perkara'] || '-'}</span>
+                <span class="font-bold text-slate-900 block">${item['Tajuk / Perkara'] || '-'}</span>
                 ${isRahsia ? '<span class="text-rose-600 font-bold text-[10px]">&bull; Kawalan Rahsia</span>' : ''}
               </td>
               <td class="p-3">${item['Nama Pegawai'] || '-'}</td>
-              <td class="p-3 text-center">
+              <td class="p-3 text-center whitespace-nowrap">
                 ${isDisahkan 
                   ? '<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-black text-[10px] inline-flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Telah Disahkan</span>' 
                   : '<span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-black text-[10px] inline-flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> Belum Disahkan</span>'
                 }
               </td>
-              <td class="p-3 text-center">
+              <td class="p-3 text-center whitespace-nowrap">
                 <button onclick="prepareEditCurai(${index})" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-black text-[11px] me-1 shadow-sm">Kemaskini Curai</button>
                 <button onclick="viewPrintRecord(${index}, 'curai')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[11px] shadow-sm">Cetak Curai</button>
               </td>
@@ -1263,7 +1304,7 @@
           }
         }
 
-        // PAPARAN PENGESAH
+        // PAPARAN PENGESAH (JIKA ADA ISI, JIKA TIADA KOSONGKAN BAWAH GARISAN)
         const namaPengesah = d['ApproverName'] || '';
         const jawatanPengesah = d['ApproverJawatan'] || '';
         const sigPengesah = d['ApproverSig'] || '';
@@ -1283,7 +1324,6 @@
           if (pcPengesahNama) pcPengesahNama.textContent = namaPengesah;
           if (pcPengesahJawatan) pcPengesahJawatan.textContent = jawatanPengesah;
         } else {
-          // Bawah garisan tandatangan dibiarkan kosong sahaja
           if (pcPengesahNama) pcPengesahNama.textContent = '';
           if (pcPengesahJawatan) pcPengesahJawatan.textContent = '';
         }
