@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Penjana Laporan OPR Sekolah</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm 10mm 8mm 10mm;
+      }
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      body * {
+        visibility: hidden;
+      }
+      #printArea, #printArea * {
+        visibility: visible;
+      }
+      #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+
+    .sheet-a4 {
+      width: 210mm;
+      min-height: 280mm;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
+
+  <!-- HEADER UTAMA -->
+  <header class="bg-slate-900 text-white shadow-md sticky top-0 z-40 no-print border-b border-slate-700">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-sky-600 flex items-center justify-center text-white font-black text-xl shadow">
+          <i data-lucide="file-check"></i>
+        </div>
+        <div>
+          <h1 class="text-base md:text-lg font-extrabold tracking-wide uppercase">Penjana Laporan OPR Digital</h1>
+          <p class="text-xs text-sky-300 font-medium">Satu Muka A4 &bull; Format Standard KPM &bull; RM0.50 / Jana</p>
+        </div>
+      </div>
+
+      <!-- 3 MENU UTAMA -->
+      <nav class="flex space-x-1 sm:space-x-2 bg-slate-800/80 p-1 rounded-lg border border-slate-700">
+        <button onclick="switchTab('form')" id="btn-form" class="nav-btn px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition flex items-center gap-1.5 bg-white text-slate-900 shadow">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-sky-600"></i> Borang OPR
+        </button>
+        <button onclick="switchTab('dashboard')" id="btn-dashboard" class="nav-btn px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition flex items-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-700">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Senarai Rekod
+        </button>
+        <button onclick="switchTab('print')" id="btn-print" class="nav-btn px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition flex items-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-700">
+          <i data-lucide="printer" class="w-4 h-4"></i> Cetakan A4
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- KANDUNGAN UTAMA -->
+  <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full">
+
+    <!-- ==================== 1. BORANG PELAPORAN ==================== -->
+    <section id="menu-form" class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+      
+      <div id="editModeAlert" class="hidden mb-5 p-3.5 bg-amber-50 border border-amber-300 rounded-lg flex items-center justify-between">
+        <div class="flex items-center gap-2 text-sm text-amber-800 font-medium">
+          <i data-lucide="edit-3" class="w-5 h-5 text-amber-600"></i>
+          <span>Mod Kemaskini: Menyunting laporan <b><span id="editReportIdText"></span></b></span>
+        </div>
+        <button type="button" onclick="cancelEditMode()" class="text-xs bg-amber-200 hover:bg-amber-300 text-amber-900 px-2.5 py-1 rounded font-semibold transition">Batal</button>
+      </div>
+
+      <div class="border-b pb-4 mb-6">
+        <h2 class="text-xl font-black text-slate-800 flex items-center gap-2">
+          <i data-lucide="file-pen-line" class="text-sky-600"></i> Borang Laporan Satu Muka (OPR)
+        </h2>
+        <p class="text-xs text-slate-500 mt-0.5">Lengkapkan maklumat sekolah, aktiviti, dan muat naik gambar dokumentasi.</p>
+      </div>
+
+      <form id="laporanForm" onsubmit="handlePreSubmit(event)" class="space-y-6">
+        <input type="hidden" id="reportId" value="">
+
+        <!-- BAHAGIAN 1: MAKLUMAT SEKOLAH & LOGO -->
+        <div class="bg-indigo-50/50 p-4 sm:p-5 rounded-xl border border-indigo-100 space-y-4">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
+            <i data-lucide="school" class="w-4 h-4 text-indigo-600"></i> Maklumat Sekolah & Logo Anda
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            <!-- Upload Logo -->
+            <div class="border-2 border-dashed border-indigo-300 bg-white rounded-xl p-3 text-center flex flex-col items-center justify-center relative h-36">
+              <input type="file" id="schoolLogoInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewSchoolLogo(this)">
+              <img id="logoPreview" class="hidden w-20 h-20 object-contain rounded mb-1">
+              <div id="logoPlaceholder" class="flex flex-col items-center text-slate-500 text-xs">
+                <i data-lucide="image-up" class="w-7 h-7 text-indigo-500 mb-1"></i>
+                <span class="font-bold text-slate-700">Pilih Logo Sekolah</span>
+                <span class="text-[10px] text-slate-400">PNG / JPG (Pilihan)</span>
+              </div>
+            </div>
+
+            <!-- Nama & Alamat Sekolah -->
+            <div class="md:col-span-2 space-y-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Penuh Sekolah / Institusi <span class="text-red-500">*</span></label>
+                <input type="text" id="namaSekolah" required placeholder="cth: SMK TUN PERAK / SK SERI KENCANA" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm uppercase focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Alamat / Kod Sekolah / No. Telefon <span class="text-red-500">*</span></label>
+                <input type="text" id="maklumatSekolah" required placeholder="cth: Jalan Sultanah, 85000 Segamat, Johor | Kod: JEA7011 | Tel: 07-9312345" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BAHAGIAN 2: KAWALAN KESELAMATAN & PRIVASI -->
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 flex items-center gap-1.5">
+            <i data-lucide="lock" class="w-4 h-4 text-sky-600"></i> Kawalan Privasi Laporan
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Pilihan Akses <span class="text-red-500">*</span></label>
+              <select id="jenisAkses" onchange="togglePasswordInput(this.value)" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white font-medium focus:ring-2 focus:ring-sky-500">
+                <option value="Awam">Terbuka (Boleh Dilihat & Dicetak Semua)</option>
+                <option value="Katalaluan">Perlu Kata Laluan (Peribadi / Terkunci)</option>
+              </select>
+            </div>
+            <div id="passwordFieldContainer" class="hidden">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Cipta Kata Laluan Laporan <span class="text-red-500">*</span></label>
+              <input type="password" id="laporanPassword" placeholder="Masukkan kata laluan untuk buka laporan ini" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white focus:ring-2 focus:ring-sky-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- BAHAGIAN 3: BUTIRAN PROGRAM & AKTIVITI -->
+        <div class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold text-slate-800 mb-1">Aktiviti Unit <span class="text-red-500">*</span></label>
+              <select id="aktivitiUnit" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white font-semibold focus:ring-2 focus:ring-sky-500">
+                <option value="">-- Sila Pilih Unit --</option>
+                <option value="Kokurikulum">Kokurikulum</option>
+                <option value="Koakademik">Koakademik</option>
+                <option value="Kurikulum">Kurikulum</option>
+                <option value="Hem">HEM (Hal Ehwal Murid)</option>
+                <option value="Pentadbiran">Pentadbiran</option>
+                <option value="Lain-lain">Lain-lain</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-slate-800 mb-1">Nama Program / Aktiviti <span class="text-red-500">*</span></label>
+              <input type="text" id="aktiviti" required placeholder="cth: Kejohanan Sukan Tahunan / Bengkel SPM" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+            </div>
+          </div>
+
+          <!-- TARIKH & MASA -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh Aktiviti <span class="text-red-500">*</span></label>
+              <input type="date" id="tarikh" required onchange="autoFillDay(this.value)" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Hari</label>
+              <input type="text" id="hari" readonly placeholder="cth: Rabu" class="w-full bg-slate-100 border border-slate-300 rounded-lg p-2.5 text-sm font-medium text-slate-600">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Masa Aktiviti <span class="text-red-500">*</span></label>
+              <input type="text" id="masa" required placeholder="cth: 8.00 pagi - 12.30 tengah hari" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+            </div>
+          </div>
+
+          <!-- MAKLUMAT PELAPOR -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">Nama Pelapor <span class="text-red-500">*</span></label>
+              <input type="text" id="namaPelapor" required placeholder="cth: Ahmad Fahmi bin Zakaria" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-800 mb-1">Jawatan Pelapor <span class="text-red-500">*</span></label>
+              <input type="text" id="jawatan" required placeholder="cth: Setiausaha Sukan / Guru Penyelaras" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+            </div>
+          </div>
+
+          <!-- PENERANGAN & HASIL -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Penerangan / Ringkasan Aktiviti <span class="text-red-500">*</span></label>
+            <textarea id="penerangan" rows="3" required placeholder="Perjalanan modul, perasmian, atau agenda aktiviti..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Hasil / Refleksi Aktiviti <span class="text-red-500">*</span></label>
+            <textarea id="hasil" rows="3" required placeholder="Impak aktiviti, pencapaian murid, atau cadangan penambahbaikan..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500"></textarea>
+          </div>
+        </div>
+
+        <!-- BAHAGIAN 4: UPLOAD 1 HINGGA 4 GAMBAR -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Dokumentasi (1 hingga 4 Keping)</label>
+          <p class="text-[11px] text-slate-500 mb-2">Gambar 1 <span class="text-red-500 font-bold">*Wajib</span>. Gambar akan dimampatkan secara automatik sebelum disimpan.</p>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div class="border-2 border-dashed border-sky-400 bg-sky-50/40 rounded-lg p-2 text-center flex flex-col items-center justify-center relative h-32">
+              <input type="file" id="file-1" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 1)">
+              <img id="prev-1" class="hidden w-full h-full object-contain rounded mb-1">
+              <span id="txt-1" class="text-xs text-slate-600 flex flex-col items-center">
+                <i data-lucide="image-plus" class="w-5 h-5 mb-1 text-sky-600"></i> Gambar 1 <span class="text-[10px] text-red-500 font-bold">(Wajib)</span>
+              </span>
+            </div>
+
+            <div class="border-2 border-dashed border-slate-300 rounded-lg p-2 text-center flex flex-col items-center justify-center relative h-32 bg-slate-50">
+              <input type="file" id="file-2" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 2)">
+              <img id="prev-2" class="hidden w-full h-full object-contain rounded mb-1">
+              <span id="txt-2" class="text-xs text-slate-500 flex flex-col items-center">
+                <i data-lucide="image-plus" class="w-5 h-5 mb-1 text-slate-400"></i> Gambar 2
+              </span>
+            </div>
+
+            <div class="border-2 border-dashed border-slate-300 rounded-lg p-2 text-center flex flex-col items-center justify-center relative h-32 bg-slate-50">
+              <input type="file" id="file-3" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 3)">
+              <img id="prev-3" class="hidden w-full h-full object-contain rounded mb-1">
+              <span id="txt-3" class="text-xs text-slate-500 flex flex-col items-center">
+                <i data-lucide="image-plus" class="w-5 h-5 mb-1 text-slate-400"></i> Gambar 3
+              </span>
+            </div>
+
+            <div class="border-2 border-dashed border-slate-300 rounded-lg p-2 text-center flex flex-col items-center justify-center relative h-32 bg-slate-50">
+              <input type="file" id="file-4" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewImage(this, 4)">
+              <img id="prev-4" class="hidden w-full h-full object-contain rounded mb-1">
+              <span id="txt-4" class="text-xs text-slate-500 flex flex-col items-center">
+                <i data-lucide="image-plus" class="w-5 h-5 mb-1 text-slate-400"></i> Gambar 4
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="btnOpenPayment" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex justify-center items-center gap-2">
+          <i data-lucide="credit-card" class="w-5 h-5"></i>
+          <span id="btnSubmitText">Teruskan ke Pembayaran Touch 'n Go (RM0.50)</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ==================== 2. DASHBOARD / SENARAI ==================== -->
+    <section id="menu-dashboard" class="hidden space-y-5">
+      <div class="flex flex-wrap justify-between items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Senarai Laporan OPR Telah Dijana</h2>
+          <p class="text-xs text-slate-500">Pilih laporan untuk dicetak atau dikemas kini. Laporan dengan simbol kunci memerlukan kata laluan.</p>
+        </div>
+        <button onclick="loadDataFromSheets()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
+        </button>
+      </div>
+
+      <!-- PENAPIS UNIT -->
+      <div class="flex flex-wrap gap-2 pt-1">
+        <button onclick="filterByUnit('SEMUA')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition bg-slate-800 text-white shadow-sm" data-unit="SEMUA">Semua Unit</button>
+        <button onclick="filterByUnit('Kokurikulum')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-unit="Kokurikulum">Kokurikulum</button>
+        <button onclick="filterByUnit('Koakademik')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-unit="Koakademik">Koakademik</button>
+        <button onclick="filterByUnit('Kurikulum')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-unit="Kurikulum">Kurikulum</button>
+        <button onclick="filterByUnit('Hem')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-unit="Hem">HEM</button>
+        <button onclick="filterByUnit('Pentadbiran')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-unit="Pentadbiran">Pentadbiran</button>
+        <button onclick="filterByUnit('Lain-lain')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-unit="Lain-lain">Lain-lain</button>
+      </div>
+
+      <!-- JADUAL -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-slate-100/80 border-b text-slate-700 uppercase text-xs font-bold">
+            <tr>
+              <th class="p-3.5">Sekolah & Unit</th>
+              <th class="p-3.5">Tarikh & Masa</th>
+              <th class="p-3.5">Aktiviti / Program</th>
+              <th class="p-3.5">Pelapor</th>
+              <th class="p-3.5 text-center">Status Akses</th>
+              <th class="p-3.5 text-center">Tindakan</th>
+            </tr>
+          </thead>
+          <tbody id="dashboardTableBody" class="divide-y text-slate-600">
+            <tr>
+              <td colspan="6" class="p-5 text-center text-slate-400">Memuat data dari Google Sheets...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== 3. CETAKAN SATU MUKA A4 ==================== -->
+    <section id="menu-print" class="hidden space-y-6">
+      <div class="flex flex-wrap justify-between items-center gap-4 no-print bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+        <div>
+          <label class="text-xs font-bold text-slate-700 block mb-1">Pilih Rekod Laporan untuk Dicetak:</label>
+          <select id="selectRecordToPrint" onchange="triggerPrintView(this.value)" class="border border-slate-300 rounded-lg p-2 text-sm min-w-[280px] bg-white font-medium">
+            <option value="">-- Pilih Aktiviti --</option>
+          </select>
+        </div>
+        <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-lg shadow text-sm font-bold flex items-center gap-2 transition">
+          <i data-lucide="printer" class="w-4 h-4"></i> Cetak Laporan (Satu Muka A4)
+        </button>
+      </div>
+
+      <!-- TEMPLAT CETAKAN A4 -->
+      <div id="printArea" class="sheet-a4 mx-auto bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex flex-col justify-between relative overflow-hidden">
+        
+        <div id="printContentPlaceholder" class="m-auto text-center py-24 text-slate-400 flex flex-col items-center">
+          <i data-lucide="file-search" class="w-12 h-12 mb-3 text-slate-300"></i>
+          <p class="text-sm font-medium">Sila pilih aktiviti daripada senarai untuk memaparkan lembaran cetakan OPR.</p>
+        </div>
+
+        <div id="printContentDetails" class="hidden flex-1 flex flex-col justify-between h-full">
+          <div>
+            <!-- KEPALA SURAT DINAMIK -->
+            <div id="printUnitHeader" class="relative text-white p-4 rounded-xl shadow-sm mb-3 flex items-center justify-between overflow-hidden" style="background-color: #800000;">
+              <div class="flex items-center gap-3.5 relative z-10">
+                <img id="p-logo" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>" alt="Logo Sekolah" class="w-14 h-14 object-contain bg-white rounded-xl p-1 shadow hidden">
+                <div id="p-default-icon" class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center text-white">
+                  <i data-lucide="school" class="w-8 h-8"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h2 id="p-school-name" class="text-base font-black uppercase tracking-wider text-white drop-shadow-sm">-</h2>
+                    <span id="p-unit-tag" class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-white/20 tracking-wider text-white border border-white/25">KOKURIKULUM</span>
+                  </div>
+                  <p id="p-school-info" class="text-[10px] text-white/90 leading-tight mt-0.5">-</p>
+                  <h3 id="p-unit-badge" class="text-xs font-bold uppercase tracking-wide mt-1 text-amber-200 flex items-center gap-1.5">
+                    <span id="p-unit-icon"><i data-lucide="award" class="w-3.5 h-3.5 inline"></i></span>
+                    <span id="p-unit-title">LAPORAN AKTIVITI SATU MUKA</span>
+                  </h3>
+                </div>
+              </div>
+
+              <div class="text-right relative z-10 hidden sm:flex flex-col items-end">
+                <div class="flex items-center gap-1 px-2.5 py-1 bg-black/25 rounded-md border border-white/20 text-[10px] font-bold text-white uppercase tracking-wider">
+                  <i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-300"></i> Format Standard OPR
+                </div>
+                <span class="text-[9px] text-white/75 mt-1 font-mono">Dokumen Rasmi Sekolah</span>
+              </div>
+            </div>
+
+            <!-- JADUAL MAKLUMAT PROGRAM -->
+            <table class="w-full text-xs border-collapse border border-slate-300 rounded-lg overflow-hidden mb-2.5">
+              <tr>
+                <td class="border border-slate-300 p-2 font-bold bg-slate-100 text-slate-700 w-1/4">Nama Program / Aktiviti</td>
+                <td id="p-aktiviti" class="border border-slate-300 p-2 font-black text-slate-900 text-xs tracking-wide" colspan="3"></td>
+              </tr>
+              <tr>
+                <td class="border border-slate-300 p-2 font-bold bg-slate-100 text-slate-700">Unit / Sektor</td>
+                <td id="p-unit-text" class="border border-slate-300 p-2 font-semibold text-slate-800" colspan="3"></td>
+              </tr>
+              <tr>
+                <td class="border border-slate-300 p-2 font-bold bg-slate-100 text-slate-700">Tarikh & Hari</td>
+                <td id="p-tarikh" class="border border-slate-300 p-2 text-slate-800 font-medium w-1/4"></td>
+                <td class="border border-slate-300 p-2 font-bold bg-slate-100 text-slate-700 w-1/6">Masa Aktiviti</td>
+                <td id="p-masa" class="border border-slate-300 p-2 text-slate-800 font-medium"></td>
+              </tr>
+              <tr>
+                <td class="border border-slate-300 p-2 font-bold bg-slate-100 text-slate-700 align-top">Penerangan Aktiviti</td>
+                <td id="p-penerangan" class="border border-slate-300 p-2 whitespace-pre-line leading-relaxed text-slate-800 font-normal" colspan="3"></td>
+              </tr>
+              <tr>
+                <td class="border border-slate-300 p-2 font-bold bg-slate-100 text-slate-700 align-top">Hasil & Refleksi</td>
+                <td id="p-hasil" class="border border-slate-300 p-2 whitespace-pre-line leading-relaxed text-slate-800 font-normal" colspan="3"></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- DOKUMENTASI BERGAMBAR A4 -->
+          <div class="flex-1 flex flex-col justify-start my-1.5 min-h-[125mm]">
+            <div class="flex items-center justify-between border-b-2 pb-1 mb-2 border-slate-200">
+              <h4 class="font-black text-xs text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="camera" class="w-3.5 h-3.5 text-slate-600"></i> Evidens & Dokumentasi Bergambar:
+              </h4>
+              <span class="text-[10px] font-semibold text-slate-500 italic">Dokumentasi Pelaksanaan Program</span>
+            </div>
+
+            <div id="printImagesContainer" class="flex-1 grid gap-2.5 w-full items-stretch"></div>
+          </div>
+
+          <!-- PENGESAHAN PELAPOR BAWAH -->
+          <div class="pt-2 border-t border-slate-300">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex items-center justify-between text-xs">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold">
+                  <i data-lucide="user-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <p class="text-[10px] text-slate-500 uppercase font-bold">Disediakan Oleh:</p>
+                  <p id="p-pelapor-nama" class="font-black text-slate-900 text-xs">-</p>
+                  <p id="p-pelapor-jawatan" class="text-[11px] text-slate-600 font-medium">-</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[10px] font-bold uppercase tracking-wide">
+                  Laporan Lengkap
+                </span>
+                <p class="text-[9px] text-slate-400 mt-1">Dijana pada: <span id="p-print-date">-</span></p>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-[9px] text-slate-400 pt-1.5 mt-1 border-t border-slate-100">
+              <span>Sistem Pelaporan Satu Muka Digital &bull; E-Laporan OPR</span>
+              <span>Rekod ID: <span id="p-last-update">-</span></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL 1: PEMBAYARAN TOUCH 'N GO ==================== -->
+  <div id="paymentModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-center relative">
+      <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="qr-code" class="w-6 h-6"></i>
+      </div>
+
+      <h3 class="text-lg font-black text-slate-800">Pembayaran Menjana Laporan</h3>
+      <p class="text-xs text-slate-500 mt-1">Sila imbas kod DuitNow QR Touch 'n Go untuk membuat pembayaran sebanyak <b class="text-sky-600 text-sm">RM0.50</b>.</p>
+
+      <!-- Paparan QR Code Touch 'n Go -->
+      <div class="my-4 bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center">
+        <!-- Tukar src di bawah kepada fail imej kod QR Touch 'n Go eWallet / DuitNow anda -->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=DuitNow-TouchNGo-RM0.50" alt="QR Touch 'n Go" class="w-44 h-44 object-contain rounded-lg shadow-sm border border-slate-300">
+        <span class="mt-2 text-xs font-bold text-slate-700">Jumlah: RM0.50</span>
+        <span class="text-[10px] text-slate-400">Touch 'n Go eWallet / DuitNow QR</span>
+      </div>
+
+      <!-- Borang No Rujukan -->
+      <div class="text-left space-y-3 mb-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">No. Rujukan Transaksi TnG (4-6 angka terakhir) <span class="text-red-500">*</span></label>
+          <input type="text" id="tngRefInput" required placeholder="cth: 984512" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm text-center font-mono focus:ring-2 focus:ring-sky-500">
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button type="button" onclick="closePaymentModal()" class="w-1/3 py-2.5 border border-slate-300 text-slate-600 font-bold rounded-xl text-xs hover:bg-slate-100">Batal</button>
+        <button type="button" onclick="proceedSaveAndGenerate()" id="btnConfirmPayment" class="w-2/3 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+          <i data-lucide="check" class="w-4 h-4"></i> Sahkan & Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: KATA LALUAN KESELAMATAN ==================== -->
+  <div id="passwordModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center relative">
+      <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="shield-alert" class="w-6 h-6"></i>
+      </div>
+
+      <h3 class="text-base font-black text-slate-800">Laporan Terkunci</h3>
+      <p class="text-xs text-slate-500 mt-1">Laporan ini dilindungi dengan kata laluan oleh pelapor. Sila masukkan kata laluan untuk membuka.</p>
+
+      <div class="my-4 text-left">
+        <input type="password" id="inputVerifyPassword" placeholder="Masukkan kata laluan..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm text-center focus:ring-2 focus:ring-amber-500">
+        <p id="passwordError" class="text-[11px] text-red-500 font-bold text-center mt-1.5 hidden">Kata laluan tidak tepat!</p>
+      </div>
+
+      <div class="flex gap-2">
+        <button type="button" onclick="closePasswordModal()" class="w-1/2 py-2.5 border border-slate-300 text-slate-600 font-bold rounded-xl text-xs hover:bg-slate-100">Batal</button>
+        <button type="button" onclick="verifyPasswordAndProceed()" class="w-1/2 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+          Buka Laporan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // URL Google Apps Script Web App anda
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzede3L7tgU4zUwW_qwOENAZdMAuEdjWSNZ_t6zqvTQRRZz0qHrbRgfPiVNUZxGiP7Ulw/exec";
+
+    let storedReports = [];
+    let currentFilter = "SEMUA";
+    const base64Images = ["", "", "", ""];
+    let base64SchoolLogo = "";
+    let pendingAuthIndex = null;
+    let pendingAuthAction = null; // 'print' atau 'edit'
+
+    const UNIT_CONFIG = {
+      'Kokurikulum': { bg: '#800000', icon: 'trophy', label: 'Kokurikulum', badge: 'bg-red-900 text-white', title: 'LAPORAN AKTIVITI KOKURIKULUM' },
+      'Koakademik': { bg: '#c2410c', icon: 'sparkles', label: 'Koakademik', badge: 'bg-orange-700 text-white', title: 'LAPORAN AKTIVITI KOAKADEMIK' },
+      'Kurikulum': { bg: '#1d4ed8', icon: 'book-open', label: 'Kurikulum', badge: 'bg-blue-700 text-white', title: 'LAPORAN PROGRAM KURIKULUM & AKADEMIK' },
+      'Hem': { bg: '#4338ca', icon: 'shield-check', label: 'HEM', badge: 'bg-indigo-700 text-white', title: 'LAPORAN HAL EHWAL MURID (HEM)' },
+      'Pentadbiran': { bg: '#047857', icon: 'building-2', label: 'Pentadbiran', badge: 'bg-emerald-700 text-white', title: 'LAPORAN PROGRAM PENTADBIRAN & PENGURUSAN' },
+      'Lain-lain': { bg: '#334155', icon: 'folder-kanban', label: 'Lain-lain', badge: 'bg-slate-700 text-white', title: 'LAPORAN DOKUMENTASI PROGRAM SEKOLAH' }
+    };
+
+    lucide.createIcons();
+
+    function switchTab(tab) {
+      ['form', 'dashboard', 'print'].forEach(t => {
+        document.getElementById(`menu-${t}`).classList.add('hidden');
+        document.getElementById(`btn-${t}`).className = "nav-btn px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition flex items-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-700";
+      });
+
+      document.getElementById(`menu-${tab}`).classList.remove('hidden');
+      document.getElementById(`btn-${tab}`).className = "nav-btn px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-md transition flex items-center gap-1.5 bg-white text-slate-900 shadow";
+
+      if (tab === 'dashboard' || tab === 'print') {
+        loadDataFromSheets();
+      }
+    }
+
+    function togglePasswordInput(val) {
+      const container = document.getElementById('passwordFieldContainer');
+      const passInput = document.getElementById('laporanPassword');
+      if (val === 'Katalaluan') {
+        container.classList.remove('hidden');
+        passInput.required = true;
+      } else {
+        container.classList.add('hidden');
+        passInput.required = false;
+        passInput.value = '';
+      }
+    }
+
+    function autoFillDay(dateStr) {
+      if (!dateStr) return;
+      const days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
+      const date = new Date(dateStr);
+      document.getElementById('hari').value = days[date.getDay()];
+    }
+
+    // Pemampatan Gambar Logo Sekolah
+    function previewSchoolLogo(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const maxDim = 500;
+            let width = img.width;
+            let height = img.height;
+            if (width > height && width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            base64SchoolLogo = canvas.toDataURL('image/png', 0.9);
+            const prev = document.getElementById('logoPreview');
+            prev.src = base64SchoolLogo;
+            prev.classList.remove('hidden');
+            document.getElementById('logoPlaceholder').classList.add('hidden');
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Pemampatan Gambar Dokumentasi
+    function previewImage(input, index) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            const maxDim = 1100;
+            let width = img.width;
+            let height = img.height;
+            if (width > height && width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+            const prevEl = document.getElementById(`prev-${index}`);
+            prevEl.src = compressedBase64;
+            prevEl.classList.remove('hidden');
+            document.getElementById(`txt-${index}`).classList.add('hidden');
+            base64Images[index - 1] = compressedBase64;
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Pra-Hantar: Semak borang & Buka Modal Bayaran RM0.50
+    function handlePreSubmit(e) {
+      e.preventDefault();
+
+      const existingId = document.getElementById('reportId').value;
+      if (!existingId && !base64Images[0]) {
+        alert("Sila muat naik sekurang-kurangnya Gambar 1 Dokumentasi!");
+        return;
+      }
+
+      const jenisAkses = document.getElementById('jenisAkses').value;
+      const pass = document.getElementById('laporanPassword').value;
+      if (jenisAkses === 'Katalaluan' && !pass.trim()) {
+        alert("Sila tetapkan kata laluan untuk laporan ini!");
+        return;
+      }
+
+      // Buka modal bayaran Touch 'n Go RM0.50
+      document.getElementById('tngRefInput').value = '';
+      document.getElementById('paymentModal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closePaymentModal() {
+      document.getElementById('paymentModal').classList.add('hidden');
+    }
+
+    // Pengesahan Bayaran & Hantar ke Google Apps Script
+    async function proceedSaveAndGenerate() {
+      const tngRef = document.getElementById('tngRefInput').value.trim();
+      if (!tngRef) {
+        alert("Sila masukkan No. Rujukan transaksi Touch 'n Go anda!");
+        return;
+      }
+
+      const existingId = document.getElementById('reportId').value;
+      const btn = document.getElementById('btnConfirmPayment');
+      btn.disabled = true;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Memproses Laporan...`;
+      lucide.createIcons();
+
+      const payload = {
+        id: existingId,
+        namaSekolah: document.getElementById('namaSekolah').value,
+        maklumatSekolah: document.getElementById('maklumatSekolah').value,
+        logoSekolah: base64SchoolLogo,
+        jenisAkses: document.getElementById('jenisAkses').value,
+        kataLaluan: document.getElementById('laporanPassword').value,
+        unit: document.getElementById('aktivitiUnit').value,
+        tarikh: document.getElementById('tarikh').value,
+        hari: document.getElementById('hari').value,
+        masa: document.getElementById('masa').value,
+        aktiviti: document.getElementById('aktiviti').value,
+        namaPelapor: document.getElementById('namaPelapor').value,
+        jawatan: document.getElementById('jawatan').value,
+        penerangan: document.getElementById('penerangan').value,
+        hasil: document.getElementById('hasil').value,
+        images: base64Images,
+        tngRef: tngRef
+      };
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        alert("Bayaran RM0.50 disahkan! Laporan OPR berjaya dijana dan disimpan.");
+        closePaymentModal();
+        cancelEditMode();
+        switchTab('dashboard');
+      } catch (error) {
+        alert("Ralat semasa penghantaran: " + error.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> Sahkan & Simpan`;
+        lucide.createIcons();
+      }
+    }
+
+    // Ambil data Google Sheets menggunakan JSONP
+    function loadDataFromSheets() {
+      const tbody = document.getElementById('dashboardTableBody');
+      tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500"><i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i>Sedang memuat data dari Google Sheets...</td></tr>`;
+      lucide.createIcons();
+
+      const oldScript = document.getElementById('jsonp-script');
+      if (oldScript) oldScript.remove();
+
+      const script = document.createElement('script');
+      script.id = 'jsonp-script';
+      script.src = `${GOOGLE_SCRIPT_URL}?callback=handleSheetsData&t=${new Date().getTime()}`;
+      script.onerror = function() {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="p-6 text-center text-red-600">
+              <p class="font-bold">Gagal berhubung dengan Google Apps Script!</p>
+              <p class="text-xs text-slate-500 mt-1">Pastikan deployment Web App ditetapkan kepada <b>Anyone</b>.</p>
+            </td>
+          </tr>`;
+      };
+      document.body.appendChild(script);
+    }
+
+    window.handleSheetsData = function(data) {
+      storedReports = Array.isArray(data) ? data : [];
+      renderDashboardTable();
+      populatePrintDropdown();
+    };
+
+    function filterByUnit(unit) {
+      currentFilter = unit;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-unit') === unit) {
+          btn.className = "filter-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition bg-slate-800 text-white shadow-sm";
+        } else {
+          btn.className = "filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100";
+        }
+      });
+      renderDashboardTable();
+    }
+
+    function renderDashboardTable() {
+      const tbody = document.getElementById('dashboardTableBody');
+      tbody.innerHTML = '';
+
+      let filtered = storedReports;
+      if (currentFilter !== "SEMUA") {
+        filtered = storedReports.filter(item => (item['Unit'] || '').toLowerCase() === currentFilter.toLowerCase());
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Tiada rekod laporan ditemui.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const rawIndex = storedReports.findIndex(orig => orig['ID'] === item['ID']);
+        const unitName = item['Unit'] || 'Kokurikulum';
+        const cfg = UNIT_CONFIG[unitName] || UNIT_CONFIG['Lain-lain'];
+        const isLocked = item['Jenis Akses'] === 'Katalaluan';
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/80 border-b transition";
+        tr.innerHTML = `
+          <td class="p-3.5">
+            <span class="font-bold text-slate-800 block text-xs">${item['Nama Sekolah'] || '-'}</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${cfg.badge} inline-block mt-1">
+              ${unitName}
+            </span>
+          </td>
+          <td class="p-3.5 font-semibold text-slate-800 text-xs">
+            ${item['Tarikh'] || '-'}<br>
+            <span class="text-[11px] font-normal text-slate-500">${item['Hari'] || ''} (${item['Masa'] || '-'})</span>
+          </td>
+          <td class="p-3.5 font-bold text-slate-800 max-w-[200px] truncate text-xs">${item['Aktiviti'] || '-'}</td>
+          <td class="p-3.5 text-xs text-slate-700">
+            <b>${item['Nama Pelapor'] || '-'}</b><br>
+            <span class="text-[11px] text-slate-500">${item['Jawatan'] || '-'}</span>
+          </td>
+          <td class="p-3.5 text-center">
+            ${isLocked ? 
+              '<span class="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-1 rounded-md border border-amber-200"><i data-lucide="lock" class="w-3 h-3"></i> Berkunci</span>' : 
+              '<span class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200"><i data-lucide="unlock" class="w-3 h-3"></i> Awam</span>'
+            }
+          </td>
+          <td class="p-3.5 text-center">
+            <div class="flex items-center justify-center gap-1.5">
+              <button onclick="requestAccess(${rawIndex}, 'edit')" class="text-xs bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold px-2.5 py-1.5 rounded transition flex items-center gap-1">
+                <i data-lucide="edit" class="w-3 h-3"></i> Edit
+              </button>
+              <button onclick="requestAccess(${rawIndex}, 'print')" class="text-xs bg-sky-100 hover:bg-sky-200 text-sky-800 font-bold px-2.5 py-1.5 rounded transition flex items-center gap-1">
+                <i data-lucide="printer" class="w-3 h-3"></i> Cetak
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      lucide.createIcons();
+    }
+
+    function populatePrintDropdown() {
+      const select = document.getElementById('selectRecordToPrint');
+      select.innerHTML = '<option value="">-- Pilih Aktiviti --</option>';
+      storedReports.forEach((item, index) => {
+        const isLocked = item['Jenis Akses'] === 'Katalaluan';
+        const opt = document.createElement('option');
+        opt.value = index;
+        opt.textContent = `${isLocked ? '🔒 ' : ''}[${item['Unit'] || 'Unit'}] ${item['Tarikh']} - ${item['Aktiviti']} (${item['Nama Sekolah'] || 'Sekolah'})`;
+        select.appendChild(opt);
+      });
+    }
+
+    // Mekanisme Pengesahan Kata Laluan
+    function requestAccess(index, action) {
+      const record = storedReports[index];
+      if (!record) return;
+
+      if (record['Jenis Akses'] === 'Katalaluan') {
+        pendingAuthIndex = index;
+        pendingAuthAction = action;
+        document.getElementById('inputVerifyPassword').value = '';
+        document.getElementById('passwordError').classList.add('hidden');
+        document.getElementById('passwordModal').classList.remove('hidden');
+      } else {
+        // Terus buka jika status Awam
+        executeAction(index, action);
+      }
+    }
+
+    function verifyPasswordAndProceed() {
+      const inputPass = document.getElementById('inputVerifyPassword').value.trim();
+      const record = storedReports[pendingAuthIndex];
+
+      if (record && record['Kata Laluan'] === inputPass) {
+        closePasswordModal();
+        executeAction(pendingAuthIndex, pendingAuthAction);
+      } else {
+        document.getElementById('passwordError').classList.remove('hidden');
+      }
+    }
+
+    function closePasswordModal() {
+      document.getElementById('passwordModal').classList.add('hidden');
+      pendingAuthIndex = null;
+      pendingAuthAction = null;
+    }
+
+    function executeAction(index, action) {
+      if (action === 'print') {
+        switchTab('print');
+        document.getElementById('selectRecordToPrint').value = index;
+        renderPrintTemplate(index);
+      } else if (action === 'edit') {
+        editReport(index);
+      }
+    }
+
+    function triggerPrintView(index) {
+      if (index === "") {
+        renderPrintTemplate("");
+        return;
+      }
+      requestAccess(index, 'print');
+    }
+
+    // Muat semula data ke borang untuk suntingan
+    function editReport(index) {
+      const d = storedReports[index];
+      if (!d) return;
+
+      switchTab('form');
+
+      document.getElementById('reportId').value = d['ID'] || '';
+      document.getElementById('editReportIdText').textContent = `${d['ID']} (${d['Aktiviti']})`;
+      document.getElementById('editModeAlert').classList.remove('hidden');
+
+      document.getElementById('namaSekolah').value = d['Nama Sekolah'] || '';
+      document.getElementById('maklumatSekolah').value = d['Maklumat Sekolah'] || '';
+      
+      if (d['Logo Sekolah'] && d['Logo Sekolah'].trim() !== '') {
+        base64SchoolLogo = d['Logo Sekolah'];
+        const prev = document.getElementById('logoPreview');
+        prev.src = d['Logo Sekolah'];
+        prev.classList.remove('hidden');
+        document.getElementById('logoPlaceholder').classList.add('hidden');
+      }
+
+      document.getElementById('jenisAkses').value = d['Jenis Akses'] || 'Awam';
+      togglePasswordInput(d['Jenis Akses'] || 'Awam');
+      document.getElementById('laporanPassword').value = d['Kata Laluan'] || '';
+
+      document.getElementById('aktivitiUnit').value = d['Unit'] || '';
+      document.getElementById('tarikh').value = d['Tarikh'] || '';
+      document.getElementById('hari').value = d['Hari'] || '';
+      document.getElementById('masa').value = d['Masa'] || '';
+      document.getElementById('namaPelapor').value = d['Nama Pelapor'] || '';
+      document.getElementById('jawatan').value = d['Jawatan'] || '';
+      document.getElementById('aktiviti').value = d['Aktiviti'] || '';
+      document.getElementById('penerangan').value = d['Penerangan'] || '';
+      document.getElementById('hasil').value = d['Hasil'] || '';
+
+      for (let i = 1; i <= 4; i++) {
+        const imgKey = `Gambar ${i}`;
+        const existingImg = d[imgKey] || '';
+        base64Images[i - 1] = existingImg;
+        if (existingImg.trim() !== '') {
+          document.getElementById(`prev-${i}`).src = existingImg;
+          document.getElementById(`prev-${i}`).classList.remove('hidden');
+          document.getElementById(`txt-${i}`).classList.add('hidden');
+        } else {
+          document.getElementById(`prev-${i}`).classList.add('hidden');
+          document.getElementById(`txt-${i}`).classList.remove('hidden');
+        }
+      }
+
+      document.getElementById('btnSubmitText').textContent = "Kemaskini & Bayar RM0.50";
+      lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cancelEditMode() {
+      document.getElementById('laporanForm').reset();
+      document.getElementById('reportId').value = "";
+      document.getElementById('editModeAlert').classList.add('hidden');
+      document.getElementById('btnSubmitText').textContent = "Teruskan ke Pembayaran Touch 'n Go (RM0.50)";
+      
+      base64SchoolLogo = "";
+      document.getElementById('logoPreview').classList.add('hidden');
+      document.getElementById('logoPlaceholder').classList.remove('hidden');
+      togglePasswordInput('Awam');
+
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`prev-${i}`).classList.add('hidden');
+        document.getElementById(`txt-${i}`).classList.remove('hidden');
+        base64Images[i - 1] = "";
+      }
+    }
+
+    // Paparan Lembaran Cetakan A4 OPR Dinamik
+    function renderPrintTemplate(index) {
+      if (index === "" || !storedReports[index]) {
+        document.getElementById('printContentPlaceholder').classList.remove('hidden');
+        document.getElementById('printContentDetails').classList.add('hidden');
+        return;
+      }
+
+      const d = storedReports[index];
+      const unitName = d['Unit'] || 'Kokurikulum';
+      const cfg = UNIT_CONFIG[unitName] || UNIT_CONFIG['Lain-lain'];
+
+      const headerEl = document.getElementById('printUnitHeader');
+      headerEl.style.backgroundColor = cfg.bg;
+      document.getElementById('p-unit-tag').textContent = cfg.label.toUpperCase();
+      document.getElementById('p-unit-title').textContent = cfg.title;
+      document.getElementById('p-unit-icon').innerHTML = `<i data-lucide="${cfg.icon}" class="w-3.5 h-3.5 inline text-amber-200"></i>`;
+
+      // Maklumat Sekolah Dinamik & Logo
+      document.getElementById('p-school-name').textContent = d['Nama Sekolah'] || 'NAMA SEKOLAH';
+      document.getElementById('p-school-info').textContent = d['Maklumat Sekolah'] || '-';
+      document.getElementById('p-unit-text').textContent = `${unitName} (${d['Nama Sekolah'] || 'Sekolah'})`;
+
+      const logoImg = document.getElementById('p-logo');
+      const defaultIcon = document.getElementById('p-default-icon');
+      if (d['Logo Sekolah'] && d['Logo Sekolah'].trim() !== '') {
+        logoImg.src = d['Logo Sekolah'];
+        logoImg.classList.remove('hidden');
+        defaultIcon.classList.add('hidden');
+      } else {
+        logoImg.classList.add('hidden');
+        defaultIcon.classList.remove('hidden');
+      }
+
+      document.getElementById('p-aktiviti').textContent = d['Aktiviti'] || '-';
+      document.getElementById('p-tarikh').textContent = `${d['Tarikh'] || '-'} (${d['Hari'] || '-'})`;
+      document.getElementById('p-masa').textContent = d['Masa'] || '-';
+      document.getElementById('p-penerangan').textContent = d['Penerangan'] || '-';
+      document.getElementById('p-hasil').textContent = d['Hasil'] || '-';
+      
+      document.getElementById('p-pelapor-nama').textContent = d['Nama Pelapor'] || '-';
+      document.getElementById('p-pelapor-jawatan').textContent = d['Jawatan'] || '-';
+      document.getElementById('p-last-update').textContent = d['ID'] || '-';
+
+      const now = new Date();
+      document.getElementById('p-print-date').textContent = now.toLocaleDateString('ms-MY', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+      // Susun Gambar Dokumentasi
+      const container = document.getElementById('printImagesContainer');
+      container.innerHTML = '';
+      const validImages = [];
+      for (let i = 1; i <= 4; i++) {
+        const key = `Gambar ${i}`;
+        if (d[key] && d[key].trim() !== '') validImages.push(d[key]);
+      }
+
+      const totalImg = validImages.length;
+      if (totalImg === 1) {
+        container.className = "flex-1 flex flex-col items-center justify-center w-full";
+        const div = document.createElement('div');
+        div.className = "w-full max-w-xl h-full max-h-[140mm] border border-slate-300 rounded-xl p-2 bg-slate-50 flex flex-col justify-between";
+        div.innerHTML = `
+          <div class="w-full flex-1 flex items-center justify-center bg-white rounded-lg overflow-hidden">
+            <img class="max-w-full max-h-full object-contain" src="${validImages[0]}" alt="Evidens Bergambar 1">
+          </div>
+          <p class="text-[10px] text-slate-600 text-center mt-1 font-bold uppercase">DOKUMENTASI FOKUS PROGRAM</p>
+        `;
+        container.appendChild(div);
+      } else if (totalImg === 2) {
+        container.className = "flex-1 grid grid-cols-2 gap-3 items-stretch";
+        validImages.forEach((url, i) => {
+          const div = document.createElement('div');
+          div.className = "border border-slate-300 rounded-xl p-2 bg-slate-50 flex flex-col justify-between h-full";
+          div.innerHTML = `
+            <div class="w-full flex-1 flex items-center justify-center bg-white rounded-lg overflow-hidden min-h-[100mm]">
+              <img class="max-w-full max-h-full object-contain" src="${url}" alt="Gambar ${i + 1}">
+            </div>
+            <p class="text-[10px] text-slate-700 text-center mt-1 font-bold">Gambar Dokumentasi ${i + 1}</p>
+          `;
+          container.appendChild(div);
+        });
+      } else {
+        container.className = "flex-1 grid grid-cols-2 gap-2 items-stretch";
+        validImages.forEach((url, i) => {
+          const div = document.createElement('div');
+          const spanClass = (totalImg === 3 && i === 0) ? "col-span-2 min-h-[65mm]" : "col-span-1 min-h-[50mm]";
+          div.className = `border border-slate-300 rounded-xl p-1.5 bg-slate-50 flex flex-col justify-between ${spanClass}`;
+          div.innerHTML = `
+            <div class="w-full flex-1 flex items-center justify-center bg-white rounded-lg overflow-hidden">
+              <img class="max-w-full max-h-full object-contain" src="${url}" alt="Gambar ${i + 1}">
+            </div>
+            <p class="text-[9px] text-slate-700 text-center mt-1 font-semibold">Gambar Dokumentasi ${i + 1}</p>
+          `;
+          container.appendChild(div);
+        });
+      }
+
+      document.getElementById('printContentPlaceholder').classList.add('hidden');
+      document.getElementById('printContentDetails').classList.remove('hidden');
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
