@@ -12,9 +12,9 @@
   <style>
     .sheet-a4 {
       width: 210mm;
-      height: 297mm;
+      min-height: 297mm;
       max-height: 297mm;
-      padding: 8mm 10mm;
+      padding: 10mm 15mm;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -22,6 +22,10 @@
       overflow: hidden;
       background: #ffffff;
     }
+
+    /* Tanda Tangan Canvas Styling */
+    .sig-canvas { border: 1px dashed #cbd5e1; background: #fff; width: 100%; height: 100px; touch-action: none; border-radius: 8px; }
+    .sig-img { max-height: 50px; max-width: 150px; display: block; object-fit: contain; }
 
     @media print {
       @page {
@@ -193,9 +197,6 @@
             <div class="demo-watermark-grid">
               <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
               <div class="demo-watermark-row">HAK CIPTA TERPELIHARA &bull; LANGGAN RM20/BULAN UNTUK CETAKAN BERSIH</div>
-              <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
-              <div class="demo-watermark-row">HAK CIPTA TERPELIHARA &bull; LANGGAN RM20/BULAN UNTUK CETAKAN BERSIH</div>
-              <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
             </div>
             <div id="preview-opr-sheet" class="h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0 space-y-2">
@@ -321,7 +322,7 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Pelaporan Saya</button>
           
-          <!-- PANEL ADMIN - DISEMBUNYIKAN SECARA MUTLAK (HANYA MUNCUL JIKA ROLE ADMIN) -->
+          <!-- PANEL ADMIN - DIKUNCI KETAT (HIDDEN SECARA MUTLAK UNTUK USER BIASA) -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin</button>
 
           <!-- WHATSAPP HUBUNGI ADMIN -->
@@ -374,11 +375,67 @@
         </div>
       </section>
 
-      <!-- TAB CURAI ONLINE -->
-      <section id="view-curai" class="hidden max-w-2xl mx-auto bg-white p-8 rounded-2xl border text-center shadow-sm">
-        <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mx-auto mb-4"><i data-lucide="clipboard-list" class="w-8 h-8"></i></div>
-        <h3 class="text-xl font-black text-slate-800">Modul Minit Curai Online</h3>
-        <p class="text-xs text-slate-500 mt-2">Tapak modul Minit Curai Online telah sedia dihubungkan dengan akaun anda. Ciri kemasukan butiran akan diaktifkan tidak lama lagi!</p>
+      <!-- TAB CURAI ONLINE (DIKEMASKINI DENGAN BORANG LENGKAP & TANDATANGAN) -->
+      <section id="view-curai" class="hidden space-y-6">
+        <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+          <div class="border-b pb-4 mb-5 flex justify-between items-center">
+            <div>
+              <h2 class="text-lg font-black text-slate-800 flex items-center gap-2">
+                <i data-lucide="clipboard-list" class="text-sky-600"></i> Modul Minit Curai Online
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Sediakan minit curai rasmi taklimat, mesyuarat, atau kursus luar.</p>
+            </div>
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Aktif</span>
+          </div>
+
+          <form id="curaiForm" onsubmit="handleSaveCurai(event)" class="space-y-4">
+            <input type="hidden" id="curaiRowIndex" value="">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai *</label><input type="text" id="curNama" required placeholder="cth: Cikgu Zulkifli" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan & Gred *</label><input type="text" id="curJawatan" required placeholder="cth: GPK Kokurikulum (DG48)" class="w-full border rounded-lg p-2.5 text-xs"></div>
+            </div>
+
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="curTajuk" required placeholder="cth: Mesyuarat Penyelarasan Sukan MSSD" class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh *</label><input type="date" id="curTarikh" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="curMasa" required placeholder="8.00 pagi - 5.00 ptg" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="curTempat" required placeholder="PPD / Hotel" class="w-full border rounded-lg p-2.5 text-xs"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="curAnjuran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="curPengerusi" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="curKehadiran" required placeholder="cth: Semua Pengetua" class="w-full border rounded-lg p-2.5 text-xs"></div>
+            </div>
+
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="curButiran" rows="3" required placeholder="1. Perkara penting dibincangkan..." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Implikasi Kepada Sekolah *</label><textarea id="curImplikasi" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Sekolah *</label><textarea id="curTindakan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+
+            <div class="mb-3">
+              <label class="block text-xs font-bold text-slate-700 mb-1">Tandatangan Digital Penulis (Lukis di sini):</label>
+              <canvas id="curWriterCanvas" class="sig-canvas"></canvas>
+              <button type="button" class="mt-1 text-xs text-rose-600 font-semibold underline" onclick="clearCuraiSig()">Padam Tandatangan</button>
+            </div>
+
+            <div class="p-3 bg-slate-50 border rounded-xl mb-4 space-y-2">
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="curIsKawalan" onchange="toggleCuraiKekunci()" class="rounded border-slate-300">
+                <label for="curIsKawalan" class="text-xs font-bold text-rose-700 cursor-pointer">Simpan sebagai Minit Curai Kawalan (Rahsia Ber-password)</label>
+              </div>
+              <div id="curRuangKekunci" class="hidden pt-1">
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">Cipta Kata Laluan Dokumen:</label>
+                <input type="password" id="curPassword" placeholder="Kata laluan rahsia..." class="w-full border rounded-lg p-2 text-xs">
+              </div>
+            </div>
+
+            <button type="submit" id="btnSaveCurai" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
+              <i data-lucide="save" class="w-4 h-4"></i> Simpan Minit Curai ke Google Sheets
+            </button>
+          </form>
+        </div>
       </section>
 
       <!-- TAB MAKLUMAT SEKOLAH -->
@@ -462,19 +519,41 @@
 
       <!-- TAB REKOD PELAPORAN SAYA -->
       <section id="view-records" class="hidden space-y-4">
-        <div class="flex justify-between items-center bg-white p-4 rounded-xl border shadow-sm">
-          <div><h3 class="text-sm font-bold text-slate-800">Rekod Pelaporan Sekolah Saya</h3></div>
-          <button onclick="fetchUserReports()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula</button>
+        <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div>
+            <h3 class="text-sm font-bold text-slate-800">Rekod Pelaporan Sekolah Saya (OPR & Curai)</h3>
+            <p class="text-xs text-slate-400">Pilih jenis laporan untuk paparan rekod.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <select id="recordTypeSelect" onchange="fetchUserReports()" class="border rounded-lg px-2.5 py-1.5 text-xs bg-white font-semibold">
+              <option value="opr">Laporan OPR</option>
+              <option value="curai">Minit Curai</option>
+            </select>
+            <button onclick="fetchUserReports()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
+            </button>
+          </div>
         </div>
-        <div class="bg-white rounded-xl border overflow-x-auto shadow-sm">
+
+        <div class="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-sm">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b"><tr><th class="p-3">Tarikh</th><th class="p-3">Unit</th><th class="p-3">Aktiviti</th><th class="p-3">Pelapor</th><th class="p-3 text-center">Tindakan</th></tr></thead>
-            <tbody id="tblReportsBody" class="divide-y text-slate-600"><tr><td colspan="5" class="p-4 text-center text-slate-400">Memuatkan data...</td></tr></tbody>
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b">
+              <tr>
+                <th class="p-3">Tarikh</th>
+                <th class="p-3">Tajuk / Perkara</th>
+                <th class="p-3">Pegawai / Pelapor</th>
+                <th class="p-3 text-center">Status</th>
+                <th class="p-3 text-center">Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="tblReportsBody" class="divide-y text-slate-600">
+              <tr><td colspan="5" class="p-4 text-center text-slate-400">Memuatkan data...</td></tr>
+            </tbody>
           </table>
         </div>
       </section>
 
-      <!-- TAB PANEL ADMIN (TERKUNCI KUKUH UNTUK ADMIN SAHAJA) -->
+      <!-- TAB PANEL ADMIN (TERKUNCI SECARA MUTLAK UNTUK ADMIN SAHAJA) -->
       <section id="view-admin" class="hidden space-y-6">
         <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex justify-between items-center">
           <div><h2 class="text-xl font-black flex items-center gap-2 text-amber-300"><i data-lucide="shield-check" class="w-6 h-6"></i> Panel Pengurusan Admin</h2></div>
@@ -491,14 +570,16 @@
         </div>
       </section>
 
-      <!-- TEMPLAT CETAKAN A4 -->
+      <!-- TEMPLAT CETAKAN A4 (OPR & CURAI) -->
       <section id="view-print" class="hidden space-y-4">
         <div class="no-print flex justify-between items-center bg-white p-3.5 rounded-xl border max-w-4xl mx-auto">
           <button onclick="switchMenu('records')" class="text-xs font-bold text-slate-600">&larr; Kembali ke Senarai</button>
           <button onclick="executeOfficialPrint()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow"><i data-lucide="printer" class="w-4 h-4"></i> Cetak Dokumen Rasmi (A4)</button>
         </div>
+
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
-          <div id="officialPrintSheet" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300">
+          <!-- CETAKAN OPR -->
+          <div id="officialPrintSheetOPR" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden">
             <div class="shrink-0 space-y-2">
               <div id="p-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
                 <div class="flex items-center gap-3">
@@ -512,6 +593,7 @@
                 </div>
                 <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-0.5 rounded border border-white/20">Format 1 Muka OPR</span>
               </div>
+
               <table class="w-full text-[11px] border-collapse border border-slate-300 rounded-lg overflow-hidden leading-snug">
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 w-1/4">Nama Program</td><td id="p-aktiviti" class="border border-slate-300 p-1.5 font-black text-slate-900" colspan="3">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700">Tarikh & Hari</td><td id="p-datetime" class="border border-slate-300 p-1.5 font-medium text-slate-800" colspan="3">-</td></tr>
@@ -519,12 +601,14 @@
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 align-top">Hasil & Refleksi</td><td id="p-hasil" class="border border-slate-300 p-1.5 whitespace-pre-line text-slate-800" colspan="3">-</td></tr>
               </table>
             </div>
+
             <div class="flex-1 min-h-0 flex flex-col justify-between my-2 overflow-hidden">
               <div class="shrink-0 flex items-center justify-between border-b pb-1 mb-1.5 border-slate-200">
                 <h4 class="text-[11px] font-black uppercase text-slate-800 tracking-wider flex items-center gap-1.5"><i data-lucide="camera" class="w-3.5 h-3.5 text-slate-600"></i> Evidens & Dokumentasi Bergambar:</h4>
               </div>
               <div id="p-images-grid" class="flex-1 min-h-0 w-full overflow-hidden"></div>
             </div>
+
             <div class="shrink-0 pt-2 border-t border-slate-300 mt-auto">
               <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs">
                 <div class="flex items-center gap-3">
@@ -535,8 +619,51 @@
               </div>
             </div>
           </div>
+
+          <!-- CETAKAN MINIT CURAI -->
+          <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
+            <div class="shrink-0">
+              <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <img id="pc-logo" class="w-12 h-12 object-contain bg-white rounded-lg p-0.5 hidden shadow-sm">
+                  <div>
+                    <h2 id="pc-school-name" class="text-sm font-black uppercase text-white tracking-wide leading-tight">NAMA SEKOLAH</h2>
+                    <p id="pc-school-address" class="text-[9.5px] text-white/90 leading-tight mt-0.5">-</p>
+                    <span class="text-[10px] font-extrabold uppercase text-amber-300 tracking-wider inline-block mt-0.5">MINIT CURAI RASMI</span>
+                  </div>
+                </div>
+                <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-0.5 rounded border border-white/20">Format 1 Muka</span>
+              </div>
+
+              <table class="w-full text-[11px] border border-slate-300 mb-2 leading-snug">
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 w-1/3">1. Nama Pegawai</td><td id="pc-nama" class="border border-slate-300 p-1.5 font-bold text-slate-900">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">2. Jawatan & Gred</td><td id="pc-jawatan" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">3. Tajuk / Perkara</td><td id="pc-tajuk" class="border border-slate-300 p-1.5 font-black text-slate-900">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">4. Tarikh, Masa & Tempat</td><td id="pc-datetime" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">5. Anjuran & Pengerusi</td><td id="pc-anjuran" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100">6. Kehadiran</td><td id="pc-kehadiran" class="border border-slate-300 p-1.5">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">7. Butiran Mesyuarat</td><td id="pc-butiran" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">8. Implikasi Kepada Sekolah</td><td id="pc-implikasi" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 align-top">9. Tindakan Susulan</td><td id="pc-tindakan" class="border border-slate-300 p-1.5 whitespace-pre-line leading-relaxed">-</td></tr>
+              </table>
+            </div>
+
+            <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
+              <div>
+                <p class="text-[10px] text-slate-500 uppercase font-semibold">Tandatangan Pegawai Pelapor:</p>
+                <div id="pc-sig-area" class="my-1"></div>
+                <p id="pc-sig-nama" class="font-bold border-t border-slate-400 pt-1 text-[11px]">-</p>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] text-slate-500 uppercase font-semibold">Pengesahan Pengetua / Guru Besar:</p>
+                <div class="h-10"></div>
+                <p class="font-bold border-t border-slate-400 pt-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
     </main>
   </div>
 
@@ -597,6 +724,7 @@
     let adminUsersList = [];
 
     let trialLogo = "";
+    let curaiWriterSig = "";
     const trialImages = ["", "", "", ""];
 
     lucide.createIcons();
@@ -610,7 +738,69 @@
         currentUser = JSON.parse(savedUser);
         loadAppScreen();
       }
+      initCanvas('curaiWriterCanvas');
     };
+
+    // INISIALISASI CANVAS TANDATANGAN DIGITAL
+    function initCanvas(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let painting = false;
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      function start(e) { painting = true; draw(e); }
+      function end() { painting = false; ctx.beginPath(); saveCuraiSig(); }
+      function draw(e) {
+        if (!painting) return;
+        e.preventDefault();
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#000';
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }
+
+      canvas.addEventListener('mousedown', start);
+      canvas.addEventListener('mouseup', end);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('touchstart', start, { passive: false });
+      canvas.addEventListener('touchend', end);
+      canvas.addEventListener('touchmove', draw, { passive: false });
+    }
+
+    function clearCuraiSig() {
+      const canvas = document.getElementById('curaiWriterCanvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      curaiWriterSig = "";
+    }
+
+    function saveCuraiSig() {
+      const canvas = document.getElementById('curaiWriterCanvas');
+      const blank = document.createElement('canvas');
+      blank.width = canvas.width;
+      blank.height = canvas.height;
+      if (canvas.toDataURL() !== blank.toDataURL()) {
+        curaiWriterSig = canvas.toDataURL('image/png');
+      } else {
+        curaiWriterSig = "";
+      }
+    }
+
+    function toggleCuraiKekunci() {
+      const checked = document.getElementById('curIsKawalan').checked;
+      document.getElementById('curRuangKekunci').classList.toggle('hidden', !checked);
+    }
 
     function loadSchoolInfoForm() {
       if (!currentUser) return;
@@ -666,15 +856,9 @@
           if (newPass) currentUser.password = newPass;
           localStorage.setItem("opr_logged_user", JSON.stringify(currentUser));
           loadAccountInfoForm();
-        } else {
-          alert(result.message);
-        }
-      } catch (err) {
-        alert("Ralat: " + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Simpan Perubahan Maklumat Akaun";
-      }
+        } else { alert(result.message); }
+      } catch (err) { alert("Ralat: " + err.message); }
+      finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Akaun"; }
     }
 
     function compressUpdateLogo(input) {
@@ -734,30 +918,82 @@
       finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
     }
 
+    // SIMPAN MINIT CURAI KE GOOGLE SHEETS
+    async function handleSaveCurai(e) {
+      e.preventDefault();
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
+        alert("Langganan belum aktif!"); return;
+      }
+
+      const isKawalan = document.getElementById('curIsKawalan').checked;
+      const pass = document.getElementById('curPassword').value.trim();
+      if (isKawalan && !pass) {
+        alert("Sila masukkan kata laluan untuk Minit Curai Kawalan.");
+        return;
+      }
+
+      const btn = document.getElementById('btnSaveCurai');
+      btn.disabled = true;
+      btn.textContent = "Menyimpan Minit Curai...";
+
+      const payload = {
+        action: "save_curai",
+        username: currentUser.username,
+        id: document.getElementById('curaiRowIndex').value,
+        namaPegawai: document.getElementById('curNama').value.trim(),
+        jawatan: document.getElementById('curJawatan').value.trim(),
+        tajuk: document.getElementById('curTajuk').value.trim(),
+        tarikh: document.getElementById('curTarikh').value,
+        masa: document.getElementById('curMasa').value.trim(),
+        tempat: document.getElementById('curTempat').value.trim(),
+        anjuran: document.getElementById('curAnjuran').value.trim(),
+        pengerusi: document.getElementById('curPengerusi').value.trim(),
+        kehadiran: document.getElementById('curKehadiran').value.trim(),
+        butiran: document.getElementById('curButiran').value.trim(),
+        implikasi: document.getElementById('curImplikasi').value.trim(),
+        tindakan: document.getElementById('curTindakan').value.trim(),
+        signature: curaiWriterSig,
+        statusKawalan: isKawalan ? "Kawalan" : "Biasa",
+        password: isKawalan ? pass : ""
+      };
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if (result.status === "success") {
+          alert("Minit Curai berjaya disimpan!");
+          document.getElementById('curaiForm').reset();
+          clearCuraiSig();
+          fetchUserReports();
+          switchMenu('records');
+        } else {
+          alert("Ralat: " + result.message);
+        }
+      } catch (err) {
+        alert("Ralat sambungan: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Simpan Minit Curai ke Google Sheets";
+      }
+    }
+
     function renderDynamicImages(container, images) {
       container.innerHTML = '';
       const validImages = images.filter(img => img && img.trim() !== '');
       const total = validImages.length;
-
       if (total === 0) {
-        container.className = "w-full h-full flex items-center justify-center bg-slate-50 rounded-xl border-2 border-dashed border-slate-300 p-4";
-        container.innerHTML = `<div class="text-center text-slate-400"><p class="text-xs font-semibold">Tiada foto dokumentasi dimuat naik</p></div>`;
+        container.innerHTML = `<div class="text-center text-slate-400 p-4"><p class="text-xs font-semibold">Tiada foto dokumentasi</p></div>`;
         return;
       }
-
       if (total === 1) {
-        container.className = "w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden";
+        container.className = "w-full h-full flex flex-col justify-between items-center bg-slate-50 rounded-xl p-1.5 border min-h-0 overflow-hidden";
         container.innerHTML = `<div class="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden"><img src="${validImages[0]}" class="max-w-full max-h-full object-contain rounded-lg"></div>`;
       } else {
-        container.className = "w-full h-full grid grid-cols-2 gap-2.5 items-stretch min-h-0 overflow-hidden";
-        container.innerHTML = validImages.slice(0, 4).map((src, i) => `
-          <div class="w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden">
-            <div class="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden">
-              <img src="${src}" class="max-w-full max-h-full object-contain rounded-lg">
-            </div>
-            <span class="text-[8px] font-bold text-slate-600">Foto ${i+1}</span>
-          </div>
-        `).join('');
+        container.className = "w-full h-full grid grid-cols-2 gap-2 items-stretch min-h-0 overflow-hidden";
+        container.innerHTML = validImages.slice(0, 4).map(src => `<div class="w-full h-full flex items-center justify-center bg-slate-50 rounded-xl p-1 border overflow-hidden"><img src="${src}" class="max-w-full max-h-full object-contain rounded-lg"></div>`).join('');
       }
       lucide.createIcons();
     }
@@ -844,7 +1080,8 @@
     }
 
     function executeTrialPrint() {
-      document.getElementById('officialPrintSheet')?.classList.remove('print-active');
+      document.getElementById('officialPrintSheetOPR')?.classList.remove('print-active');
+      document.getElementById('officialPrintSheetCurai')?.classList.remove('print-active');
       document.getElementById('trialPrintSheet')?.classList.add('print-active');
       window.print();
     }
@@ -938,8 +1175,7 @@
       const navAdmin = document.getElementById('nav-admin');
       const alertBox = document.getElementById('subscriptionAlert');
 
-      // KAWALAN PAPARAN PANEL ADMIN YANG KETAT
-      if (currentUser && currentUser.role === "ADMIN") {
+      if (currentUser.role === "ADMIN") {
         adminBadge.classList.remove('hidden');
         navAdmin.classList.remove('hidden');
         badge.textContent = "Admin";
@@ -947,7 +1183,7 @@
         alertBox.classList.add('hidden');
       } else {
         adminBadge.classList.add('hidden');
-        navAdmin.classList.add('hidden'); // Sembunyikan mutlak untuk pengguna biasa
+        navAdmin.classList.add('hidden');
         if (currentUser.statusLangganan === "AKTIF") {
           badge.textContent = `Aktif (${currentUser.tarikhTamat})`;
           badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-emerald-600 text-white";
@@ -988,7 +1224,6 @@
           }
         }
       });
-
       document.getElementById(`view-${menu}`)?.classList.remove('hidden');
       const activeNav = document.getElementById(`nav-${menu}`);
       if (activeNav) {
@@ -999,6 +1234,7 @@
           activeNav.className = `nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow`;
         }
       }
+      if (menu === 'admin') loadAdminAllUsers();
     }
 
     async function loadAdminAllUsers() {
@@ -1114,10 +1350,12 @@
       } catch (err) { alert("Ralat: " + err.message); }
     }
 
+    // AMBIL SENARAI REKOD (BERDASARKAN PILIHAN OPR ATAU CURAI)
     function fetchUserReports() {
       if (!currentUser) return;
+      const type = document.getElementById('recordTypeSelect').value || "opr";
       const script = document.createElement('script');
-      script.src = `${GOOGLE_SCRIPT_URL}?username=${encodeURIComponent(currentUser.username)}&callback=renderReportsTable&t=${Date.now()}`;
+      script.src = `${GOOGLE_SCRIPT_URL}?username=${encodeURIComponent(currentUser.username)}&type=${type}&callback=renderReportsTable&t=${Date.now()}`;
       document.body.appendChild(script);
     }
 
@@ -1125,58 +1363,116 @@
       userReports = Array.isArray(data) ? data : [];
       const tbody = document.getElementById('tblReportsBody');
       tbody.innerHTML = '';
+      const type = document.getElementById('recordTypeSelect').value || "opr";
+
       if (userReports.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod dijumpai.</td></tr>`;
         return;
       }
+
       userReports.forEach((item, index) => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 border-b";
-        tr.innerHTML = `
-          <td class="p-3">${item['Tarikh']}</td>
-          <td class="p-3 font-semibold">${item['Unit']}</td>
-          <td class="p-3 font-bold">${item['Aktiviti']}</td>
-          <td class="p-3">${item['Nama Pelapor']}</td>
-          <td class="p-3 text-center"><button onclick="viewPrintRecord(${index})" class="px-2.5 py-1 bg-sky-600 text-white rounded font-bold text-[11px]">Cetak A4</button></td>
-        `;
+        if (type === 'opr') {
+          tr.innerHTML = `
+            <td class="p-3">${item['Tarikh']}</td>
+            <td class="p-3 font-semibold">${item['Unit']}</td>
+            <td class="p-3 font-bold">${item['Aktiviti']}</td>
+            <td class="p-3">${item['Nama Pelapor']}</td>
+            <td class="p-3 text-center"><button onclick="viewPrintRecord(${index}, 'opr')" class="px-2.5 py-1 bg-sky-600 text-white rounded font-bold text-[11px]">Cetak OPR</button></td>
+          `;
+        } else {
+          let isRahsia = item['StatusKawalan'] === 'Kawalan';
+          tr.innerHTML = `
+            <td class="p-3">${item['Tarikh']}</td>
+            <td class="p-3 font-bold">${item['Tajuk / Perkara']}</td>
+            <td class="p-3">${item['Nama Pegawai']}</td>
+            <td class="p-3 text-center">${isRahsia ? '<span class="text-rose-600 font-bold">Rahsia</span>' : '<span class="text-slate-600">Biasa</span>'}</td>
+            <td class="p-3 text-center"><button onclick="viewPrintRecord(${index}, 'curai')" class="px-2.5 py-1 bg-emerald-600 text-white rounded font-bold text-[11px]">Cetak Curai</button></td>
+          `;
+        }
         tbody.appendChild(tr);
       });
       lucide.createIcons();
     };
 
-    function viewPrintRecord(index) {
+    function viewPrintRecord(index, type) {
       const d = userReports[index];
       if (!d) return;
-      const unitVal = d['Unit'] || 'Kokurikulum';
-      const cfg = UNIT_CONFIG[unitVal] || UNIT_CONFIG['Lain-lain'];
 
-      document.getElementById('p-unit-header').style.backgroundColor = cfg.bg;
-      document.getElementById('p-school-name').textContent = currentUser.namaSekolah || "SEKOLAH";
-      document.getElementById('p-school-address').textContent = currentUser.alamatSekolah || "-";
-      document.getElementById('p-school-contact').textContent = `Kod: ${currentUser.kodSekolah || '-'} • Tel: ${currentUser.noTelSekolah || '-'} • Emel: ${currentUser.emelRasmiSekolah || '-'}`;
-      
-      const logoEl = document.getElementById('p-logo');
-      if (currentUser.logoSekolah) { logoEl.src = currentUser.logoSekolah; logoEl.classList.remove('hidden'); }
-      else { logoEl.classList.add('hidden'); }
+      if (type === 'opr') {
+        document.getElementById('officialPrintSheetOPR').classList.remove('hidden');
+        document.getElementById('officialPrintSheetCurai').classList.add('hidden');
 
-      document.getElementById('p-unit').textContent = cfg.title;
-      document.getElementById('p-aktiviti').textContent = d['Aktiviti'] || '-';
-      document.getElementById('p-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Hari'] || '-'}) | Masa: ${d['Masa'] || '-'}`;
-      document.getElementById('p-penerangan').textContent = d['Penerangan'] || '-';
-      document.getElementById('p-hasil').textContent = d['Hasil'] || '-';
-      document.getElementById('p-pelapor-nama').textContent = d['Nama Pelapor'] || '-';
-      document.getElementById('p-pelapor-jawatan').textContent = d['Jawatan'] || '-';
-      document.getElementById('p-id').textContent = d['ID'] || '-';
-      document.getElementById('p-print-date').textContent = new Date().toLocaleDateString('ms-MY');
+        const unitVal = d['Unit'] || 'Kokurikulum';
+        const cfg = UNIT_CONFIG[unitVal] || UNIT_CONFIG['Lain-lain'];
 
-      renderDynamicImages(document.getElementById('p-images-grid'), [d['Gambar 1'], d['Gambar 2'], d['Gambar 3'], d['Gambar 4']]);
+        document.getElementById('p-unit-header').style.backgroundColor = cfg.bg;
+        document.getElementById('p-school-name').textContent = currentUser.namaSekolah || "SEKOLAH";
+        document.getElementById('p-school-address').textContent = currentUser.alamatSekolah || "-";
+        document.getElementById('p-school-contact').textContent = `Kod: ${currentUser.kodSekolah || '-'} • Tel: ${currentUser.noTelSekolah || '-'} • Emel: ${currentUser.emelRasmiSekolah || '-'}`;
+        
+        const logoEl = document.getElementById('p-logo');
+        if (currentUser.logoSekolah) { logoEl.src = currentUser.logoSekolah; logoEl.classList.remove('hidden'); }
+        else { logoEl.classList.add('hidden'); }
+
+        document.getElementById('p-unit').textContent = cfg.title;
+        document.getElementById('p-aktiviti').textContent = d['Aktiviti'] || '-';
+        document.getElementById('p-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Hari'] || '-'}) | Masa: ${d['Masa'] || '-'}`;
+        document.getElementById('p-penerangan').textContent = d['Penerangan'] || '-';
+        document.getElementById('p-hasil').textContent = d['Hasil'] || '-';
+        document.getElementById('p-pelapor-nama').textContent = d['Nama Pelapor'] || '-';
+        document.getElementById('p-pelapor-jawatan').textContent = d['Jawatan'] || '-';
+        document.getElementById('p-id').textContent = d['ID'] || '-';
+        document.getElementById('p-print-date').textContent = new Date().toLocaleDateString('ms-MY');
+
+        renderDynamicImages(document.getElementById('p-images-grid'), [d['Gambar 1'], d['Gambar 2'], d['Gambar 3'], d['Gambar 4']]);
+      } else {
+        // Paparan Cetakan Minit Curai
+        if (d['StatusKawalan'] === 'Kawalan') {
+          let pass = prompt("Minit Curai ini dilindungi kata laluan rahsia. Sila masukkan kata laluan:");
+          if (pass !== d['Password']) {
+            alert("Kata laluan tidak tepat!");
+            return;
+          }
+        }
+
+        document.getElementById('officialPrintSheetCurai').classList.remove('hidden');
+        document.getElementById('officialPrintSheetOPR').classList.add('hidden');
+
+        document.getElementById('pc-school-name').textContent = currentUser.namaSekolah || "SEKOLAH";
+        document.getElementById('pc-school-address').textContent = currentUser.alamatSekolah || "-";
+        const logoEl = document.getElementById('pc-logo');
+        if (currentUser.logoSekolah) { logoEl.src = currentUser.logoSekolah; logoEl.classList.remove('hidden'); }
+        else { logoEl.classList.add('hidden'); }
+
+        document.getElementById('pc-nama').textContent = d['Nama Pegawai'] || '-';
+        document.getElementById('pc-jawatan').textContent = d['Jawatan'] || '-';
+        document.getElementById('pc-tajuk').textContent = d['Tajuk / Perkara'] || '-';
+        document.getElementById('pc-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Masa'] || '-'}) di ${d['Tempat'] || '-'}`;
+        document.getElementById('pc-anjuran').textContent = `${d['Anjuran'] || '-'} (Pengerusi: ${d['Pengerusi'] || '-'})`;
+        document.getElementById('pc-kehadiran').textContent = d['Kehadiran'] || '-';
+        document.getElementById('pc-butiran').textContent = d['Butiran'] || '-';
+        document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
+        document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || '-';
+        document.getElementById('pc-sig-nama').textContent = `${d['Nama Pegawai'] || '-'} (${d['Jawatan'] || '-'})`;
+
+        const sigArea = document.getElementById('pc-sig-area');
+        if (d['Signature'] && d['Signature'].startsWith('data:image')) {
+          sigArea.innerHTML = `<img src="${d['Signature']}" class="sig-img" alt="Tandatangan">`;
+        } else {
+          sigArea.innerHTML = `<div style="height: 40px;"></div>`;
+        }
+      }
+
       switchMenu('print');
       lucide.createIcons();
     }
 
     function executeOfficialPrint() {
       document.getElementById('trialPrintSheet')?.classList.remove('print-active');
-      document.getElementById('officialPrintSheet')?.classList.add('print-active');
+      document.getElementById('officialPrintSheetOPR')?.classList.add('print-active');
+      document.getElementById('officialPrintSheetCurai')?.classList.add('print-active');
       window.print();
     }
 
