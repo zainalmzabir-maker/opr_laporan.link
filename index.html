@@ -54,7 +54,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
-  <!-- HEADER UTAMA -->
+  <!-- HEADER SISTEM -->
   <header class="bg-slate-900 text-white shadow-md sticky top-0 z-40 no-print border-b border-slate-700">
     <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
       <div class="flex items-center space-x-3">
@@ -88,6 +88,7 @@
     <!-- ==================== 1. BORANG PELAPORAN ==================== -->
     <section id="menu-form" class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
       
+      <!-- Mod Kemaskini Alert -->
       <div id="editModeAlert" class="hidden mb-5 p-3.5 bg-amber-50 border border-amber-300 rounded-lg flex items-center justify-between">
         <div class="flex items-center gap-2 text-sm text-amber-800 font-medium">
           <i data-lucide="edit-3" class="w-5 h-5 text-amber-600"></i>
@@ -109,56 +110,56 @@
         <!-- BAHAGIAN 1: MAKLUMAT SEKOLAH & LOGO -->
         <div class="bg-indigo-50/50 p-4 sm:p-5 rounded-xl border border-indigo-100 space-y-4">
           <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
-            <i data-lucide="school" class="w-4 h-4 text-indigo-600"></i> Maklumat Sekolah & Logo Anda
+            <i data-lucide="school" class="w-4 h-4 text-indigo-600"></i> Maklumat Sekolah & Logo
           </h3>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-            <!-- Upload Logo -->
+            <!-- Upload Logo Sendiri -->
             <div class="border-2 border-dashed border-indigo-300 bg-white rounded-xl p-3 text-center flex flex-col items-center justify-center relative h-36">
               <input type="file" id="schoolLogoInput" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewSchoolLogo(this)">
               <img id="logoPreview" class="hidden w-20 h-20 object-contain rounded mb-1">
               <div id="logoPlaceholder" class="flex flex-col items-center text-slate-500 text-xs">
                 <i data-lucide="image-up" class="w-7 h-7 text-indigo-500 mb-1"></i>
                 <span class="font-bold text-slate-700">Pilih Logo Sekolah</span>
-                <span class="text-[10px] text-slate-400">PNG / JPG (Pilihan)</span>
+                <span class="text-[10px] text-slate-400">Format PNG / JPG</span>
               </div>
             </div>
 
-            <!-- Nama & Alamat Sekolah -->
+            <!-- Nama & Alamat Sekolah Sendiri -->
             <div class="md:col-span-2 space-y-3">
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Nama Penuh Sekolah / Institusi <span class="text-red-500">*</span></label>
-                <input type="text" id="namaSekolah" required placeholder="cth: SMK TUN PERAK / SK SERI KENCANA" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm uppercase focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <input type="text" id="namaSekolah" required placeholder="cth: SMK TUN PERAK / SK SERI MAJU" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm uppercase focus:ring-2 focus:ring-indigo-500 focus:outline-none">
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Alamat / Kod Sekolah / No. Telefon <span class="text-red-500">*</span></label>
-                <input type="text" id="maklumatSekolah" required placeholder="cth: Jalan Sultanah, 85000 Segamat, Johor | Kod: JEA7011 | Tel: 07-9312345" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                <input type="text" id="maklumatSekolah" required placeholder="cth: Jalan Sekolah, 85000 Segamat, Johor | Kod: JEA7011 | Tel: 07-9312345" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
               </div>
             </div>
           </div>
         </div>
 
-        <!-- BAHAGIAN 2: KAWALAN KESELAMATAN & PRIVASI -->
+        <!-- BAHAGIAN 2: KAWALAN KESELAMATAN & PRIVASI (AWAM / PASSWORD) -->
         <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
           <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 flex items-center gap-1.5">
-            <i data-lucide="lock" class="w-4 h-4 text-sky-600"></i> Kawalan Privasi Laporan
+            <i data-lucide="lock" class="w-4 h-4 text-sky-600"></i> Kawalan Privasi & Keselamatan
           </label>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Pilihan Akses <span class="text-red-500">*</span></label>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Pilihan Akses Laporan <span class="text-red-500">*</span></label>
               <select id="jenisAkses" onchange="togglePasswordInput(this.value)" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white font-medium focus:ring-2 focus:ring-sky-500">
-                <option value="Awam">Terbuka (Boleh Dilihat & Dicetak Semua)</option>
-                <option value="Katalaluan">Perlu Kata Laluan (Peribadi / Terkunci)</option>
+                <option value="Awam">Terbuka (Boleh Dilihat & Dicetak Oleh Semua)</option>
+                <option value="Katalaluan">Perlu Kata Laluan (Hanya Pelapor / Berkata Laluan)</option>
               </select>
             </div>
             <div id="passwordFieldContainer" class="hidden">
-              <label class="block text-xs font-semibold text-slate-600 mb-1">Cipta Kata Laluan Laporan <span class="text-red-500">*</span></label>
-              <input type="password" id="laporanPassword" placeholder="Masukkan kata laluan untuk buka laporan ini" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white focus:ring-2 focus:ring-sky-500">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Cipta Kata Laluan Anda <span class="text-red-500">*</span></label>
+              <input type="password" id="laporanPassword" placeholder="Masukkan kata laluan untuk membuka laporan" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white focus:ring-2 focus:ring-sky-500">
             </div>
           </div>
         </div>
 
-        <!-- BAHAGIAN 3: BUTIRAN PROGRAM & AKTIVITI -->
+        <!-- BAHAGIAN 3: MAKLUMAT AKTIVITI -->
         <div class="space-y-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -175,7 +176,7 @@
             </div>
             <div>
               <label class="block text-sm font-bold text-slate-800 mb-1">Nama Program / Aktiviti <span class="text-red-500">*</span></label>
-              <input type="text" id="aktiviti" required placeholder="cth: Kejohanan Sukan Tahunan / Bengkel SPM" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+              <input type="text" id="aktiviti" required placeholder="cth: Perkhemahan Perdana Pasukan Badan Beruniform" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
             </div>
           </div>
 
@@ -191,7 +192,7 @@
             </div>
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">Masa Aktiviti <span class="text-red-500">*</span></label>
-              <input type="text" id="masa" required placeholder="cth: 8.00 pagi - 12.30 tengah hari" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+              <input type="text" id="masa" required placeholder="cth: 8.00 pagi - 1.00 petang" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
             </div>
           </div>
 
@@ -199,30 +200,30 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
             <div>
               <label class="block text-xs font-bold text-slate-800 mb-1">Nama Pelapor <span class="text-red-500">*</span></label>
-              <input type="text" id="namaPelapor" required placeholder="cth: Ahmad Fahmi bin Zakaria" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+              <input type="text" id="namaPelapor" required placeholder="cth: Cikgu Mohd Faizal bin Ismail" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-800 mb-1">Jawatan Pelapor <span class="text-red-500">*</span></label>
-              <input type="text" id="jawatan" required placeholder="cth: Setiausaha Sukan / Guru Penyelaras" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
+              <input type="text" id="jawatan" required placeholder="cth: Guru Penasihat Kadet Remaja Sekolah" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500">
             </div>
           </div>
 
           <!-- PENERANGAN & HASIL -->
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Penerangan / Ringkasan Aktiviti <span class="text-red-500">*</span></label>
-            <textarea id="penerangan" rows="3" required placeholder="Perjalanan modul, perasmian, atau agenda aktiviti..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500"></textarea>
+            <textarea id="penerangan" rows="3" required placeholder="Nyatakan perjalanan program, objektif, dan aktiviti yang berlangsung..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500"></textarea>
           </div>
 
           <div>
             <label class="block text-xs font-bold text-slate-700 mb-1">Hasil / Refleksi Aktiviti <span class="text-red-500">*</span></label>
-            <textarea id="hasil" rows="3" required placeholder="Impak aktiviti, pencapaian murid, atau cadangan penambahbaikan..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500"></textarea>
+            <textarea id="hasil" rows="3" required placeholder="Impak kepada murid, kemahiran yang dikuasai, atau penambahbaikan masa hadapan..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-sky-500"></textarea>
           </div>
         </div>
 
-        <!-- BAHAGIAN 4: UPLOAD 1 HINGGA 4 GAMBAR -->
+        <!-- BAHAGIAN 4: UPLOAD GAMBAR DOKUMENTASI (1 HINGGA 4) -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Dokumentasi (1 hingga 4 Keping)</label>
-          <p class="text-[11px] text-slate-500 mb-2">Gambar 1 <span class="text-red-500 font-bold">*Wajib</span>. Gambar akan dimampatkan secara automatik sebelum disimpan.</p>
+          <p class="text-[11px] text-slate-500 mb-2">Gambar 1 <span class="text-red-500 font-bold">*Wajib</span>. Semua gambar dimampatkan secara automatik sebelum dimuat naik.</p>
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div class="border-2 border-dashed border-sky-400 bg-sky-50/40 rounded-lg p-2 text-center flex flex-col items-center justify-center relative h-32">
@@ -266,12 +267,12 @@
       </form>
     </section>
 
-    <!-- ==================== 2. DASHBOARD / SENARAI ==================== -->
+    <!-- ==================== 2. SENARAI / DASHBOARD ==================== -->
     <section id="menu-dashboard" class="hidden space-y-5">
       <div class="flex flex-wrap justify-between items-center gap-4 bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
         <div>
           <h2 class="text-xl font-bold text-slate-800">Senarai Laporan OPR Telah Dijana</h2>
-          <p class="text-xs text-slate-500">Pilih laporan untuk dicetak atau dikemas kini. Laporan dengan simbol kunci memerlukan kata laluan.</p>
+          <p class="text-xs text-slate-500">Pilih laporan untuk dicetak atau disunting. Laporan berkunci memerlukan kata laluan.</p>
         </div>
         <button onclick="loadDataFromSheets()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
@@ -289,7 +290,7 @@
         <button onclick="filterByUnit('Lain-lain')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-white border border-slate-300 text-slate-700 hover:bg-slate-100" data-unit="Lain-lain">Lain-lain</button>
       </div>
 
-      <!-- JADUAL -->
+      <!-- JADUAL SENARAI -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
         <table class="w-full text-left text-sm">
           <thead class="bg-slate-100/80 border-b text-slate-700 uppercase text-xs font-bold">
@@ -298,7 +299,7 @@
               <th class="p-3.5">Tarikh & Masa</th>
               <th class="p-3.5">Aktiviti / Program</th>
               <th class="p-3.5">Pelapor</th>
-              <th class="p-3.5 text-center">Status Akses</th>
+              <th class="p-3.5 text-center">Akses</th>
               <th class="p-3.5 text-center">Tindakan</th>
             </tr>
           </thead>
@@ -325,7 +326,7 @@
         </button>
       </div>
 
-      <!-- TEMPLAT CETAKAN A4 -->
+      <!-- LEMBARAN CETAKAN A4 -->
       <div id="printArea" class="sheet-a4 mx-auto bg-white p-6 rounded-2xl shadow-md border border-slate-200 flex flex-col justify-between relative overflow-hidden">
         
         <div id="printContentPlaceholder" class="m-auto text-center py-24 text-slate-400 flex flex-col items-center">
@@ -447,21 +448,21 @@
       </div>
 
       <h3 class="text-lg font-black text-slate-800">Pembayaran Menjana Laporan</h3>
-      <p class="text-xs text-slate-500 mt-1">Sila imbas kod DuitNow QR Touch 'n Go untuk membuat pembayaran sebanyak <b class="text-sky-600 text-sm">RM0.50</b>.</p>
+      <p class="text-xs text-slate-500 mt-1">Sila imbas kod DuitNow QR Touch 'n Go untuk membuat bayaran sebanyak <b class="text-sky-600 text-sm">RM0.50</b>.</p>
 
-      <!-- Paparan QR Code Touch 'n Go -->
+      <!-- Paparan QR Touch 'n Go -->
       <div class="my-4 bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center">
-        <!-- Tukar src di bawah kepada fail imej kod QR Touch 'n Go eWallet / DuitNow anda -->
+        <!-- Anda boleh gantikan pautan imej ini dengan imej QR Touch 'n Go peribadi anda jika ada (cth: 'tng-qr.png') -->
         <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=DuitNow-TouchNGo-RM0.50" alt="QR Touch 'n Go" class="w-44 h-44 object-contain rounded-lg shadow-sm border border-slate-300">
-        <span class="mt-2 text-xs font-bold text-slate-700">Jumlah: RM0.50</span>
+        <span class="mt-2 text-xs font-bold text-slate-700">Jumlah Bayaran: RM0.50</span>
         <span class="text-[10px] text-slate-400">Touch 'n Go eWallet / DuitNow QR</span>
       </div>
 
-      <!-- Borang No Rujukan -->
+      <!-- Input Rujukan Transaksi -->
       <div class="text-left space-y-3 mb-4">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">No. Rujukan Transaksi TnG (4-6 angka terakhir) <span class="text-red-500">*</span></label>
-          <input type="text" id="tngRefInput" required placeholder="cth: 984512" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm text-center font-mono focus:ring-2 focus:ring-sky-500">
+          <label class="block text-xs font-bold text-slate-700 mb-1">No. Rujukan Transaksi TnG (4-6 digit terakhir resit) <span class="text-red-500">*</span></label>
+          <input type="text" id="tngRefInput" required placeholder="cth: 849201" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm text-center font-mono focus:ring-2 focus:ring-sky-500">
         </div>
       </div>
 
@@ -474,7 +475,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL 2: KATA LALUAN KESELAMATAN ==================== -->
+  <!-- ==================== MODAL 2: VERIFIKASI KATA LALUAN ==================== -->
   <div id="passwordModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center relative">
       <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -482,7 +483,7 @@
       </div>
 
       <h3 class="text-base font-black text-slate-800">Laporan Terkunci</h3>
-      <p class="text-xs text-slate-500 mt-1">Laporan ini dilindungi dengan kata laluan oleh pelapor. Sila masukkan kata laluan untuk membuka.</p>
+      <p class="text-xs text-slate-500 mt-1">Laporan ini dilindungi dengan kata laluan. Sila masukkan kata laluan untuk melihat dan mencetak.</p>
 
       <div class="my-4 text-left">
         <input type="password" id="inputVerifyPassword" placeholder="Masukkan kata laluan..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm text-center focus:ring-2 focus:ring-amber-500">
@@ -499,8 +500,8 @@
   </div>
 
   <script>
-    // URL Google Apps Script Web App anda
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzede3L7tgU4zUwW_qwOENAZdMAuEdjWSNZ_t6zqvTQRRZz0qHrbRgfPiVNUZxGiP7Ulw/exec";
+    // URL Web App Google Apps Script Terkini
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqyx_cPd1x-bhqNPQ0AK2w-Xmc3_fYOFaIOk9EEUwUi9DXVZKsx6_W9jZJ6TN7_uCn/exec";
 
     let storedReports = [];
     let currentFilter = "SEMUA";
@@ -554,7 +555,7 @@
       document.getElementById('hari').value = days[date.getDay()];
     }
 
-    // Pemampatan Gambar Logo Sekolah
+    // Pemampatan Logo Sekolah
     function previewSchoolLogo(input) {
       if (input.files && input.files[0]) {
         const reader = new FileReader();
@@ -665,7 +666,7 @@
       const existingId = document.getElementById('reportId').value;
       const btn = document.getElementById('btnConfirmPayment');
       btn.disabled = true;
-      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Memproses Laporan...`;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Memproses...`;
       lucide.createIcons();
 
       const payload = {
@@ -696,7 +697,7 @@
           body: JSON.stringify(payload)
         });
 
-        alert("Bayaran RM0.50 disahkan! Laporan OPR berjaya dijana dan disimpan.");
+        alert("Bayaran RM0.50 disahkan! Laporan OPR berjaya disimpan dan dijana.");
         closePaymentModal();
         cancelEditMode();
         switchTab('dashboard');
@@ -709,7 +710,7 @@
       }
     }
 
-    // Ambil data Google Sheets menggunakan JSONP
+    // Muat data dari Google Sheets menggunakan JSONP
     function loadDataFromSheets() {
       const tbody = document.getElementById('dashboardTableBody');
       tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500"><i data-lucide="loader-2" class="w-5 h-5 animate-spin inline mr-2"></i>Sedang memuat data dari Google Sheets...</td></tr>`;
@@ -835,7 +836,6 @@
         document.getElementById('passwordError').classList.add('hidden');
         document.getElementById('passwordModal').classList.remove('hidden');
       } else {
-        // Terus buka jika status Awam
         executeAction(index, action);
       }
     }
@@ -876,7 +876,7 @@
       requestAccess(index, 'print');
     }
 
-    // Muat semula data ke borang untuk suntingan
+    // Muat semula maklumat ke borang
     function editReport(index) {
       const d = storedReports[index];
       if (!d) return;
@@ -967,7 +967,7 @@
       document.getElementById('p-unit-title').textContent = cfg.title;
       document.getElementById('p-unit-icon').innerHTML = `<i data-lucide="${cfg.icon}" class="w-3.5 h-3.5 inline text-amber-200"></i>`;
 
-      // Maklumat Sekolah Dinamik & Logo
+      // Paparan Nama & Maklumat Sekolah
       document.getElementById('p-school-name').textContent = d['Nama Sekolah'] || 'NAMA SEKOLAH';
       document.getElementById('p-school-info').textContent = d['Maklumat Sekolah'] || '-';
       document.getElementById('p-unit-text').textContent = `${unitName} (${d['Nama Sekolah'] || 'Sekolah'})`;
