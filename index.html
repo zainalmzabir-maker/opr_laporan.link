@@ -49,7 +49,7 @@
         left: 0 !important;
         top: 0 !important;
         width: 100% !important;
-        height: 281mm !important; /* 297mm tolak margin 16mm */
+        height: 281mm !important;
         max-height: 281mm !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -73,7 +73,7 @@
       }
     }
 
-    /* TERA AIR KESELAMATAN BERULANG (PENGHALANG CETAKAN PERCUBAAN) */
+    /* TERA AIR KESELAMATAN BERULANG UNTUK MOD PERCUBAAN */
     .demo-watermark-grid {
       position: absolute;
       inset: 0;
@@ -104,7 +104,7 @@
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
   <!-- =========================================================================
-       SKRIN 1: MOD PERCUBAAN (SANDBOX TANPA LOGIN & DATA TIDAK DISIMPAN)
+       SKRIN 1: MOD PERCUBAAN (SANDBOX TANPA DAFTAR & DATA TIDAK DISIMPAN)
        ========================================================================= -->
   <div id="trialSandboxScreen" class="hidden min-h-screen flex-1 flex flex-col bg-slate-100">
     
@@ -132,7 +132,7 @@
       </div>
     </header>
 
-    <!-- KANDUNGAN PENERANGAN & BORANG PERCUBAAN -->
+    <!-- KANDUNGAN MOD PERCUBAAN -->
     <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full space-y-6">
 
       <!-- KAD PENERANGAN FUNGSI SISTEM -->
@@ -142,14 +142,14 @@
             <span class="text-amber-400 font-extrabold text-xs uppercase tracking-wider flex items-center gap-1">
               <i data-lucide="info" class="w-4 h-4"></i> Ciri Format Satu Muka A4 Pintar
             </span>
-            <h3 class="text-lg font-black tracking-wide">Gambar Berskala Automatik & Panel Bawah Terkunci</h3>
+            <h3 class="text-lg font-black tracking-wide">Data Sekolah Diasingkan & Susun Atur A4 Kemas</h3>
             <p class="text-xs text-slate-300 leading-relaxed">
-              Sistem ini memastikan lembaran laporan anda <b>tepat 1 muka surat A4</b>. Saiz gambar akan membesar atau mengecil secara automatik mengikut kepanjangan teks yang anda taip tanpa merosakkan nisbah asal imej.
+              Anda tidak perlu lagi bersusah payah menaip simbol pemisah (`|`). Masukkan data sekolah secara berasingan dan sistem akan menyusun kepala surat secara automatik.
             </p>
             <ul class="text-[11px] text-slate-300 list-disc list-inside space-y-0.5 pt-1">
-              <li><b>Nisbah Imej Dikekalkan:</b> Foto tidak penyek atau herot (`object-contain`).</li>
-              <li><b>Panel "Disediakan Oleh":</b> Sentiasa melekat di kaki bawah kertas A4.</li>
-              <li><b>Mod Percubaan:</b> Memaparkan tera air keselamatan. Langgan RM20/bulan untuk cetakan rasmi tanpa tera air.</li>
+              <li><b>Nisbah Gambar Dikekalkan:</b> Foto tidak penyek atau terpotong (`object-contain`).</li>
+              <li><b>Panel "Disediakan Oleh":</b> Sentiasa terkunci kemas di dasar bawah kertas A4.</li>
+              <li><b>Mod Percubaan:</b> Lembaran cetakan dilindungi tera air keselamatan. Langgan RM20/bulan untuk cetakan bersih rasmi.</li>
             </ul>
           </div>
 
@@ -163,7 +163,7 @@
         </div>
       </div>
 
-      <!-- NAVIGASI TAB MOD PERCUBAAN -->
+      <!-- NAVIGASI TAB PERCUBAAN -->
       <div class="flex gap-2 border-b border-slate-200 pb-3 no-print">
         <button onclick="switchTrialTab('opr')" id="tab-trial-opr" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black shadow flex items-center gap-1.5 transition">
           <i data-lucide="file-pen" class="w-4 h-4"></i> 1. Uji OPR Online
@@ -180,22 +180,42 @@
             <h3 class="text-base font-black text-slate-800 uppercase flex items-center gap-2">
               <i data-lucide="file-check-2" class="text-sky-600"></i> Borang Laporan Satu Muka OPR (Percubaan)
             </h3>
-            <p class="text-xs text-slate-500">Isi maklumat untuk melihat bagaimana gambar diselaraskan memenuhi A4.</p>
+            <p class="text-xs text-slate-500">Semua maklumat sekolah diisi dalam ruangan berasingan tanpa perlu simbol.</p>
           </div>
 
           <form onsubmit="generateTrialPreview(event, 'opr')" class="space-y-4">
-            <!-- MAKLUMAT SEKOLAH PERCUBAAN -->
+            <!-- MAKLUMAT SEKOLAH DIASINGKAN -->
             <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 space-y-3">
               <h4 class="text-xs font-bold text-indigo-900 uppercase">Kepala Surat Sekolah</h4>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-                <div class="border border-dashed border-indigo-300 bg-white rounded-lg p-2 text-center text-xs">
-                  <input type="file" accept="image/*" onchange="previewTrialLogo(this)" class="w-full text-[10px] file:py-1 file:px-2 file:border-0 file:rounded file:bg-indigo-100 file:text-indigo-800 cursor-pointer">
-                  <span class="text-[9px] text-slate-400 block mt-1">Logo Sekolah Anda</span>
+              
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Nama Penuh Sekolah *</label>
+                <input type="text" id="t_opr_school" required placeholder="cth: SMK SEKSYEN 9, SHAH ALAM" class="w-full border rounded-lg p-2 text-xs uppercase font-bold bg-white">
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Alamat Lengkap Sekolah *</label>
+                <input type="text" id="t_opr_address" required placeholder="cth: Jalan Tengku Ampuan Rahimah 9/20, Seksyen 9, 40100 Shah Alam, Selangor" class="w-full border rounded-lg p-2 text-xs bg-white">
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kod Sekolah *</label>
+                  <input type="text" id="t_opr_code" required placeholder="cth: BEA8653" class="w-full border rounded-lg p-2 text-xs uppercase font-mono bg-white">
                 </div>
-                <div class="sm:col-span-2 space-y-2">
-                  <input type="text" id="t_opr_school" required placeholder="Nama Sekolah (cth: SMK TUN PERAK)" class="w-full border rounded-lg p-2 text-xs uppercase font-bold">
-                  <input type="text" id="t_opr_school_info" required placeholder="Alamat / Kod / Tel (cth: Segamat, Johor | Kod: JEA7011)" class="w-full border rounded-lg p-2 text-xs">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-0.5">No. Telefon Sekolah *</label>
+                  <input type="text" id="t_opr_phone" required placeholder="cth: 03-55106782" class="w-full border rounded-lg p-2 text-xs bg-white">
                 </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Rasmi Sekolah *</label>
+                  <input type="email" id="t_opr_email" required placeholder="cth: bea8653@moe.edu.my" class="w-full border rounded-lg p-2 text-xs bg-white">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Logo Sekolah (PNG / JPG)</label>
+                <input type="file" accept="image/*" onchange="previewTrialLogo(this)" class="w-full text-[10px] file:py-1 file:px-2.5 file:border-0 file:rounded file:bg-indigo-100 file:text-indigo-800 cursor-pointer">
               </div>
             </div>
 
@@ -233,12 +253,12 @@
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Penerangan Ringkas Program</label>
-              <textarea id="t_opr_penerangan" rows="2" required placeholder="Nyatakan perjalanan program..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+              <textarea id="t_opr_penerangan" rows="2" required placeholder="Nyatakan modul atau perjalanan program..." class="w-full border rounded-lg p-2 text-xs"></textarea>
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Hasil & Refleksi</label>
-              <textarea id="t_opr_hasil" rows="2" required placeholder="Impak kepada murid..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+              <textarea id="t_opr_hasil" rows="2" required placeholder="Impak kepada pelajar dan cadangan penambahbaikan..." class="w-full border rounded-lg p-2 text-xs"></textarea>
             </div>
 
             <div>
@@ -272,17 +292,17 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai / Guru *</label>
-                <input type="text" id="t_cur_nama" required placeholder="cth: Pn. Siti Nurhaliza binti Tarudin" class="w-full border rounded-lg p-2 text-xs font-bold">
+                <input type="text" id="t_cur_nama" required placeholder="cth: Cikgu Zulkifli bin Hashim" class="w-full border rounded-lg p-2 text-xs font-bold">
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Jawatan / Gred *</label>
-                <input type="text" id="t_cur_jawatan" required placeholder="cth: Guru Penolong Kanan Kokurikulum (DG44)" class="w-full border rounded-lg p-2 text-xs">
+                <input type="text" id="t_cur_jawatan" required placeholder="cth: Guru Penolong Kanan Kokurikulum (DG48)" class="w-full border rounded-lg p-2 text-xs">
               </div>
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Tajuk Mesyuarat / Seminar / Kursus *</label>
-              <input type="text" id="t_cur_tajuk" required placeholder="cth: Mesyuarat Penyelarasan Sukan MSSD Segamat Bil 1/2026" class="w-full border rounded-lg p-2 text-xs font-bold">
+              <input type="text" id="t_cur_tajuk" required placeholder="cth: Mesyuarat Penyelarasan Sukan MSSD Petaling Perdana Bil 1/2026" class="w-full border rounded-lg p-2 text-xs font-bold">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -296,23 +316,23 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Tempat</label>
-                <input type="text" id="t_cur_tempat" required placeholder="cth: Bilik Gerakan PPD Segamat" class="w-full border rounded-lg p-2 text-xs">
+                <input type="text" id="t_cur_tempat" required placeholder="cth: Bilik Gerakan PPD Petaling Perdana, Shah Alam" class="w-full border rounded-lg p-2 text-xs">
               </div>
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Pengerusi / Anjuran *</label>
-              <input type="text" id="t_cur_anjuran" required placeholder="cth: Pegawai Pendidikan Daerah Segamat" class="w-full border rounded-lg p-2 text-xs">
+              <input type="text" id="t_cur_anjuran" required placeholder="cth: Pegawai Pendidikan Daerah Petaling Perdana" class="w-full border rounded-lg p-2 text-xs">
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Isu / Kandungan Penting Mesyuarat *</label>
-              <textarea id="t_cur_isu" rows="3" required placeholder="1. Penetapan tarikh kejohanan...&#10;2. Pengurusan murid dan keselamatan..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+              <textarea id="t_cur_isu" rows="3" required placeholder="1. Penetapan takwim kejohanan...&#10;2. Pengurusan elaun dan makan murid..." class="w-full border rounded-lg p-2 text-xs"></textarea>
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Pihak Sekolah *</label>
-              <textarea id="t_cur_tindakan" rows="2" required placeholder="Menyediakan senarai nama peserta dan surat kebenaran ibu bapa..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+              <textarea id="t_cur_tindakan" rows="2" required placeholder="Menyediakan senarai nama murid dan surat kebenaran waris..." class="w-full border rounded-lg p-2 text-xs"></textarea>
             </div>
 
             <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-1.5">
@@ -322,7 +342,7 @@
         </div>
       </div>
 
-      <!-- ==================== LEMBARAN CETAKAN PERCUBAAN A4 (AUTO-FIT DENGAN WATERMARK) ==================== -->
+      <!-- ==================== LEMBARAN CETAKAN PERCUBAAN A4 ==================== -->
       <div id="trialPrintWrapper" class="hidden space-y-4">
         
         <!-- BAR TINDAKAN CETAK PERCUBAAN -->
@@ -331,7 +351,7 @@
             <span class="text-xs font-extrabold text-amber-900 flex items-center gap-1.5">
               <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i> Lembaran A4 Memenuhi Ruang & Disediakan Oleh Di Bawah
             </span>
-            <p class="text-[11px] text-amber-800 mt-0.5">Gambar telah disesuaikan secara automatik. Lembaran percubaan dilindungi tera air keselamatan.</p>
+            <p class="text-[11px] text-amber-800 mt-0.5">Gambar disesuaikan secara automatik. Lembaran percubaan dilindungi tera air keselamatan.</p>
           </div>
           <div class="flex items-center gap-2">
             <button onclick="executeTrialPrint()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center gap-1 shadow">
@@ -343,7 +363,7 @@
           </div>
         </div>
 
-        <!-- SHEET A4 PERCUBAAN YANG MEMENUHI KERTAS -->
+        <!-- SHEET A4 PERCUBAAN -->
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
           <div id="trialPrintSheet" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 relative overflow-hidden">
             
@@ -359,15 +379,16 @@
             <!-- KANDUNGAN A4: OPR PERCUBAAN -->
             <div id="preview-opr-sheet" class="h-full flex flex-col justify-between overflow-hidden">
               
-              <!-- 1. KEPALA SURAT & JADUAL ATAS (SHRINK-0) -->
+              <!-- 1. KEPALA SURAT DENGAN DATA TERSUSUN AUTOMATIK (SHRINK-0) -->
               <div class="shrink-0 space-y-2">
                 <div id="tp-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
                   <div class="flex items-center gap-3">
                     <img id="tp-logo" class="w-12 h-12 object-contain bg-white rounded-lg p-0.5 hidden shadow-sm">
                     <div>
                       <h2 id="tp-school" class="text-sm font-black uppercase text-white tracking-wide leading-tight">NAMA SEKOLAH</h2>
-                      <p id="tp-school-info" class="text-[10px] text-white/80 leading-tight mt-0.5">-</p>
-                      <span id="tp-unit" class="text-[10px] font-extrabold uppercase text-amber-300 tracking-wider">LAPORAN AKTIVITI</span>
+                      <p id="tp-address" class="text-[9.5px] text-white/90 leading-tight mt-0.5">-</p>
+                      <p id="tp-contact-line" class="text-[9px] text-white/80 leading-tight mt-0.5 font-mono">-</p>
+                      <span id="tp-unit" class="text-[10px] font-extrabold uppercase text-amber-300 tracking-wider inline-block mt-0.5">LAPORAN AKTIVITI</span>
                     </div>
                   </div>
                   <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-0.5 rounded border border-white/20">Format 1 Muka OPR</span>
@@ -404,11 +425,10 @@
                   </h4>
                   <span class="text-[9px] font-semibold text-slate-400 italic">Gambar Auto-Fit Mengikut Saiz Kertas</span>
                 </div>
-                <!-- CONTAINER DINAMIK GAMBAR -->
                 <div id="tp-images-grid" class="flex-1 min-h-0 w-full overflow-hidden"></div>
               </div>
 
-              <!-- 3. PANEL DISEDIAKAN OLEH: TERKUNCI KUKUH DI BAWAH KERTAS A4 (SHRINK-0 MT-AUTO) -->
+              <!-- 3. PANEL DISEDIAKAN OLEH: TERKUNCI DI DASAR BAWAH A4 (SHRINK-0 MT-AUTO) -->
               <div class="shrink-0 pt-2 border-t border-slate-300 mt-auto">
                 <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs">
                   <div class="flex items-center gap-3">
@@ -440,7 +460,7 @@
               <div class="shrink-0">
                 <div class="border-b-2 border-slate-900 pb-2 mb-3 text-center">
                   <h2 class="text-base font-black uppercase tracking-wider text-slate-900">MINIT CURAI (LAPORAN TAKLIMAT / MESYUARAT LUAR)</h2>
-                  <p class="text-xs text-slate-600">SMK / SK KEMENTERIAN PENDIDIKAN MALAYSIA</p>
+                  <p class="text-xs text-slate-600">KEMENTERIAN PENDIDIKAN MALAYSIA</p>
                 </div>
 
                 <table class="w-full text-[11px] border border-slate-300 mb-3 leading-snug">
@@ -475,7 +495,7 @@
                 </table>
               </div>
 
-              <!-- RUANGAN TANDATANGAN TERKUNCI DI BAWAH A4 -->
+              <!-- RUANGAN TANDATANGAN DI BAWAH A4 -->
               <div class="shrink-0 border-t-2 border-slate-200 pt-3 flex justify-between items-end text-xs mt-auto">
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase font-semibold">Tandatangan Pegawai Pelapor:</p>
@@ -501,7 +521,7 @@
        SKRIN 2: LOG MASUK & DAFTAR (LAMAN UTAMA)
        ========================================================================= -->
   <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-700">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-700">
       
       <div class="text-center mb-5">
         <div class="w-14 h-14 bg-sky-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-3 shadow-lg">
@@ -523,7 +543,7 @@
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Username</label>
-          <input type="text" id="loginUser" required placeholder="Masukkan username" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+          <input type="text" id="loginUser" required placeholder="cth: smkseksyen9" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-sky-500 outline-none">
         </div>
         <div>
           <div class="flex justify-between items-center mb-1">
@@ -541,44 +561,59 @@
         </p>
       </form>
 
-      <!-- BORANG DAFTAR AKAUN -->
-      <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-3.5 hidden">
+      <!-- BORANG DAFTAR AKAUN (SEMUA MEDAN DIASINGKAN) -->
+      <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-3 hidden">
         <div class="border-b pb-2 mb-2">
           <span class="text-xs font-black uppercase text-indigo-700 flex items-center gap-1">
             <i data-lucide="user-plus" class="w-4 h-4"></i> Pendaftaran Profil Sekolah
           </span>
-          <p class="text-[10px] text-slate-400 mt-0.5">Logo dan maklumat sekolah hanya perlu diisi sekali sahaja.</p>
+          <p class="text-[10px] text-slate-400 mt-0.5">Setiap data dimasukkan secara berasingan (hanya isi sekali sahaja).</p>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-[11px] font-bold text-slate-700">Username *</label>
-            <input type="text" id="regUser" required class="w-full border border-slate-300 rounded-lg p-2 text-xs">
+            <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Username *</label>
+            <input type="text" id="regUser" required placeholder="cth: smkseksyen9" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-slate-700">Kata Laluan *</label>
-            <input type="password" id="regPass" required class="w-full border border-slate-300 rounded-lg p-2 text-xs">
+            <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kata Laluan *</label>
+            <input type="password" id="regPass" required placeholder="Cipta kata laluan" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
           </div>
         </div>
 
         <div>
-          <label class="block text-[11px] font-bold text-slate-700">Emel Rasmi / Pengguna *</label>
-          <input type="email" id="regEmail" required placeholder="nama@gmail.com" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
+          <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Pendaftar / Akaun *</label>
+          <input type="email" id="regEmail" required placeholder="cth: penyelaras.opr@gmail.com" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
         </div>
 
         <div>
-          <label class="block text-[11px] font-bold text-slate-700">Nama Penuh Sekolah *</label>
-          <input type="text" id="regSchoolName" required placeholder="cth: SMK TUN PERAK" class="w-full border border-slate-300 rounded-lg p-2 text-xs uppercase">
+          <label class="block text-[11px] font-bold text-slate-700 mb-0.5">1. Nama Penuh Sekolah *</label>
+          <input type="text" id="regSchoolName" required placeholder="cth: SMK SEKSYEN 9, SHAH ALAM" class="w-full border border-slate-300 rounded-lg p-2 text-xs uppercase font-bold">
         </div>
 
         <div>
-          <label class="block text-[11px] font-bold text-slate-700">Alamat & No. Telefon Sekolah *</label>
-          <input type="text" id="regSchoolInfo" required placeholder="cth: Jalan Sultanah, Segamat | Tel: 07-931xxxx" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
+          <label class="block text-[11px] font-bold text-slate-700 mb-0.5">2. Alamat Lengkap Sekolah *</label>
+          <input type="text" id="regSchoolAddress" required placeholder="cth: Jalan Tengku Ampuan Rahimah 9/20, Seksyen 9, 40100 Shah Alam, Selangor" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-0.5">3. Kod Sekolah *</label>
+            <input type="text" id="regSchoolCode" required placeholder="cth: BEA8653" class="w-full border border-slate-300 rounded-lg p-2 text-xs uppercase font-mono">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-0.5">4. No. Tel Sekolah *</label>
+            <input type="text" id="regSchoolPhone" required placeholder="cth: 03-55106782" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-0.5">5. Emel Rasmi Sekolah *</label>
+            <input type="email" id="regSchoolEmail" required placeholder="cth: bea8653@moe.edu.my" class="w-full border border-slate-300 rounded-lg p-2 text-xs">
+          </div>
         </div>
 
         <div>
-          <label class="block text-[11px] font-bold text-slate-700">Logo Sekolah (PNG / JPG)</label>
-          <input type="file" id="regLogoInput" accept="image/*" onchange="compressLogo(this)" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-sky-50 file:text-sky-700">
+          <label class="block text-[11px] font-bold text-slate-700 mb-0.5">Logo Sekolah (PNG / JPG)</label>
+          <input type="file" id="regLogoInput" accept="image/*" onchange="compressLogo(this)" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-xs file:bg-sky-50 file:text-sky-700">
         </div>
 
         <button type="submit" id="btnRegister" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl shadow transition text-xs mt-2">
@@ -681,7 +716,7 @@
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Nama Program / Aktiviti *</label>
-                <input type="text" id="oprAktiviti" required placeholder="cth: Kejohanan Merentas Desa" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs">
+                <input type="text" id="oprAktiviti" required placeholder="cth: Kejohanan Merentas Desa Peringkat Sekolah" class="w-full border border-slate-300 rounded-lg p-2.5 text-xs">
               </div>
             </div>
 
@@ -703,22 +738,22 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pelapor *</label>
-                <input type="text" id="oprPelapor" required placeholder="cth: Cikgu Ahmad Albab" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs">
+                <input type="text" id="oprPelapor" required placeholder="cth: Cikgu Ahmad Faiz" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs">
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Jawatan Pelapor *</label>
-                <input type="text" id="oprJawatan" required placeholder="cth: Guru Penasihat" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs">
+                <input type="text" id="oprJawatan" required placeholder="cth: Setiausaha Sukan" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-xs">
               </div>
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Penerangan Ringkas Program *</label>
-              <textarea id="oprPenerangan" rows="2" required class="w-full border border-slate-300 rounded-lg p-2 text-xs"></textarea>
+              <textarea id="oprPenerangan" rows="2" required placeholder="Perjalanan modul, perasmian, atau agenda aktiviti..." class="w-full border border-slate-300 rounded-lg p-2 text-xs"></textarea>
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Hasil / Refleksi Program *</label>
-              <textarea id="oprHasil" rows="2" required class="w-full border border-slate-300 rounded-lg p-2 text-xs"></textarea>
+              <textarea id="oprHasil" rows="2" required placeholder="Impak kepada pelajar, kemahiran dicapai, refleksi..." class="w-full border border-slate-300 rounded-lg p-2 text-xs"></textarea>
             </div>
 
             <div>
@@ -738,7 +773,7 @@
         </div>
       </section>
 
-      <!-- TAB CURAI ONLINE (TAPAK KOSONG) -->
+      <!-- TAB CURAI ONLINE -->
       <section id="view-curai" class="hidden max-w-2xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 text-center shadow-sm">
         <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <i data-lucide="clipboard-list" class="w-8 h-8"></i>
@@ -800,7 +835,7 @@
               <p class="text-[11px] text-slate-400">Klik butang "Detail" untuk melihat maklumat terperinci sekolah.</p>
             </div>
             <div class="w-full sm:w-64">
-              <input type="text" id="adminSearchInput" onkeyup="filterAdminUsersTable()" placeholder="Cari nama sekolah / username..." class="w-full border border-slate-300 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-amber-400 outline-none">
+              <input type="text" id="adminSearchInput" onkeyup="filterAdminUsersTable()" placeholder="Cari nama sekolah / kod..." class="w-full border border-slate-300 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-amber-400 outline-none">
             </div>
           </div>
 
@@ -824,7 +859,7 @@
         </div>
       </section>
 
-      <!-- ==================== TEMPLAT CETAKAN RASMI A4 (MEMENUHI KERTAS A4 & PANEL BAWAH TERKUNCI) ==================== -->
+      <!-- ==================== TEMPLAT CETAKAN RASMI A4 ==================== -->
       <section id="view-print" class="hidden space-y-4">
         <div class="no-print flex justify-between items-center bg-white p-3.5 rounded-xl shadow-sm border border-slate-200 max-w-4xl mx-auto">
           <button onclick="switchMenu('records')" class="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1">
@@ -838,15 +873,16 @@
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
           <div id="officialPrintSheet" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300">
             
-            <!-- 1. KEPALA SURAT & JADUAL ATAS (SHRINK-0) -->
+            <!-- 1. KEPALA SURAT DENGAN DATA TERSUSUN AUTOMATIK (SHRINK-0) -->
             <div class="shrink-0 space-y-2">
               <div id="p-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
                 <div class="flex items-center gap-3">
                   <img id="p-logo" class="w-12 h-12 object-contain bg-white rounded-lg p-0.5 hidden shadow-sm">
                   <div>
                     <h2 id="p-school-name" class="text-sm font-black uppercase text-white tracking-wide leading-tight">NAMA SEKOLAH</h2>
-                    <p id="p-school-info" class="text-[10px] text-white/80 leading-tight mt-0.5">-</p>
-                    <span id="p-unit" class="text-[10px] font-extrabold uppercase text-amber-300 tracking-wider">LAPORAN AKTIVITI</span>
+                    <p id="p-school-address" class="text-[9.5px] text-white/90 leading-tight mt-0.5">-</p>
+                    <p id="p-school-contact" class="text-[9px] text-white/80 leading-tight mt-0.5 font-mono">-</p>
+                    <span id="p-unit" class="text-[10px] font-extrabold uppercase text-amber-300 tracking-wider inline-block mt-0.5">LAPORAN AKTIVITI</span>
                   </div>
                 </div>
                 <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-0.5 rounded border border-white/20">Format 1 Muka OPR</span>
@@ -881,11 +917,10 @@
                 </h4>
                 <span class="text-[9px] font-semibold text-slate-400 italic">Dokumentasi Pelaksanaan Program</span>
               </div>
-              <!-- CONTAINER DINAMIK GAMBAR -->
               <div id="p-images-grid" class="flex-1 min-h-0 w-full overflow-hidden"></div>
             </div>
 
-            <!-- 3. PANEL DISEDIAKAN OLEH: TERKUNCI KUKUH DI DASAR BAWAH A4 (SHRINK-0 MT-AUTO) -->
+            <!-- 3. PANEL DISEDIAKAN OLEH: TERKUNCI DI DASAR BAWAH A4 (SHRINK-0 MT-AUTO) -->
             <div class="shrink-0 pt-2 border-t border-slate-300 mt-auto">
               <div class="bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between text-xs">
                 <div class="flex items-center gap-3">
@@ -943,12 +978,24 @@
           <span id="mUserPassword" class="col-span-2 font-mono font-bold text-slate-900">-</span>
         </div>
         <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
-          <span class="font-bold text-slate-500">Emel:</span>
+          <span class="font-bold text-slate-500">Emel Pendaftar:</span>
           <span id="mUserEmail" class="col-span-2 font-semibold text-sky-700">-</span>
         </div>
         <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
-          <span class="font-bold text-slate-500">Alamat / Tel:</span>
-          <span id="mUserInfo" class="col-span-2 text-slate-800">-</span>
+          <span class="font-bold text-slate-500">Alamat Sekolah:</span>
+          <span id="mUserAddress" class="col-span-2 text-slate-800">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
+          <span class="font-bold text-slate-500">Kod Sekolah:</span>
+          <span id="mUserCode" class="col-span-2 font-mono font-bold text-slate-900">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
+          <span class="font-bold text-slate-500">No. Tel Sekolah:</span>
+          <span id="mUserPhone" class="col-span-2 text-slate-800">-</span>
+        </div>
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
+          <span class="font-bold text-slate-500">Emel Rasmi Sekolah:</span>
+          <span id="mUserSchoolEmail" class="col-span-2 text-slate-800">-</span>
         </div>
         <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
           <span class="font-bold text-slate-500">Tarikh Daftar:</span>
@@ -1024,7 +1071,7 @@
     };
 
     // ==========================================
-    // FUNGSI UTAMA: PENJANAAN GAMBAR AUTO-FIT A4
+    // SUSUN ATUR GAMBAR AUTO-FIT A4
     // ==========================================
     function renderDynamicImages(container, images) {
       container.innerHTML = '';
@@ -1044,7 +1091,6 @@
       }
 
       if (total === 1) {
-        // 1 Foto: Membesar penuh mengisi ruang menegak, nisbah kekal
         container.className = "w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden";
         container.innerHTML = `
           <div class="w-full flex-1 min-h-0 flex items-center justify-center overflow-hidden">
@@ -1053,7 +1099,6 @@
           <span class="text-[9px] font-bold text-slate-600 mt-1 uppercase tracking-wider shrink-0">Dokumentasi Fokus Program</span>
         `;
       } else if (total === 2) {
-        // 2 Foto: 2 lajur, berskala tinggi sama rata
         container.className = "w-full h-full grid grid-cols-2 gap-2.5 items-stretch min-h-0 overflow-hidden";
         container.innerHTML = validImages.map((src, i) => `
           <div class="w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden">
@@ -1064,7 +1109,6 @@
           </div>
         `).join('');
       } else if (total === 3) {
-        // 3 Foto: 1 atas (span-2), 2 bawah
         container.className = "w-full h-full grid grid-cols-2 grid-rows-2 gap-2 items-stretch min-h-0 overflow-hidden";
         container.innerHTML = `
           <div class="col-span-2 w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden">
@@ -1087,7 +1131,6 @@
           </div>
         `;
       } else {
-        // 4 Foto: Grid 2x2 seimbang, auto-fit
         container.className = "w-full h-full grid grid-cols-2 grid-rows-2 gap-2 items-stretch min-h-0 overflow-hidden";
         container.innerHTML = validImages.slice(0, 4).map((src, i) => `
           <div class="w-full h-full flex flex-col justify-between items-center bg-slate-50/80 rounded-xl p-1.5 border border-slate-200 min-h-0 overflow-hidden">
@@ -1102,7 +1145,7 @@
     }
 
     // ==========================================
-    // LOGIK MOD PERCUBAAN (SANDBOX TANPA LOGIN)
+    // LOGIK MOD PERCUBAAN
     // ==========================================
     function enterTrialMode() {
       document.getElementById('authScreen').classList.add('hidden');
@@ -1168,8 +1211,15 @@
         const cfg = UNIT_CONFIG[unitVal] || UNIT_CONFIG['Lain-lain'];
 
         document.getElementById('tp-unit-header').style.backgroundColor = cfg.bg;
-        document.getElementById('tp-school').textContent = document.getElementById('t_opr_school').value || "NAMA SEKOLAH CONTOH";
-        document.getElementById('tp-school-info').textContent = document.getElementById('t_opr_school_info').value || "-";
+        document.getElementById('tp-school').textContent = document.getElementById('t_opr_school').value || "SMK SEKSYEN 9, SHAH ALAM";
+        document.getElementById('tp-address').textContent = document.getElementById('t_opr_address').value || "Jalan Tengku Ampuan Rahimah 9/20, Seksyen 9, 40100 Shah Alam, Selangor";
+        
+        // Cantumkan kod, tel dan emel secara automatik tanpa pengguna perlu cari simbol
+        const kod = document.getElementById('t_opr_code').value || "BEA8653";
+        const tel = document.getElementById('t_opr_phone').value || "03-55106782";
+        const emel = document.getElementById('t_opr_email').value || "bea8653@moe.edu.my";
+        document.getElementById('tp-contact-line').textContent = `Kod: ${kod} • Tel: ${tel} • Emel: ${emel}`;
+
         document.getElementById('tp-unit').textContent = cfg.title;
         document.getElementById('tp-aktiviti').textContent = document.getElementById('t_opr_aktiviti').value || "-";
         document.getElementById('tp-tarikh').textContent = document.getElementById('t_opr_tarikh').value || "-";
@@ -1187,7 +1237,6 @@
           logoEl.classList.add('hidden');
         }
 
-        // Jana gambar percubaan dengan auto-fit
         renderDynamicImages(document.getElementById('tp-images-grid'), trialImages);
 
       } else {
@@ -1261,7 +1310,10 @@
         password: document.getElementById('regPass').value.trim(),
         email: document.getElementById('regEmail').value.trim(),
         namaSekolah: document.getElementById('regSchoolName').value.trim(),
-        maklumatSekolah: document.getElementById('regSchoolInfo').value.trim(),
+        alamatSekolah: document.getElementById('regSchoolAddress').value.trim(),
+        kodSekolah: document.getElementById('regSchoolCode').value.trim().toUpperCase(),
+        noTelSekolah: document.getElementById('regSchoolPhone').value.trim(),
+        emelRasmiSekolah: document.getElementById('regSchoolEmail').value.trim(),
         logoSekolah: base64RegLogo
       };
 
@@ -1400,7 +1452,7 @@
         tr.innerHTML = `
           <td class="p-3">
             <span class="font-black text-slate-800 text-xs">${u.namaSekolah}</span>
-            <span class="block text-[10px] text-slate-400 truncate max-w-xs">${u.maklumatSekolah}</span>
+            <span class="block text-[10px] text-slate-400 font-mono">Kod: ${u.kodSekolah || '-'}</span>
           </td>
           <td class="p-3">
             <span class="font-bold text-slate-800">${u.username}</span> ${isAdm ? '<span class="text-[9px] bg-amber-400 text-slate-900 font-bold px-1.5 py-0.2 rounded ml-1">ADMIN</span>' : ''}
@@ -1434,9 +1486,10 @@
     function filterAdminUsersTable() {
       const q = document.getElementById('adminSearchInput').value.toLowerCase();
       const filtered = adminUsersList.filter(u => 
-        u.namaSekolah.toLowerCase().includes(q) || 
-        u.username.toLowerCase().includes(q) || 
-        u.email.toLowerCase().includes(q)
+        (u.namaSekolah && u.namaSekolah.toLowerCase().includes(q)) || 
+        (u.kodSekolah && u.kodSekolah.toLowerCase().includes(q)) || 
+        (u.username && u.username.toLowerCase().includes(q)) || 
+        (u.email && u.email.toLowerCase().includes(q))
       );
       renderAdminUsersTable(filtered);
     }
@@ -1445,12 +1498,15 @@
       const u = adminUsersList[index];
       if (!u) return;
 
-      document.getElementById('mUserSchool').textContent = u.namaSekolah;
-      document.getElementById('mUserUsername').textContent = u.username;
-      document.getElementById('mUserPassword').textContent = u.password;
-      document.getElementById('mUserEmail').textContent = u.email;
-      document.getElementById('mUserInfo').textContent = u.maklumatSekolah;
-      document.getElementById('mUserRegistered').textContent = u.tarikhDaftar;
+      document.getElementById('mUserSchool').textContent = u.namaSekolah || "-";
+      document.getElementById('mUserUsername').textContent = u.username || "-";
+      document.getElementById('mUserPassword').textContent = u.password || "-";
+      document.getElementById('mUserEmail').textContent = u.email || "-";
+      document.getElementById('mUserAddress').textContent = u.alamatSekolah || "-";
+      document.getElementById('mUserCode').textContent = u.kodSekolah || "-";
+      document.getElementById('mUserPhone').textContent = u.noTelSekolah || "-";
+      document.getElementById('mUserSchoolEmail').textContent = u.emelRasmiSekolah || "-";
+      document.getElementById('mUserRegistered').textContent = u.tarikhDaftar || "-";
       document.getElementById('mUserSubExpiry').textContent = `${u.statusLangganan} (Tamat: ${u.tarikhTamat})`;
       document.getElementById('mUserReportsCount').textContent = `${u.totalLaporan || 0} Rekod Laporan`;
       document.getElementById('mUserRoleBadge').textContent = u.role === "ADMIN" ? "PENTADBIR SISTEM (ADMIN)" : "PENGGUNA BIASA (SEKOLAH)";
@@ -1697,8 +1753,13 @@
       const cfg = UNIT_CONFIG[unitVal] || UNIT_CONFIG['Lain-lain'];
 
       document.getElementById('p-unit-header').style.backgroundColor = cfg.bg;
-      document.getElementById('p-school-name').textContent = currentUser.namaSekolah || "NAMA SEKOLAH";
-      document.getElementById('p-school-info').textContent = currentUser.maklumatSekolah || "-";
+      document.getElementById('p-school-name').textContent = currentUser.namaSekolah || "SMK SEKSYEN 9, SHAH ALAM";
+      document.getElementById('p-school-address').textContent = currentUser.alamatSekolah || "-";
+      
+      const kod = currentUser.kodSekolah || "-";
+      const tel = currentUser.noTelSekolah || "-";
+      const emel = currentUser.emelRasmiSekolah || "-";
+      document.getElementById('p-school-contact').textContent = `Kod: ${kod} • Tel: ${tel} • Emel: ${emel}`;
       
       const logoEl = document.getElementById('p-logo');
       if (currentUser.logoSekolah) {
@@ -1719,7 +1780,6 @@
       document.getElementById('p-id').textContent = d['ID'] || '-';
       document.getElementById('p-print-date').textContent = new Date().toLocaleDateString('ms-MY', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-      // Jana gambar secara dinamik mengikut nisbah & baki ketinggian kertas
       const imagesArr = [d['Gambar 1'], d['Gambar 2'], d['Gambar 3'], d['Gambar 4']];
       renderDynamicImages(document.getElementById('p-images-grid'), imagesArr);
 
