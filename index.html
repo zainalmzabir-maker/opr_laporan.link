@@ -94,11 +94,11 @@
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Username</label>
-          <input type="text" id="loginUser" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none">
+          <input type="text" id="loginUser" required placeholder="cth: sktmnusa" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none">
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Kata Laluan</label>
-          <input type="password" id="loginPass" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none">
+          <input type="password" id="loginPass" required placeholder="••••••••" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none">
         </div>
         <button type="submit" id="btnLogin" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-sm shadow flex justify-center items-center gap-2">
           Log Masuk
@@ -112,16 +112,16 @@
       <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-3 hidden">
         <div class="border-b pb-2 mb-2"><span class="text-xs font-black uppercase text-indigo-700">Pendaftaran Profil Sekolah</span></div>
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Username *</label><input type="text" id="regUser" required class="w-full border rounded-lg p-2 text-xs"></div>
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kata Laluan *</label><input type="password" id="regPass" required class="w-full border rounded-lg p-2 text-xs"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Username *</label><input type="text" id="regUser" required placeholder="cth: sktmnusa" class="w-full border rounded-lg p-2 text-xs"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kata Laluan *</label><input type="password" id="regPass" required placeholder="••••••••" class="w-full border rounded-lg p-2 text-xs"></div>
         </div>
-        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Pendaftar *</label><input type="email" id="regEmail" required class="w-full border rounded-lg p-2 text-xs"></div>
-        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Nama Penuh Sekolah *</label><input type="text" id="regSchoolName" required class="w-full border rounded-lg p-2 text-xs uppercase font-bold"></div>
-        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Alamat Lengkap Sekolah *</label><input type="text" id="regSchoolAddress" required class="w-full border rounded-lg p-2 text-xs"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Pendaftar *</label><input type="email" id="regEmail" required placeholder="admin@sekolah.edu.my" class="w-full border rounded-lg p-2 text-xs"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Nama Penuh Sekolah *</label><input type="text" id="regSchoolName" required placeholder="SK TAMAN NUSA" class="w-full border rounded-lg p-2 text-xs uppercase font-bold"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Alamat Lengkap Sekolah *</label><input type="text" id="regSchoolAddress" required placeholder="Jalan NUSA 5, Taman Nusa" class="w-full border rounded-lg p-2 text-xs"></div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kod *</label><input type="text" id="regSchoolCode" required class="w-full border rounded-lg p-2 text-xs uppercase font-mono"></div>
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Tel *</label><input type="text" id="regSchoolPhone" required class="w-full border rounded-lg p-2 text-xs"></div>
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Rasmi *</label><input type="email" id="regSchoolEmail" required class="w-full border rounded-lg p-2 text-xs"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kod *</label><input type="text" id="regSchoolCode" required placeholder="JBA1234" class="w-full border rounded-lg p-2 text-xs uppercase font-mono"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Tel *</label><input type="text" id="regSchoolPhone" required placeholder="071234567" class="w-full border rounded-lg p-2 text-xs"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Rasmi *</label><input type="email" id="regSchoolEmail" required placeholder="jba1234@moe.edu.my" class="w-full border rounded-lg p-2 text-xs"></div>
         </div>
         <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Logo Sekolah</label><input type="file" id="regLogoInput" accept="image/*" onchange="compressImageBase64(this, val => base64RegLogo = val)" class="w-full text-xs text-slate-500 file:py-1 file:px-2"></div>
         <button type="submit" id="btnRegister" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs mt-2 flex justify-center items-center gap-2">Daftar Akaun Baru (RM20/Bulan)</button>
@@ -163,7 +163,7 @@
     </div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full">
-      <!-- 1. VIEW OPR ONLINE -->
+      <!-- 1. VIEW OPR ONLINE (DENGAN TEMPAT & ANJURAN) -->
       <section id="view-opr" class="space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
           <div class="border-b pb-4 mb-5 flex justify-between items-center">
@@ -174,19 +174,24 @@
             <input type="hidden" id="oprRowIndex" value="">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label class="block text-xs font-bold text-slate-700 mb-1">Aktiviti Unit *</label><select id="oprUnit" required class="w-full border rounded-lg p-2.5 text-xs bg-white"><option>Kokurikulum</option><option>Koakademik</option><option>Kurikulum</option><option>Hem</option><option>Pentadbiran</option><option>Lain-lain</option></select></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Program / Aktiviti *</label><input type="text" id="oprAktiviti" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Program / Aktiviti *</label><input type="text" id="oprAktiviti" required placeholder="cth: Kejohanan Merentas Desa Peringkat Sekolah 2026" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh Aktiviti *</label><input type="date" id="oprTarikh" required onchange="autoFillDay(this.value)" class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Hari</label><input type="text" id="oprHari" readonly class="w-full bg-slate-100 border rounded-lg p-2.5 text-xs text-slate-600"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa Aktiviti *</label><input type="text" id="oprMasa" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Hari</label><input type="text" id="oprHari" readonly placeholder="Auto-papar" class="w-full bg-slate-100 border rounded-lg p-2.5 text-xs text-slate-600"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa Aktiviti *</label><input type="text" id="oprMasa" required placeholder="cth: 7.30 pagi - 12.00 tengah hari" class="w-full border rounded-lg p-2.5 text-xs"></div>
+            </div>
+            <!-- TAMBAHAN: TEMPAT & ANJURAN -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Tempat Pelaksanaan *</label><input type="text" id="oprTempat" required placeholder="cth: Padang SK Taman Nusa / Dewan Seri Budiman" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Anjuran (Jika berkait)</label><input type="text" id="oprAnjuran" placeholder="cth: Unit Kokurikulum dengan kerjasama PIBG" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-slate-50 p-3.5 rounded-xl border">
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pelapor *</label><input type="text" id="oprPelapor" required class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan Pelapor *</label><input type="text" id="oprJawatan" required class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pelapor *</label><input type="text" id="oprPelapor" required placeholder="cth: Cikgu Ahmad bin Ali" class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan Pelapor *</label><input type="text" id="oprJawatan" required placeholder="cth: Setiausaha Sukan / Guru Penasihat" class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
             </div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Penerangan Ringkas Program *</label><textarea id="oprPenerangan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Hasil / Refleksi Program *</label><textarea id="oprHasil" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Penerangan Ringkas Program *</label><textarea id="oprPenerangan" rows="2" required placeholder="cth: Program dimulakan dengan taklimat keselamatan oleh PK Kokurikulum diikuti pelepasan peserta..." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Hasil / Refleksi Program *</label><textarea id="oprHasil" rows="2" required placeholder="cth: Seramai 450 murid hadir dan objektif kecergasan fizikal tercapai sepenuhnya." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Dokumentasi (1 hingga 4)</label>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -220,12 +225,12 @@
             <input type="hidden" id="curaiRowIndex" value="">
             <input type="hidden" id="curaiExistingApproverTimestamp" value="">
 
-            <!-- MAKLUMAT PENULIS (HANYA JAWATAN, TIADA GRED) -->
+            <!-- MAKLUMAT PENULIS -->
             <div class="p-3 bg-slate-50 border rounded-xl space-y-3">
               <h4 class="text-xs font-bold text-slate-800 uppercase flex items-center gap-1.5"><i data-lucide="user-pen" class="w-3.5 h-3.5 text-sky-600"></i> 1. Maklumat Penulis (Pegawai Pelapor)</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div><label class="block text-xs font-semibold mb-1">Nama Pegawai *</label><input type="text" id="curNama" required class="w-full border rounded-lg p-2 text-xs bg-white"></div>
-                <div><label class="block text-xs font-semibold mb-1">Jawatan *</label><input type="text" id="curJawatan" required class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+                <div><label class="block text-xs font-semibold mb-1">Nama Pegawai *</label><input type="text" id="curNama" required placeholder="cth: Cikgu Siti binti Omar" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+                <div><label class="block text-xs font-semibold mb-1">Jawatan *</label><input type="text" id="curJawatan" required placeholder="cth: Guru Penolong Kanan HEM" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
               </div>
               <div>
                 <label class="block text-xs font-semibold mb-1">Tandatangan Digital Penulis (Scribble di sini):</label>
@@ -235,23 +240,23 @@
             </div>
 
             <!-- BUTIRAN MESYUARAT -->
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="curTajuk" required class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="curTajuk" required placeholder="cth: Taklimat Pengurusan Disiplin Murid Peringkat Daerah" class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh *</label><input type="date" id="curTarikh" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="curMasa" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="curTempat" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="curMasa" required placeholder="cth: 9.00 pagi" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="curTempat" required placeholder="cth: PPD Johor Bahru" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="curAnjuran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="curPengerusi" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="curKehadiran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="curAnjuran" required placeholder="cth: Sektor Pembangunan Murid" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="curPengerusi" required placeholder="cth: En. Azman bin Rahim" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="curKehadiran" required placeholder="cth: Semua PK HEM Sekolah Daerah" class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="curButiran" rows="3" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Implikasi Kepada Sekolah *</label><textarea id="curImplikasi" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Sekolah *</label><textarea id="curTindakan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="curButiran" rows="3" required placeholder="cth: Pematuhan garis panduan salah laku murid dan pengisian SSDM versi baharu..." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Implikasi Kepada Sekolah *</label><textarea id="curImplikasi" rows="2" required placeholder="cth: Guru kelas perlu mengemas kini data salahlaku selewat-lewatnya sebelum 28hb." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Sekolah *</label><textarea id="curTindakan" rows="2" required placeholder="cth: Mesyuarat khas bersama Unit Disiplin pada hari Khamis." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
 
             <!-- BAHAGIAN PENGESAH -->
             <div class="p-3 bg-emerald-50/50 border border-emerald-200 rounded-xl space-y-3">
@@ -260,8 +265,8 @@
                 <span class="text-[10px] text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded font-bold">Boleh Isi / Ditandatangani Kemudian</span>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div><label class="block text-xs font-semibold mb-1">Nama Pengesah</label><input type="text" id="curNamaPengesah" placeholder="Nama Pengetua / Guru Besar" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
-                <div><label class="block text-xs font-semibold mb-1">Jawatan Pengesah</label><input type="text" id="curJawatanPengesah" placeholder="Pengetua / Guru Besar" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+                <div><label class="block text-xs font-semibold mb-1">Nama Pengesah</label><input type="text" id="curNamaPengesah" placeholder="cth: Dr. Hajah Salmah binti Osman" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+                <div><label class="block text-xs font-semibold mb-1">Jawatan Pengesah</label><input type="text" id="curJawatanPengesah" placeholder="cth: Guru Besar" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
               </div>
               <div>
                 <label class="block text-xs font-semibold mb-1">Tandatangan Digital Pengesah (Scribble di sini):</label>
@@ -278,7 +283,7 @@
               </div>
               <div id="portalRuangKekunci" class="hidden pt-1">
                 <label class="block text-[11px] font-semibold text-slate-600 mb-1">Cipta / Ubah Kata Laluan Dokumen:</label>
-                <input type="password" id="portalPassword" class="w-full border rounded-lg p-2 text-xs bg-white">
+                <input type="password" id="portalPassword" placeholder="cth: RahsiaSekolah2026" class="w-full border rounded-lg p-2 text-xs bg-white">
               </div>
             </div>
 
@@ -305,12 +310,12 @@
               </div>
             </div>
 
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Penuh Sekolah *</label><input type="text" id="upSchoolName" required class="w-full border rounded-lg p-2.5 text-xs uppercase font-bold bg-white"></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Alamat Lengkap Sekolah *</label><input type="text" id="upSchoolAddress" required class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Penuh Sekolah *</label><input type="text" id="upSchoolName" required placeholder="SK TAMAN NUSA" class="w-full border rounded-lg p-2.5 text-xs uppercase font-bold bg-white"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Alamat Lengkap Sekolah *</label><input type="text" id="upSchoolAddress" required placeholder="Jalan NUSA 5, Taman Nusa" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Kod Sekolah *</label><input type="text" id="upSchoolCode" required class="w-full border rounded-lg p-2.5 text-xs uppercase font-mono bg-white"></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">No. Telefon Sekolah *</label><input type="text" id="upSchoolPhone" required class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Emel Rasmi Sekolah *</label><input type="email" id="upSchoolEmail" required class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Kod Sekolah *</label><input type="text" id="upSchoolCode" required placeholder="JBA1234" class="w-full border rounded-lg p-2.5 text-xs uppercase font-mono bg-white"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">No. Telefon Sekolah *</label><input type="text" id="upSchoolPhone" required placeholder="071234567" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Emel Rasmi Sekolah *</label><input type="email" id="upSchoolEmail" required placeholder="jba1234@moe.edu.my" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
             </div>
 
             <button type="submit" id="btnUpdateSchool" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
@@ -326,8 +331,8 @@
           <h2 class="text-lg font-black text-slate-800 flex items-center gap-2 border-b pb-4 mb-4"><i data-lucide="user-cog" class="text-sky-600"></i> Tetapan Maklumat Akaun</h2>
           <form onsubmit="handleUpdateAccount(event)" class="space-y-4">
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Username (ID Akaun)</label><input type="text" id="accUsername" readonly class="w-full bg-slate-100 border rounded-lg p-2.5 text-xs font-mono font-bold text-slate-600"></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Emel Pendaftar *</label><input type="email" id="accEmail" required class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Kata Laluan Baharu (Kosongkan jika tiada perubahan)</label><input type="password" id="accPassword" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Emel Pendaftar *</label><input type="email" id="accEmail" required placeholder="admin@sekolah.edu.my" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Kata Laluan Baharu (Kosongkan jika tiada perubahan)</label><input type="password" id="accPassword" placeholder="••••••••" class="w-full border rounded-lg p-2.5 text-xs bg-white"></div>
             <button type="submit" id="btnUpdateAccount" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
               <i data-lucide="save" class="w-4 h-4"></i> Simpan Perubahan Akaun
             </button>
@@ -335,7 +340,7 @@
         </div>
       </section>
 
-      <!-- 5. VIEW REKOD PELAPORAN (DASHBOARD DENGAN PENAPIS BUTANG UNIT OPR) -->
+      <!-- 5. VIEW REKOD PELAPORAN (DASHBOARD) -->
       <section id="view-records" class="hidden space-y-4">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
           <div>
@@ -344,7 +349,6 @@
           </div>
           
           <div class="flex flex-wrap items-center gap-2">
-            <!-- GAYA BUTANG PILIHAN JENIS LAPORAN -->
             <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
               <button type="button" id="btnFilterOpr" onclick="switchRecordFilter('opr')" class="px-3.5 py-1.5 rounded-lg text-xs font-black transition bg-slate-900 text-white shadow-sm flex items-center gap-1.5">
                 <i data-lucide="file-pen" class="w-3.5 h-3.5"></i> Laporan OPR
@@ -354,7 +358,6 @@
               </button>
             </div>
 
-            <!-- BUTANG SEGAR SEMULA -->
             <button onclick="fetchUserReports()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-1 border border-slate-200 shadow-sm transition">
               <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
             </button>
@@ -401,7 +404,7 @@
         </div>
 
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
-          <!-- CETAKAN OPR (TANPA TULISAN LAPORAN SAH) -->
+          <!-- CETAKAN OPR (DENGAN TEMPAT & ANJURAN) -->
           <div id="officialPrintSheetOPR" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden">
             <div class="shrink-0 space-y-2">
               <div id="p-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
@@ -419,7 +422,8 @@
 
               <table class="w-full text-[11px] border-collapse border border-slate-300 rounded-lg overflow-hidden leading-snug">
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 w-1/4">Nama Program</td><td id="p-aktiviti" class="border border-slate-300 p-1.5 font-black text-slate-900" colspan="3">-</td></tr>
-                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700">Tarikh & Hari</td><td id="p-datetime" class="border border-slate-300 p-1.5 font-medium text-slate-800" colspan="3">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700">Tarikh & Masa</td><td id="p-datetime" class="border border-slate-300 p-1.5 font-medium text-slate-800" colspan="3">-</td></tr>
+                <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700">Tempat & Anjuran</td><td id="p-tempat-anjuran" class="border border-slate-300 p-1.5 font-medium text-slate-800" colspan="3">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 align-top">Penerangan</td><td id="p-penerangan" class="border border-slate-300 p-1.5 whitespace-pre-line text-slate-800" colspan="3">-</td></tr>
                 <tr><td class="border border-slate-300 p-1.5 font-bold bg-slate-100 text-slate-700 align-top">Hasil & Refleksi</td><td id="p-hasil" class="border border-slate-300 p-1.5 whitespace-pre-line text-slate-800" colspan="3">-</td></tr>
               </table>
@@ -476,7 +480,7 @@
 
             <!-- BAHAGIAN PENANDATANGAN -->
             <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
-              <!-- PENULIS -->
+              <!-- SISI KIRI: PENULIS -->
               <div style="width: 45%;">
                 <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Disediakan Oleh:</p>
                 <div id="pc-sig-area" class="my-1 flex items-center" style="height: 50px;"></div>
@@ -486,7 +490,7 @@
                 </div>
               </div>
 
-              <!-- PENGESAH -->
+              <!-- SISI KANAN: PENGESAH -->
               <div style="width: 45%;" class="text-right">
                 <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Disahkan Oleh:</p>
                 <div id="pc-pengesah-sig-area" class="my-1 flex items-center justify-end" style="height: 50px;"></div>
@@ -522,7 +526,6 @@
     let currentRecordFilter = 'opr';
     let currentOprUnitFilter = 'Semua';
 
-    // TANDATANGAN DIGITAL
     let curaiWriterSig = "";
     let curaiApproverSig = "";
     let existingCuraiWriterSig = "";
@@ -530,54 +533,37 @@
 
     lucide.createIcons();
 
-    // PENGENDALI PANGGILAN SELAMAT
     async function safeFetchJSON(url, payload) {
       let res;
       try {
-        res = await fetch(url, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
+        res = await fetch(url, { method: 'POST', body: JSON.stringify(payload) });
       } catch (netErr) {
-        throw new Error("Ralat rangkaian: Tidak dapat menghubungi pelayan. Sila semak sambungan internet anda.");
+        throw new Error("Ralat rangkaian: Tidak dapat menghubungi pelayan.");
       }
 
       const text = await res.text();
       const trimmed = text.trim();
 
       if (trimmed.startsWith("<")) {
-        throw new Error(
-          "Pelayan membalas dengan laman web (HTML) dan bukannya data JSON.\n\n" +
-          "PANDUAN PEMBETULAN:\n" +
-          "1. Buka Apps Script, pilih fungsi 'doGet', dan klik Run (tekan 'Allow' kebenaran jika diminta).\n" +
-          "2. Klik 'Deploy' > 'Manage deployments' > Edit (pensel).\n" +
-          "3. Pastikan 'Who has access' diset kepada 'Anyone'.\n" +
-          "4. Pilih 'New version' dan klik 'Deploy'."
-        );
+        throw new Error("Pelayan membalas dengan HTML. Sila pastikan deployment Google Apps Script diset kepada 'Anyone'.");
       }
 
       try {
         return JSON.parse(trimmed);
       } catch (err) {
-        throw new Error("Format respons tidak sah: " + trimmed.substring(0, 150));
+        throw new Error("Format respons tidak sah.");
       }
     }
 
-    // SAFE BOOTSTRAP
     window.onload = function() {
       try {
         const saved = localStorage.getItem("opr_logged_user");
         if (saved) {
           currentUser = JSON.parse(saved);
-          if (currentUser && currentUser.username) {
-            loadAppScreen();
-          } else {
-            logout();
-          }
+          if (currentUser && currentUser.username) loadAppScreen();
+          else logout();
         }
-      } catch (err) {
-        logout();
-      }
+      } catch (err) { logout(); }
 
       initSigCanvas('portalCuraiCanvas', sig => { curaiWriterSig = sig; });
       initSigCanvas('portalPengesahCanvas', sig => { curaiApproverSig = sig; });
@@ -637,19 +623,13 @@
       fetchUserReports();
     }
 
-    // PENAPIS BUTANG UNIT UNTUK OPR
     function setOprUnitFilter(unitName) {
       currentOprUnitFilter = unitName;
-      const buttons = document.querySelectorAll('.unit-filter-btn');
-      buttons.forEach(btn => {
+      document.querySelectorAll('.unit-filter-btn').forEach(btn => {
         btn.className = "unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200";
       });
-
       const activeBtn = document.getElementById('unit-btn-' + unitName);
-      if (activeBtn) {
-        activeBtn.className = "unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-black transition bg-slate-900 text-white shadow-xs";
-      }
-
+      if (activeBtn) activeBtn.className = "unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-black transition bg-slate-900 text-white shadow-xs";
       renderReportsTable(userReports, 'opr');
     }
 
@@ -662,12 +642,8 @@
           const canvas = document.createElement('canvas');
           const MAX_WIDTH = 800;
           let width = img.width, height = img.height;
-          if (width > MAX_WIDTH) {
-            height = Math.round(height * MAX_WIDTH / width);
-            width = MAX_WIDTH;
-          }
-          canvas.width = width;
-          canvas.height = height;
+          if (width > MAX_WIDTH) { height = Math.round(height * MAX_WIDTH / width); width = MAX_WIDTH; }
+          canvas.width = width; canvas.height = height;
           canvas.getContext('2d').drawImage(img, 0, 0, width, height);
           callback(canvas.toDataURL('image/jpeg', 0.7));
         };
@@ -680,15 +656,11 @@
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      let painting = false;
-      let hasDrawn = false;
+      let painting = false, hasDrawn = false;
 
       function resize() {
         const r = canvas.getBoundingClientRect();
-        if (r.width > 0) {
-          canvas.width = r.width;
-          canvas.height = 100;
-        }
+        if (r.width > 0) { canvas.width = r.width; canvas.height = 100; }
       }
       resize();
 
@@ -699,36 +671,9 @@
         return { x: cx - rect.left, y: cy - rect.top };
       }
 
-      function start(e) {
-        if (e.cancelable) e.preventDefault();
-        painting = true;
-        hasDrawn = true;
-        draw(e);
-      }
-
-      function end() {
-        if (!painting) return;
-        painting = false;
-        ctx.beginPath();
-        if (hasDrawn) {
-          callback(canvas.toDataURL('image/png'));
-        } else {
-          callback("");
-        }
-      }
-
-      function draw(e) {
-        if (!painting) return;
-        if (e.cancelable) e.preventDefault();
-        ctx.lineWidth = 2.5;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#000000';
-        const pos = getPos(e);
-        ctx.lineTo(pos.x, pos.y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(pos.x, pos.y);
-      }
+      function start(e) { if (e.cancelable) e.preventDefault(); painting = true; hasDrawn = true; draw(e); }
+      function end() { if (!painting) return; painting = false; ctx.beginPath(); if (hasDrawn) callback(canvas.toDataURL('image/png')); else callback(""); }
+      function draw(e) { if (!painting) return; if (e.cancelable) e.preventDefault(); ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.strokeStyle = '#000000'; const pos = getPos(e); ctx.lineTo(pos.x, pos.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(pos.x, pos.y); }
 
       canvas.addEventListener('mousedown', start);
       canvas.addEventListener('mouseup', end);
@@ -738,19 +683,11 @@
       canvas.addEventListener('touchend', end);
       canvas.addEventListener('touchmove', draw, { passive: false });
 
-      canvas._clear = function() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        hasDrawn = false;
-      };
-
+      canvas._clear = function() { ctx.clearRect(0, 0, canvas.width, canvas.height); hasDrawn = false; };
       canvas._loadSig = function(dataUrl) {
         if (!dataUrl) return;
         const img = new Image();
-        img.onload = function() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          hasDrawn = true;
-        };
+        img.onload = function() { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0, canvas.width, canvas.height); hasDrawn = true; };
         img.src = dataUrl;
       };
     }
@@ -758,13 +695,8 @@
     function clearSigCanvas(canvasId, role) {
       const canvas = document.getElementById(canvasId);
       if (canvas && canvas._clear) canvas._clear();
-      if (role === 'penulis') {
-        curaiWriterSig = "";
-        existingCuraiWriterSig = "";
-      } else {
-        curaiApproverSig = "";
-        existingCuraiApproverSig = "";
-      }
+      if (role === 'penulis') { curaiWriterSig = ""; existingCuraiWriterSig = ""; }
+      else { curaiApproverSig = ""; existingCuraiApproverSig = ""; }
     }
 
     function togglePortalCuraiKekunci() {
@@ -794,12 +726,8 @@
 
       const logoImg = document.getElementById('currentSchoolLogo');
       if (logoImg) {
-        if (currentUser.logoSekolah) {
-          logoImg.src = currentUser.logoSekolah;
-          logoImg.classList.remove('hidden');
-        } else {
-          logoImg.classList.add('hidden');
-        }
+        if (currentUser.logoSekolah) { logoImg.src = currentUser.logoSekolah; logoImg.classList.remove('hidden'); }
+        else { logoImg.classList.add('hidden'); }
       }
     }
 
@@ -831,16 +759,9 @@
           currentUser.password = document.getElementById('loginPass').value.trim();
           localStorage.setItem("opr_logged_user", JSON.stringify(currentUser));
           loadAppScreen();
-        } else {
-          alert(result.message);
-        }
-      } catch (err) {
-        alert("Ralat sambungan log masuk:\n\n" + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `Log Masuk`;
-        lucide.createIcons();
-      }
+        } else { alert(result.message); }
+      } catch (err) { alert("Ralat sambungan log masuk:\n\n" + err.message); }
+      finally { btn.disabled = false; btn.innerHTML = `Log Masuk`; lucide.createIcons(); }
     }
 
     async function handleRegister(e) {
@@ -865,19 +786,10 @@
 
       try {
         const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
-        if (result.status === "success") {
-          alert("Pendaftaran berjaya!");
-          toggleAuth('login');
-        } else {
-          alert(result.message);
-        }
-      } catch (err) {
-        alert("Ralat pendaftaran:\n\n" + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `Daftar Akaun Baru (RM20/Bulan)`;
-        lucide.createIcons();
-      }
+        if (result.status === "success") { alert("Pendaftaran berjaya!"); toggleAuth('login'); }
+        else { alert(result.message); }
+      } catch (err) { alert("Ralat pendaftaran:\n\n" + err.message); }
+      finally { btn.disabled = false; btn.innerHTML = `Daftar Akaun Baru (RM20/Bulan)`; lucide.createIcons(); }
     }
 
     function loadAppScreen() {
@@ -889,33 +801,21 @@
 
       if (currentUser.logoSekolah) {
         const logo = document.getElementById('headerSchoolLogo');
-        if (logo) {
-          logo.src = currentUser.logoSekolah;
-          logo.classList.remove('hidden');
-        }
+        if (logo) { logo.src = currentUser.logoSekolah; logo.classList.remove('hidden'); }
       }
 
       const badge = document.getElementById('lblSubscriptionBadge');
       const alertBox = document.getElementById('subscriptionAlert');
 
       if (currentUser.role === "ADMIN") {
-        if (badge) {
-          badge.textContent = "Admin";
-          badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-amber-500 text-slate-950";
-        }
+        if (badge) { badge.textContent = "Admin"; badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-amber-500 text-slate-950"; }
         alertBox?.classList.add('hidden');
       } else {
         if (currentUser.statusLangganan === "AKTIF") {
-          if (badge) {
-            badge.textContent = `Aktif (${currentUser.tarikhTamat})`;
-            badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-emerald-600 text-white";
-          }
+          if (badge) { badge.textContent = `Aktif (${currentUser.tarikhTamat})`; badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-emerald-600 text-white"; }
           alertBox?.classList.add('hidden');
         } else {
-          if (badge) {
-            badge.textContent = "Tidak Aktif";
-            badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-rose-600 text-white";
-          }
+          if (badge) { badge.textContent = "Tidak Aktif"; badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-rose-600 text-white"; }
           alertBox?.classList.remove('hidden');
         }
       }
@@ -931,195 +831,92 @@
       ['opr', 'curai', 'school', 'account', 'records', 'print'].forEach(m => {
         document.getElementById(`view-${m}`)?.classList.add('hidden');
         const nav = document.getElementById(`nav-${m}`);
-        if (nav) {
-          nav.className = "nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white";
-        }
+        if (nav) nav.className = "nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white";
       });
 
       document.getElementById(`view-${menu}`)?.classList.remove('hidden');
       const activeNav = document.getElementById(`nav-${menu}`);
-      if (activeNav) {
-        activeNav.className = "nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow";
-      }
+      if (activeNav) activeNav.className = "nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow";
 
-      if (menu === 'records') {
-        fetchUserReports();
-      }
+      if (menu === 'records') fetchUserReports();
     }
 
     async function handleUpdateAccount(e) {
       e.preventDefault();
-      const btn = document.getElementById('btnUpdateAccount');
-      btn.disabled = true;
-      btn.textContent = "Menyimpan...";
-
-      const newPass = document.getElementById('accPassword').value.trim();
-      const newEmail = document.getElementById('accEmail').value.trim();
-
-      const payload = {
-        action: "update_account",
-        username: currentUser.username,
-        email: newEmail,
-        password: newPass ? newPass : currentUser.password
-      };
-
+      const btn = document.getElementById('btnUpdateAccount'); btn.disabled = true; btn.textContent = "Menyimpan...";
+      const payload = { action: "update_account", username: currentUser.username, email: document.getElementById('accEmail').value.trim(), password: document.getElementById('accPassword').value.trim() || currentUser.password };
       try {
         const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
-        if (result.status === "success") {
-          alert(result.message);
-          currentUser.email = newEmail;
-          if (newPass) currentUser.password = newPass;
-          localStorage.setItem("opr_logged_user", JSON.stringify(currentUser));
-          loadAccountInfoForm();
-        } else { alert(result.message); }
-      } catch (err) { alert("Ralat: " + err.message); }
-      finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Akaun"; }
+        if (result.status === "success") { alert(result.message); currentUser.email = payload.email; if(document.getElementById('accPassword').value.trim()) currentUser.password = payload.password; localStorage.setItem("opr_logged_user", JSON.stringify(currentUser)); loadAccountInfoForm(); } else alert(result.message);
+      } catch (err) { alert("Ralat: " + err.message); } finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Akaun"; }
     }
 
     async function handleUpdateSchoolInfo(e) {
       e.preventDefault();
-      const btn = document.getElementById('btnUpdateSchool');
-      btn.disabled = true;
-      btn.textContent = "Menyimpan...";
-
-      const payload = {
-        action: "update_school_info",
-        username: currentUser.username,
-        namaSekolah: document.getElementById('upSchoolName').value.trim(),
-        alamatSekolah: document.getElementById('upSchoolAddress').value.trim(),
-        kodSekolah: document.getElementById('upSchoolCode').value.trim().toUpperCase(),
-        noTelSekolah: document.getElementById('upSchoolPhone').value.trim(),
-        emelRasmiSekolah: document.getElementById('upSchoolEmail').value.trim(),
-        logoSekolah: base64UpdateLogo
-      };
-
+      const btn = document.getElementById('btnUpdateSchool'); btn.disabled = true; btn.textContent = "Menyimpan...";
+      const payload = { action: "update_school_info", username: currentUser.username, namaSekolah: document.getElementById('upSchoolName').value.trim(), alamatSekolah: document.getElementById('upSchoolAddress').value.trim(), kodSekolah: document.getElementById('upSchoolCode').value.trim().toUpperCase(), noTelSekolah: document.getElementById('upSchoolPhone').value.trim(), emelRasmiSekolah: document.getElementById('upSchoolEmail').value.trim(), logoSekolah: base64UpdateLogo };
       try {
         const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
-        if (result.status === "success") {
-          alert(result.message);
-          currentUser.namaSekolah = payload.namaSekolah;
-          currentUser.alamatSekolah = payload.alamatSekolah;
-          currentUser.kodSekolah = payload.kodSekolah;
-          currentUser.noTelSekolah = payload.noTelSekolah;
-          currentUser.emelRasmiSekolah = payload.emelRasmiSekolah;
-          if (result.logoSekolah) { currentUser.logoSekolah = result.logoSekolah; }
-          localStorage.setItem("opr_logged_user", JSON.stringify(currentUser));
-          loadAppScreen();
-        } else { alert(result.message); }
-      } catch (err) { alert("Ralat: " + err.message); }
-      finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
+        if (result.status === "success") { alert(result.message); currentUser.namaSekolah = payload.namaSekolah; currentUser.alamatSekolah = payload.alamatSekolah; currentUser.kodSekolah = payload.kodSekolah; currentUser.noTelSekolah = payload.noTelSekolah; currentUser.emelRasmiSekolah = payload.emelRasmiSekolah; if (result.logoSekolah) currentUser.logoSekolah = result.logoSekolah; localStorage.setItem("opr_logged_user", JSON.stringify(currentUser)); loadAppScreen(); } else alert(result.message);
+      } catch (err) { alert("Ralat: " + err.message); } finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
     }
 
-    // SIMPAN OPR
+    // SIMPAN OPR (DENGAN TEMPAT & ANJURAN)
     async function handleSaveOPR(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
-        alert("Langganan belum aktif!"); return;
-      }
-
-      const btn = document.getElementById('btnSaveOPR');
-      btn.disabled = true;
-      const originalText = btn.innerHTML;
-      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Sedang menyimpan OPR... Sila tunggu...`;
-      lucide.createIcons();
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Langganan belum aktif!"); return; }
+      const btn = document.getElementById('btnSaveOPR'); btn.disabled = true; const originalText = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Menyimpan OPR... Sila tunggu...`; lucide.createIcons();
 
       const payload = {
-        action: "save_opr",
-        username: currentUser.username,
-        id: document.getElementById('oprRowIndex').value,
-        unit: document.getElementById('oprUnit').value,
-        tarikh: document.getElementById('oprTarikh').value,
-        hari: document.getElementById('oprHari').value,
-        masa: document.getElementById('oprMasa').value,
-        aktiviti: document.getElementById('oprAktiviti').value,
-        namaPelapor: document.getElementById('oprPelapor').value,
-        jawatan: document.getElementById('oprJawatan').value,
-        penerangan: document.getElementById('oprPenerangan').value,
-        hasil: document.getElementById('oprHasil').value,
-        images: oprImages
+        action: "save_opr", username: currentUser.username, id: document.getElementById('oprRowIndex').value,
+        unit: document.getElementById('oprUnit').value, tarikh: document.getElementById('oprTarikh').value,
+        hari: document.getElementById('oprHari').value, masa: document.getElementById('oprMasa').value,
+        tempat: document.getElementById('oprTempat').value.trim(), anjuran: document.getElementById('oprAnjuran').value.trim(),
+        aktiviti: document.getElementById('oprAktiviti').value, namaPelapor: document.getElementById('oprPelapor').value,
+        jawatan: document.getElementById('oprJawatan').value, penerangan: document.getElementById('oprPenerangan').value,
+        hasil: document.getElementById('oprHasil').value, images: oprImages
       };
 
       try {
         const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
-        if (result.status === "success") {
-          alert("Laporan OPR berjaya disimpan!");
-          resetOprFormMode();
-          switchRecordFilter('opr');
-          switchMenu('records');
-        } else {
-          alert("Ralat: " + (result.message || "Gagal menyimpan"));
-        }
-      } catch (err) {
-        alert("Ralat sambungan:\n\n" + err.message);
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-        lucide.createIcons();
-      }
+        if (result.status === "success") { alert("Laporan OPR berjaya disimpan!"); resetOprFormMode(); switchRecordFilter('opr'); switchMenu('records'); }
+        else alert("Ralat: " + (result.message || "Gagal menyimpan"));
+      } catch (err) { alert("Ralat sambungan:\n\n" + err.message); }
+      finally { btn.disabled = false; btn.innerHTML = originalText; lucide.createIcons(); }
     }
 
-    // SIMPAN / KEMASKINI MINIT CURAI
     async function handleSaveCurai(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
-        alert("Langganan belum aktif!"); return;
-      }
-
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Langganan belum aktif!"); return; }
       const isKawalan = document.getElementById('portalIsKawalan')?.checked;
       const pass = document.getElementById('portalPassword')?.value.trim();
-      if (isKawalan && !pass) {
-        alert("Sila masukkan kata laluan untuk Minit Curai Kawalan.");
-        return;
-      }
+      if (isKawalan && !pass) { alert("Sila masukkan kata laluan untuk Minit Curai Kawalan."); return; }
 
-      const btn = document.getElementById('btnSavePortalCurai');
-      btn.disabled = true;
-      const originalText = btn.innerHTML;
-      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Sedang menyimpan minit curai... Sila tunggu...`;
-      lucide.createIcons();
+      const btn = document.getElementById('btnSavePortalCurai'); btn.disabled = true; const originalText = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Menyimpan Minit Curai... Sila tunggu...`; lucide.createIcons();
 
       const payload = {
-        action: "save_curai",
-        username: currentUser.username,
-        id: document.getElementById('curaiRowIndex').value,
-        namaPegawai: document.getElementById('curNama').value.trim(),
-        jawatan: document.getElementById('curJawatan').value.trim(),
-        tajuk: document.getElementById('curTajuk').value.trim(),
-        tarikh: document.getElementById('curTarikh').value,
-        masa: document.getElementById('curMasa').value.trim(),
-        tempat: document.getElementById('curTempat').value.trim(),
-        anjuran: document.getElementById('curAnjuran').value.trim(),
-        pengerusi: document.getElementById('curPengerusi').value.trim(),
-        kehadiran: document.getElementById('curKehadiran').value.trim(),
-        butiran: document.getElementById('curButiran').value.trim(),
-        implikasi: document.getElementById('curImplikasi').value.trim(),
-        tindakan: document.getElementById('curTindakan').value.trim(),
-        signature: curaiWriterSig || existingCuraiWriterSig,
-        statusKawalan: isKawalan ? "Kawalan" : "Biasa",
-        password: isKawalan ? pass : "",
-        namaPengesah: document.getElementById('curNamaPengesah').value.trim(),
-        jawatanPengesah: document.getElementById('curJawatanPengesah').value.trim(),
-        approverSig: curaiApproverSig || existingCuraiApproverSig,
-        approverTimestamp: document.getElementById('curaiExistingApproverTimestamp').value
+        action: "save_curai", username: currentUser.username, id: document.getElementById('curaiRowIndex').value,
+        namaPegawai: document.getElementById('curNama').value.trim(), jawatan: document.getElementById('curJawatan').value.trim(),
+        tajuk: document.getElementById('curTajuk').value.trim(), tarikh: document.getElementById('curTarikh').value,
+        masa: document.getElementById('curMasa').value.trim(), tempat: document.getElementById('curTempat').value.trim(),
+        anjuran: document.getElementById('curAnjuran').value.trim(), pengerusi: document.getElementById('curPengerusi').value.trim(),
+        kehadiran: document.getElementById('curKehadiran').value.trim(), butiran: document.getElementById('curButiran').value.trim(),
+        implikasi: document.getElementById('curImplikasi').value.trim(), tindakan: document.getElementById('curTindakan').value.trim(),
+        signature: curaiWriterSig || existingCuraiWriterSig, statusKawalan: isKawalan ? "Kawalan" : "Biasa", password: isKawalan ? pass : "",
+        namaPengesah: document.getElementById('curNamaPengesah').value.trim(), jawatanPengesah: document.getElementById('curJawatanPengesah').value.trim(),
+        approverSig: curaiApproverSig || existingCuraiApproverSig, approverTimestamp: document.getElementById('curaiExistingApproverTimestamp').value
       };
 
       try {
         const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
-        if (result.status === "success") {
-          alert("Minit Curai berjaya disimpan!");
-          resetCuraiFormMode();
-          switchRecordFilter('curai');
-          switchMenu('records');
-        } else { alert("Ralat: " + result.message); }
+        if (result.status === "success") { alert("Minit Curai berjaya disimpan!"); resetCuraiFormMode(); switchRecordFilter('curai'); switchMenu('records'); }
+        else alert("Ralat: " + result.message);
       } catch (err) { alert("Ralat sambungan:\n\n" + err.message); }
-      finally {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-        lucide.createIcons();
-      }
+      finally { btn.disabled = false; btn.innerHTML = originalText; lucide.createIcons(); }
     }
 
-    // AMBIL DATA REKOD
     async function fetchUserReports() {
       if (!currentUser) return;
       const type = currentRecordFilter || "opr";
@@ -1128,23 +925,12 @@
       lucide.createIcons();
 
       try {
-        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
-          action: "get_reports",
-          username: currentUser.username,
-          type: type
-        });
-
-        if (result.status === "success") {
-          renderReportsTable(result.data, type);
-        } else {
-          if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod.</td></tr>`;
-        }
-      } catch (err) {
-        if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">${err.message}</td></tr>`;
-      }
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, { action: "get_reports", username: currentUser.username, type: type });
+        if (result.status === "success") renderReportsTable(result.data, type);
+        else if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod.</td></tr>`;
+      } catch (err) { if (tbody) tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-rose-500">${err.message}</td></tr>`; }
     }
 
-    // PAPARAN REKOD (LABEL UNIT OPR & STATUS KEMASKINI)
     function renderReportsTable(data, type) {
       userReports = data || [];
       const tbody = document.getElementById('tblReportsBody');
@@ -1155,7 +941,6 @@
         return;
       }
 
-      // Tapis OPR mengikut unit jika pengguna memilih butang unit
       let displayList = userReports;
       if (type === 'opr' && currentOprUnitFilter !== 'Semua') {
         displayList = userReports.filter(item => (item['Unit'] || '').toString().toLowerCase() === currentOprUnitFilter.toLowerCase());
@@ -1166,7 +951,7 @@
         return;
       }
 
-      tbody.innerHTML = displayList.map((item, index) => {
+      tbody.innerHTML = displayList.map((item) => {
         const originalIndex = userReports.indexOf(item);
         const lastUpdated = item['LastUpdated'] || '-';
 
@@ -1179,10 +964,7 @@
               <td class="p-3">${item['Tarikh'] || '-'}</td>
               <td class="p-3">
                 <span class="font-semibold text-slate-900 block">${item['Aktiviti'] || '-'}</span>
-                <!-- LENCANA LABEL UNIT BERWARNA -->
-                <span class="inline-block mt-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold border ${unitCfg.badgeClass}">
-                  ${unitName}
-                </span>
+                <span class="inline-block mt-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold border ${unitCfg.badgeClass}">${unitName}</span>
               </td>
               <td class="p-3">${item['Nama Pelapor'] || '-'}</td>
               <td class="p-3 text-center whitespace-nowrap">
@@ -1242,6 +1024,8 @@
       document.getElementById('oprTarikh').value = formatDateForInput(d['Tarikh']);
       document.getElementById('oprHari').value = d['Hari'] || '';
       document.getElementById('oprMasa').value = d['Masa'] || '';
+      document.getElementById('oprTempat').value = d['Tempat'] || '';
+      document.getElementById('oprAnjuran').value = d['Anjuran'] || '';
       document.getElementById('oprPelapor').value = d['Nama Pelapor'] || '';
       document.getElementById('oprJawatan').value = d['Jawatan'] || '';
       document.getElementById('oprPenerangan').value = d['Penerangan'] || '';
@@ -1305,7 +1089,6 @@
         if (pwdInput) pwdInput.value = '';
       }
 
-      // TANDATANGAN PENULIS
       existingCuraiWriterSig = d['Signature'] || d['Tandatangan'] || '';
       curaiWriterSig = "";
       const writerCanvas = document.getElementById('portalCuraiCanvas');
@@ -1315,7 +1098,6 @@
         writerCanvas._clear();
       }
 
-      // MAKLUMAT & TANDATANGAN PENGESAH
       document.getElementById('curNamaPengesah').value = d['ApproverName'] || d['Nama Pengesah'] || '';
       document.getElementById('curJawatanPengesah').value = d['ApproverJawatan'] || d['Jawatan Pengesah'] || '';
       existingCuraiApproverSig = d['ApproverSig'] || d['Tandatangan Pengesah'] || '';
@@ -1358,7 +1140,7 @@
       lucide.createIcons();
     }
 
-    // PAPAR & CETAK DOKUMEN
+    // PAPAR & CETAK DOKUMEN (TARIKH & MASA PADA OPR, TIADA TULISAN LAPORAN SAH)
     function viewPrintRecord(index, type) {
       const d = userReports[index];
       if (!d) return;
@@ -1377,17 +1159,22 @@
         
         const logoEl = document.getElementById('p-logo');
         if (logoEl) {
-          if (currentUser.logoSekolah) {
-            logoEl.src = currentUser.logoSekolah;
-            logoEl.classList.remove('hidden');
-          } else {
-            logoEl.classList.add('hidden');
-          }
+          if (currentUser.logoSekolah) { logoEl.src = currentUser.logoSekolah; logoEl.classList.remove('hidden'); }
+          else { logoEl.classList.add('hidden'); }
         }
 
         if (document.getElementById('p-unit')) document.getElementById('p-unit').textContent = cfg.title;
         if (document.getElementById('p-aktiviti')) document.getElementById('p-aktiviti').textContent = d['Aktiviti'] || '-';
         if (document.getElementById('p-datetime')) document.getElementById('p-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Hari'] || '-'}) | Masa: ${d['Masa'] || '-'}`;
+        
+        // PAPAR TEMPAT & ANJURAN PADA CETAKAN OPR
+        const tempatAnjuranEl = document.getElementById('p-tempat-anjuran');
+        if (tempatAnjuranEl) {
+          const tpt = d['Tempat'] || '-';
+          const anj = d['Anjuran'] ? ` (Anjuran: ${d['Anjuran']})` : '';
+          tempatAnjuranEl.textContent = `${tpt}${anj}`;
+        }
+
         if (document.getElementById('p-penerangan')) document.getElementById('p-penerangan').textContent = d['Penerangan'] || '-';
         if (document.getElementById('p-hasil')) document.getElementById('p-hasil').textContent = d['Hasil'] || '-';
         if (document.getElementById('p-pelapor-nama')) document.getElementById('p-pelapor-nama').textContent = d['Nama Pelapor'] || '-';
@@ -1414,29 +1201,24 @@
         if (document.getElementById('pc-school-address')) document.getElementById('pc-school-address').textContent = currentUser.alamatSekolah || "-";
         const logoEl = document.getElementById('pc-logo');
         if (logoEl) {
-          if (currentUser.logoSekolah) {
-            logoEl.src = currentUser.logoSekolah;
-            logoEl.classList.remove('hidden');
-          } else {
-            logoEl.classList.add('hidden');
-          }
+          if (currentUser.logoSekolah) { logoEl.src = currentUser.logoSekolah; logoEl.classList.remove('hidden'); }
+          else { logoEl.classList.add('hidden'); }
         }
 
-        if (document.getElementById('pc-nama')) document.getElementById('pc-nama').textContent = d['Nama Pegawai'] || d['Nama'] || '-';
+        if (document.getElementById('pc-nama')) document.getElementById('pc-nama').textContent = d['Nama Pegawai'] || '-';
         if (document.getElementById('pc-jawatan')) document.getElementById('pc-jawatan').textContent = d['Jawatan'] || '-';
-        if (document.getElementById('pc-tajuk')) document.getElementById('pc-tajuk').textContent = d['Tajuk / Perkara'] || d['Tajuk'] || '-';
+        if (document.getElementById('pc-tajuk')) document.getElementById('pc-tajuk').textContent = d['Tajuk / Perkara'] || '-';
         if (document.getElementById('pc-datetime')) document.getElementById('pc-datetime').textContent = `${d['Tarikh'] || '-'} (${d['Masa'] || '-'}) di ${d['Tempat'] || '-'}`;
         if (document.getElementById('pc-anjuran')) document.getElementById('pc-anjuran').textContent = `${d['Anjuran'] || '-'} (Pengerusi: ${d['Pengerusi'] || '-'})`;
         if (document.getElementById('pc-kehadiran')) document.getElementById('pc-kehadiran').textContent = d['Kehadiran'] || '-';
         if (document.getElementById('pc-butiran')) document.getElementById('pc-butiran').textContent = d['Butiran'] || '-';
         if (document.getElementById('pc-implikasi')) document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
-        if (document.getElementById('pc-tindakan')) document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || d['Tindakan'] || '-';
+        if (document.getElementById('pc-tindakan')) document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || '-';
         
-        // TANDATANGAN PENULIS
-        if (document.getElementById('pc-sig-nama')) document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || d['Nama'] || '-';
+        if (document.getElementById('pc-sig-nama')) document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || '-';
         if (document.getElementById('pc-sig-jawatan')) document.getElementById('pc-sig-jawatan').textContent = d['Jawatan'] || '-';
 
-        const sigPenulis = d['Signature'] || d['Tandatangan'] || '';
+        const sigPenulis = d['Signature'] || '';
         const pcSigArea = document.getElementById('pc-sig-area');
         if (pcSigArea) {
           if (sigPenulis && (sigPenulis.startsWith('data:') || sigPenulis.startsWith('http'))) {
@@ -1446,7 +1228,6 @@
           }
         }
 
-        // TANDATANGAN PENGESAH
         const namaPengesah = (d['ApproverName'] || d['Nama Pengesah'] || '').toString().trim();
         const jawatanPengesah = (d['ApproverJawatan'] || d['Jawatan Pengesah'] || '').toString().trim();
         const sigPengesah = d['ApproverSig'] || d['Tandatangan Pengesah'] || '';
