@@ -275,7 +275,7 @@
               </div>
             </div>
 
-            <!-- CURAI SHEET -->
+            <!-- CURAI SHEET (DENGAN FORMAT TANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN) -->
             <div id="preview-curai-sheet" class="hidden h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0">
                 <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -303,16 +303,23 @@
                 </table>
               </div>
 
+              <!-- FORMAT PENANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN -->
               <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
                 <div>
-                  <p class="text-[10px] text-slate-500 uppercase font-semibold">Tandatangan Pegawai Pelapor:</p>
+                  <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1">Disediakan Oleh:</p>
                   <div id="tc-sig-area" class="my-1"></div>
-                  <p id="tc-sig-nama" class="font-bold border-t border-slate-400 pt-1 text-[11px]">-</p>
+                  <div class="border-t border-slate-400 pt-1">
+                    <p id="tc-sig-nama" class="font-bold text-[11px]">-</p>
+                    <p id="tc-sig-jawatan" class="text-[10px] text-slate-600">-</p>
+                  </div>
                 </div>
                 <div class="text-right">
-                  <p class="text-[10px] text-slate-500 uppercase font-semibold">Pengesahan Pengetua / Guru Besar:</p>
+                  <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1">Pengesahan:</p>
                   <div class="h-10"></div>
-                  <p class="font-bold border-t border-slate-400 pt-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+                  <div class="border-t border-slate-400 pt-1">
+                    <p class="font-bold text-[11px]">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+                    <p class="text-[10px] text-slate-600">Pengetua / Guru Besar</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -386,10 +393,8 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Pelaporan Saya</button>
           
-          <!-- PANEL ADMIN -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin</button>
 
-          <!-- WHATSAPP HUBUNGI ADMIN -->
           <a href="https://wa.me/?text=Hai%20Admin,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (Whatsapp)
           </a>
@@ -684,7 +689,7 @@
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI -->
+          <!-- CETAKAN MINIT CURAI (DENGAN FORMAT TANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN) -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -712,16 +717,23 @@
               </table>
             </div>
 
+            <!-- FORMAT PENANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN -->
             <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
               <div>
-                <p class="text-[10px] text-slate-500 uppercase font-semibold">Tandatangan Pegawai Pelapor:</p>
+                <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1">Disediakan Oleh:</p>
                 <div id="pc-sig-area" class="my-1"></div>
-                <p id="pc-sig-nama" class="font-bold border-t border-slate-400 pt-1 text-[11px]">-</p>
+                <div class="border-t border-slate-400 pt-1">
+                  <p id="pc-sig-nama" class="font-bold text-[11px]">-</p>
+                  <p id="pc-sig-jawatan" class="text-[10px] text-slate-600">-</p>
+                </div>
               </div>
               <div class="text-right">
-                <p class="text-[10px] text-slate-500 uppercase font-semibold">Pengesahan Pengetua / Guru Besar:</p>
+                <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1">Pengesahan:</p>
                 <div class="h-10"></div>
-                <p class="font-bold border-t border-slate-400 pt-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+                <div class="border-t border-slate-400 pt-1">
+                  <p class="font-bold text-[11px]">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+                  <p class="text-[10px] text-slate-600">Pengetua / Guru Besar</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1072,7 +1084,6 @@
       else toggleAuth('login');
     }
 
-    // FUNGSI HIGHLIGHT TAB SANDBOX YANG BETUL
     function switchTrialTab(tab) {
       if (tab === 'opr') {
         document.getElementById('trial-opr-container').classList.remove('hidden');
@@ -1145,7 +1156,10 @@
         document.getElementById('tc-butiran').textContent = document.getElementById('t_cur_butiran').value || "-";
         document.getElementById('tc-implikasi').textContent = document.getElementById('t_cur_implikasi').value || "-";
         document.getElementById('tc-tindakan').textContent = document.getElementById('t_cur_tindakan').value || "-";
-        document.getElementById('tc-sig-nama').textContent = `${document.getElementById('t_cur_nama').value} (${document.getElementById('t_cur_jawatan').value})`;
+        
+        // SUSUNAN: TANDATANGAN -> NAMA -> JAWATAN
+        document.getElementById('tc-sig-nama').textContent = document.getElementById('t_cur_nama').value || "-";
+        document.getElementById('tc-sig-jawatan').textContent = document.getElementById('t_cur_jawatan').value || "-";
 
         const sigArea = document.getElementById('tc-sig-area');
         if (trialCuraiWriterSig) {
@@ -1533,7 +1547,10 @@
         document.getElementById('pc-butiran').textContent = d['Butiran'] || '-';
         document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
         document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || '-';
-        document.getElementById('pc-sig-nama').textContent = `${d['Nama Pegawai'] || '-'} (${d['Jawatan'] || '-'})`;
+        
+        // SUSUNAN PORTAL: TANDATANGAN -> NAMA -> JAWATAN
+        document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || '-';
+        document.getElementById('pc-sig-jawatan').textContent = d['Jawatan'] || '-';
 
         const sigArea = document.getElementById('pc-sig-area');
         if (d['Signature'] && d['Signature'].startsWith('data:image')) {
