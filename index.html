@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistem Pelaporan Sekolah Online (OPR & Curai)</title>
   
+  <!-- Favicon Logo -->
+  <link rel="icon" type="image/png" href="logo.png">
+
   <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -105,7 +108,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
-  <!-- SKRIN 1: MOD PERCUBAAN (SANDBOX TERKINI) -->
+  <!-- SKRIN 1: MOD PERCUBAAN (SANDBOX) -->
   <div id="trialSandboxScreen" class="hidden min-h-screen flex-1 flex flex-col bg-slate-100">
     <header class="bg-amber-500 text-slate-950 p-4 shadow-md sticky top-0 z-40 no-print border-b-2 border-amber-600">
       <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
@@ -167,7 +170,7 @@
         </div>
       </div>
 
-      <!-- BORANG MINIT CURAI PERCUBAAN (STRUKTUR TERKINI DENGAN TANDATANGAN & KAWALAN) -->
+      <!-- BORANG MINIT CURAI PERCUBAAN -->
       <div id="trial-curai-container" class="hidden space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <form onsubmit="generateTrialPreview(event, 'curai')" class="space-y-4">
@@ -383,8 +386,10 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Pelaporan Saya</button>
           
+          <!-- PANEL ADMIN -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin</button>
 
+          <!-- WHATSAPP HUBUNGI ADMIN -->
           <a href="https://wa.me/?text=Hai%20Admin,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (Whatsapp)
           </a>
@@ -1067,13 +1072,18 @@
       else toggleAuth('login');
     }
 
+    // FUNGSI HIGHLIGHT TAB SANDBOX YANG BETUL
     function switchTrialTab(tab) {
       if (tab === 'opr') {
         document.getElementById('trial-opr-container').classList.remove('hidden');
         document.getElementById('trial-curai-container').classList.add('hidden');
+        document.getElementById('tab-trial-opr').className = "px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black shadow flex items-center gap-1.5 transition";
+        document.getElementById('tab-trial-curai').className = "px-4 py-2 bg-white hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold border border-slate-300 flex items-center gap-1.5 transition";
       } else {
         document.getElementById('trial-curai-container').classList.remove('hidden');
         document.getElementById('trial-opr-container').classList.add('hidden');
+        document.getElementById('tab-trial-curai').className = "px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black shadow flex items-center gap-1.5 transition";
+        document.getElementById('tab-trial-opr').className = "px-4 py-2 bg-white hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold border border-slate-300 flex items-center gap-1.5 transition";
       }
       document.getElementById('trialPrintWrapper').classList.add('hidden');
     }
@@ -1094,7 +1104,6 @@
       }
     }
 
-    // GENERATE PRATONTON TRIAL (OPR ATAU CURAI LENGKAP)
     function generateTrialPreview(e, type) {
       e.preventDefault();
       if (type === 'opr') {
@@ -1122,8 +1131,8 @@
         document.getElementById('preview-curai-sheet').classList.remove('hidden');
         document.getElementById('preview-opr-sheet').classList.add('hidden');
 
-        document.getElementById('tc-school-name').textContent = document.getElementById('t_opr_school')?.value || "SMK CONTOH";
-        document.getElementById('tc-school-address').textContent = document.getElementById('t_opr_address')?.value || "Selangor";
+        document.getElementById('tc-school-name').textContent = document.getElementById('t_opr_school')?.value || "SMK SEKSYEN 9, SHAH ALAM";
+        document.getElementById('tc-school-address').textContent = document.getElementById('t_opr_address')?.value || "-";
         const tcLogo = document.getElementById('tc-logo');
         if (trialLogo) { tcLogo.src = trialLogo; tcLogo.classList.remove('hidden'); } else { tcLogo.classList.add('hidden'); }
 
