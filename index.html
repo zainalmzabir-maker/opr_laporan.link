@@ -107,10 +107,10 @@
       <form id="laporanForm" onsubmit="handlePreSubmit(event)" class="space-y-6">
         <input type="hidden" id="reportId" value="">
 
-        <!-- BAHAGIAN 1: MAKLUMAT SEKOLAH & LOGO -->
+        <!-- BAHAGIAN 1: MAKLUMAT SEKOLAH & LOGO SENDIRI -->
         <div class="bg-indigo-50/50 p-4 sm:p-5 rounded-xl border border-indigo-100 space-y-4">
           <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
-            <i data-lucide="school" class="w-4 h-4 text-indigo-600"></i> Maklumat Sekolah & Logo
+            <i data-lucide="school" class="w-4 h-4 text-indigo-600"></i> Maklumat Sekolah & Logo Anda
           </h3>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -149,12 +149,12 @@
               <label class="block text-xs font-semibold text-slate-600 mb-1">Pilihan Akses Laporan <span class="text-red-500">*</span></label>
               <select id="jenisAkses" onchange="togglePasswordInput(this.value)" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white font-medium focus:ring-2 focus:ring-sky-500">
                 <option value="Awam">Terbuka (Boleh Dilihat & Dicetak Oleh Semua)</option>
-                <option value="Katalaluan">Perlu Kata Laluan (Hanya Pelapor / Berkata Laluan)</option>
+                <option value="Katalaluan">Perlu Kata Laluan (Hanya Yang Tahu Kata Laluan)</option>
               </select>
             </div>
             <div id="passwordFieldContainer" class="hidden">
               <label class="block text-xs font-semibold text-slate-600 mb-1">Cipta Kata Laluan Anda <span class="text-red-500">*</span></label>
-              <input type="password" id="laporanPassword" placeholder="Masukkan kata laluan untuk membuka laporan" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white focus:ring-2 focus:ring-sky-500">
+              <input type="password" id="laporanPassword" placeholder="Masukkan kata laluan laporan..." class="w-full border border-slate-300 rounded-lg p-2.5 text-sm bg-white focus:ring-2 focus:ring-sky-500">
             </div>
           </div>
         </div>
@@ -223,7 +223,7 @@
         <!-- BAHAGIAN 4: UPLOAD GAMBAR DOKUMENTASI (1 HINGGA 4) -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Dokumentasi (1 hingga 4 Keping)</label>
-          <p class="text-[11px] text-slate-500 mb-2">Gambar 1 <span class="text-red-500 font-bold">*Wajib</span>. Semua gambar dimampatkan secara automatik sebelum dimuat naik.</p>
+          <p class="text-[11px] text-slate-500 mb-2">Gambar 1 <span class="text-red-500 font-bold">*Wajib</span>. Semua gambar dimampatkan secara automatik sebelum disimpan.</p>
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div class="border-2 border-dashed border-sky-400 bg-sky-50/40 rounded-lg p-2 text-center flex flex-col items-center justify-center relative h-32">
@@ -437,33 +437,32 @@
   </main>
 
   <!-- ==================== MODAL 1: PEMBAYARAN TOUCH 'N GO ==================== -->
-  <div id="paymentModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-center relative">
+  <div id="paymentModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-200 text-center relative my-auto">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
 
-      <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-3">
+      <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-2.5">
         <i data-lucide="qr-code" class="w-6 h-6"></i>
       </div>
 
       <h3 class="text-lg font-black text-slate-800">Pembayaran Menjana Laporan</h3>
-      <p class="text-xs text-slate-500 mt-1">Sila imbas kod DuitNow QR Touch 'n Go untuk membuat bayaran sebanyak <b class="text-sky-600 text-sm">RM0.50</b>.</p>
+      <p class="text-xs text-slate-500 mt-0.5">Sila imbas kod QR Touch 'n Go untuk membuat bayaran sebanyak <b class="text-emerald-600 font-black text-sm">RM0.50</b>.</p>
 
-      <!-- Paparan QR Touch 'n Go -->
+      <!-- PAPARAN QR CODE TOUCH 'N GO -->
       <div class="my-4 bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center">
-        <!-- Anda boleh gantikan pautan imej ini dengan imej QR Touch 'n Go peribadi anda jika ada (cth: 'tng-qr.png') -->
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=DuitNow-TouchNGo-RM0.50" alt="QR Touch 'n Go" class="w-44 h-44 object-contain rounded-lg shadow-sm border border-slate-300">
-        <span class="mt-2 text-xs font-bold text-slate-700">Jumlah Bayaran: RM0.50</span>
-        <span class="text-[10px] text-slate-400">Touch 'n Go eWallet / DuitNow QR</span>
+        <img src="tng-qr.png" alt="QR Touch 'n Go" class="w-48 h-48 object-contain rounded-lg shadow-sm border border-slate-300 bg-white p-1">
+        <span class="mt-2.5 text-xs font-bold text-slate-800">Jumlah Bayaran: RM0.50</span>
+        <span class="text-[10px] text-slate-500">Touch 'n Go eWallet / DuitNow QR</span>
       </div>
 
-      <!-- Input Rujukan Transaksi -->
-      <div class="text-left space-y-3 mb-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">No. Rujukan Transaksi TnG (4-6 digit terakhir resit) <span class="text-red-500">*</span></label>
-          <input type="text" id="tngRefInput" required placeholder="cth: 849201" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm text-center font-mono focus:ring-2 focus:ring-sky-500">
-        </div>
+      <!-- BORANG PENGESAHAN NO RUJUKAN -->
+      <div class="text-left space-y-2 mb-4">
+        <label class="block text-xs font-bold text-slate-700">
+          No. Rujukan Transaksi TnG (4-6 digit terakhir resit) <span class="text-red-500">*</span>
+        </label>
+        <input type="text" id="tngRefInput" required placeholder="cth: 849201" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm text-center font-mono font-bold focus:ring-2 focus:ring-sky-500">
       </div>
 
       <div class="flex gap-2">
@@ -876,7 +875,7 @@
       requestAccess(index, 'print');
     }
 
-    // Muat semula maklumat ke borang
+    // Muat semula borang untuk suntingan
     function editReport(index) {
       const d = storedReports[index];
       if (!d) return;
