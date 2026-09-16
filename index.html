@@ -684,7 +684,11 @@
                   <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold shrink-0"><i data-lucide="user-check" class="w-4 h-4"></i></div>
                   <div><p class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider">Disediakan Oleh:</p><p id="p-pelapor-nama" class="font-black text-slate-900 text-xs">-</p><p id="p-pelapor-jawatan" class="text-[10px] text-slate-600 font-semibold">-</p></div>
                 </div>
-                <div class="text-right"><span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[9px] font-black uppercase">Laporan Lengkap & Sah</span><p class="text-[8px] text-slate-400 mt-0.5">Dicetak pada: <span id="p-print-date">-</span></p></div>
+                <div class="text-right">
+                  <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[9px] font-black uppercase">Laporan Lengkap & Sah</span>
+                  <p class="text-[8px] text-slate-400 mt-0.5">Dicetak pada: <span id="p-print-date">-</span></p>
+                  <span id="p-id" class="hidden"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -762,8 +766,12 @@
         <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg"><span class="font-bold">Langganan:</span><span id="mUserSubExpiry" class="col-span-2 font-bold text-emerald-700">-</span></div>
       </div>
       <div class="border-t pt-3 flex gap-2 justify-end">
-        <button id="btnGrantSub30" class="px-3 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold">+30 Hari</button>
-        <button id="btnDeleteUserModal" class="px-3 py-2 bg-rose-100 text-rose-800 rounded-xl text-xs font-bold">Padam Akaun</button>
+        <button onclick="confirmGrantSub30()" id="btnGrantSub30" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Tambah 30 Hari
+        </button>
+        <button onclick="confirmDeleteUser()" id="btnDeleteUserModal" class="px-3 py-2 bg-rose-100 hover:bg-rose-200 text-rose-800 rounded-xl text-xs font-bold flex items-center gap-1">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Padam Akaun
+        </button>
       </div>
     </div>
   </div>
@@ -798,6 +806,7 @@
     const oprImages = ["", "", "", ""];
     let userReports = [];
     let adminUsersList = [];
+    let activeAdminUserIndex = null;
 
     let trialLogo = "";
     let curaiWriterSig = "";
@@ -1436,6 +1445,7 @@
     }
 
     function openAdminUserDetailModal(index) {
+      activeAdminUserIndex = index;
       const u = adminUsersList[index];
       if (!u) return;
       document.getElementById('mUserSchool').textContent = u.namaSekolah;
@@ -1450,6 +1460,89 @@
       document.getElementById('modalAdminUserDetail').classList.remove('hidden');
     }
     function closeAdminUserDetailModal() { document.getElementById('modalAdminUserDetail').classList.add('hidden'); }
+
+    // TAMBAH 30 HARI LANGGANAN (DENGAN CONFIRMATION)
+    async function confirmGrantSub30() {
+      if (activeAdminUserIndex === null) return;
+      const u = adminUsersList[activeAdminUserIndex];
+      if (!u) return;
+
+      if (!confirm(`Adakah anda pasti untuk menambah 30 hari langganan bagi akaun sekolah "${u.namaSekolah}" (${u.username})?`)) {
+        return;
+      }
+
+      const btn = document.getElementById('btnGrantSub30');
+      btn.disabled = true;
+      btn.textContent = "Memproses...";
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: "admin_update_sub",
+            adminUser: currentUser.username,
+            adminPass: currentUser.password,
+            targetUsername: u.username,
+            days: 30
+          })
+        });
+        const result = await res.json();
+        if (result.status === "success") {
+          alert(result.message || "Langganan berjaya ditambah!");
+          closeAdminUserDetailModal();
+          loadAdminAllUsers();
+        } else {
+          alert("Ralat: " + result.message);
+        }
+      } catch (err) {
+        alert("Ralat sambungan: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Tambah 30 Hari`;
+        lucide.createIcons();
+      }
+    }
+
+    // PADAM AKAUN (DENGAN CONFIRMATION)
+    async function confirmDeleteUser() {
+      if (activeAdminUserIndex === null) return;
+      const u = adminUsersList[activeAdminUserIndex];
+      if (!u) return;
+
+      if (!confirm(`AMARAN: Adakah anda pasti untuk MEMADAM akaun sekolah "${u.namaSekolah}" (${u.username})? Tindakan ini tidak boleh diundur.`)) {
+        return;
+      }
+
+      const btn = document.getElementById('btnDeleteUserModal');
+      btn.disabled = true;
+      btn.textContent = "Memadam...";
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: "admin_delete_user",
+            adminUser: currentUser.username,
+            adminPass: currentUser.password,
+            targetUsername: u.username
+          })
+        });
+        const result = await res.json();
+        if (result.status === "success") {
+          alert(result.message || "Akaun berjaya dipadam.");
+          closeAdminUserDetailModal();
+          loadAdminAllUsers();
+        } else {
+          alert("Ralat: " + result.message);
+        }
+      } catch (err) {
+        alert("Ralat sambungan: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Padam Akaun`;
+        lucide.createIcons();
+      }
+    }
 
     async function payWithToyyibPay() {
       try {
@@ -1487,57 +1580,6 @@
         reader.readAsDataURL(input.files[0]);
       }
     }
-
-    function fetchUserReports() {
-      if (!currentUser) return;
-      const type = document.getElementById('recordTypeSelect').value || "opr";
-      const script = document.createElement('script');
-      script.src = `${GOOGLE_SCRIPT_URL}?username=${encodeURIComponent(currentUser.username)}&type=${type}&callback=renderReportsTable&t=${Date.now()}`;
-      document.body.appendChild(script);
-    }
-
-    window.renderReportsTable = function(data) {
-      userReports = Array.isArray(data) ? data : [];
-      const tbody = document.getElementById('tblReportsBody');
-      tbody.innerHTML = '';
-      const type = document.getElementById('recordTypeSelect').value || "opr";
-
-      if (userReports.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod dijumpai.</td></tr>`;
-        return;
-      }
-
-      userReports.forEach((item, index) => {
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 border-b";
-        if (type === 'opr') {
-          tr.innerHTML = `
-            <td class="p-3">${item['Tarikh']}</td>
-            <td class="p-3 font-semibold">${item['Unit']}</td>
-            <td class="p-3 font-bold">${item['Aktiviti']}</td>
-            <td class="p-3">${item['Nama Pelapor']}</td>
-            <td class="p-3 text-center">
-              <button onclick="prepareEditOpr(${index})" class="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[11px] me-1">Kemaskini</button>
-              <button onclick="viewPrintRecord(${index}, 'opr')" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white rounded font-bold text-[11px]">Cetak OPR</button>
-            </td>
-          `;
-        } else {
-          let isRahsia = item['StatusKawalan'] === 'Kawalan';
-          tr.innerHTML = `
-            <td class="p-3">${item['Tarikh']}</td>
-            <td class="p-3 font-bold">${item['Tajuk / Perkara']}</td>
-            <td class="p-3">${item['Nama Pegawai']}</td>
-            <td class="p-3 text-center">${isRahsia ? '<span class="text-rose-600 font-bold">Rahsia</span>' : '<span class="text-slate-600">Biasa</span>'}</td>
-            <td class="p-3 text-center">
-              <button onclick="prepareEditCurai(${index})" class="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[11px] me-1">Kemaskini</button>
-              <button onclick="viewPrintRecord(${index}, 'curai')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[11px]">Cetak Curai</button>
-            </td>
-          `;
-        }
-        tbody.appendChild(tr);
-      });
-      lucide.createIcons();
-    };
 
     function prepareEditOpr(index) {
       let d = userReports[index];
