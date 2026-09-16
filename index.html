@@ -144,23 +144,23 @@
           <form onsubmit="generateTrialPreview(event, 'opr')" class="space-y-4">
             <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 space-y-3">
               <h4 class="text-xs font-bold text-indigo-900 uppercase">Kepala Surat Sekolah</h4>
-              <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Nama Penuh Sekolah *</label><input type="text" id="t_opr_school" required placeholder="SMK SEKSYEN 9, SHAH ALAM" class="w-full border rounded-lg p-2 text-xs uppercase font-bold bg-white"></div>
-              <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Alamat Lengkap Sekolah *</label><input type="text" id="t_opr_address" required placeholder="Jalan Tengku Ampuan Rahimah 9/20, Shah Alam" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+              <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Nama Penuh Sekolah *</label><input type="text" id="t_opr_school" required class="w-full border rounded-lg p-2 text-xs uppercase font-bold bg-white"></div>
+              <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Alamat Lengkap Sekolah *</label><input type="text" id="t_opr_address" required class="w-full border rounded-lg p-2 text-xs bg-white"></div>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kod *</label><input type="text" id="t_opr_code" required placeholder="BEA8653" class="w-full border rounded-lg p-2 text-xs uppercase font-mono bg-white"></div>
-                <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Tel *</label><input type="text" id="t_opr_phone" required placeholder="03-55106782" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
-                <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel *</label><input type="email" id="t_opr_email" required placeholder="bea8653@moe.edu.my" class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+                <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kod *</label><input type="text" id="t_opr_code" required class="w-full border rounded-lg p-2 text-xs uppercase font-mono bg-white"></div>
+                <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Tel *</label><input type="text" id="t_opr_phone" required class="w-full border rounded-lg p-2 text-xs bg-white"></div>
+                <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel *</label><input type="email" id="t_opr_email" required class="w-full border rounded-lg p-2 text-xs bg-white"></div>
               </div>
               <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Logo Sekolah</label><input type="file" accept="image/*" onchange="previewTrialLogo(this)" class="w-full text-[10px] file:py-1 file:px-2.5"></div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div><label class="block text-xs font-bold text-slate-700 mb-1">Aktiviti Unit</label><select id="t_opr_unit" class="w-full border rounded-lg p-2 text-xs bg-white"><option value="Kokurikulum">Kokurikulum</option><option value="Kurikulum">Kurikulum</option><option value="Hem">HEM</option><option value="Pentadbiran">Pentadbiran</option></select></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Aktiviti</label><input type="text" id="t_opr_aktiviti" required placeholder="Kejohanan Merentas Desa" class="w-full border rounded-lg p-2 text-xs font-bold"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Aktiviti</label><input type="text" id="t_opr_aktiviti" required class="w-full border rounded-lg p-2 text-xs font-bold"></div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh</label><input type="date" id="t_opr_tarikh" required class="w-full border rounded-lg p-2 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa</label><input type="text" id="t_opr_masa" required placeholder="8.00 pagi - 12.00 tgh" class="w-full border rounded-lg p-2 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pelapor</label><input type="text" id="t_opr_pelapor" required placeholder="Cikgu Ahmad Faiz" class="w-full border rounded-lg p-2 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa</label><input type="text" id="t_opr_masa" required class="w-full border rounded-lg p-2 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pelapor</label><input type="text" id="t_opr_pelapor" required class="w-full border rounded-lg p-2 text-xs"></div>
             </div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Penerangan</label><textarea id="t_opr_penerangan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Hasil & Refleksi</label><textarea id="t_opr_hasil" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
@@ -175,22 +175,22 @@
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <form onsubmit="generateTrialPreview(event, 'curai')" class="space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai *</label><input type="text" id="t_cur_nama" required placeholder="cth: Cikgu Zulkifli" class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan & Gred *</label><input type="text" id="t_cur_jawatan" required placeholder="cth: GPK Kokurikulum (DG48)" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai *</label><input type="text" id="t_cur_nama" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan & Gred *</label><input type="text" id="t_cur_jawatan" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="t_cur_tajuk" required placeholder="cth: Mesyuarat Penyelarasan Sukan MSSD" class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="t_cur_tajuk" required class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh *</label><input type="date" id="t_cur_tarikh" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="t_cur_masa" required placeholder="8.00 pagi - 5.00 ptg" class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="t_cur_tempat" required placeholder="PPD / Hotel" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="t_cur_masa" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="t_cur_tempat" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="t_cur_anjuran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="t_cur_pengerusi" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="t_cur_kehadiran" required placeholder="cth: Semua Pengetua" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="t_cur_kehadiran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="t_cur_butiran" rows="3" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
@@ -210,7 +210,7 @@
               </div>
               <div id="trialRuangKekunci" class="hidden pt-1">
                 <label class="block text-[11px] font-semibold text-slate-600 mb-1">Cipta Kata Laluan Dokumen:</label>
-                <input type="password" id="trialPassword" placeholder="Kata laluan rahsia..." class="w-full border rounded-lg p-2 text-xs">
+                <input type="password" id="trialPassword" class="w-full border rounded-lg p-2 text-xs">
               </div>
             </div>
 
@@ -275,7 +275,7 @@
               </div>
             </div>
 
-            <!-- CURAI SHEET (DENGAN FORMAT TANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN) -->
+            <!-- CURAI SHEET (STRUKTUR PENANDATANGAN SELARAS: TANDATANGAN -> NAMA -> JAWATAN) -->
             <div id="preview-curai-sheet" class="hidden h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0">
                 <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -303,7 +303,7 @@
                 </table>
               </div>
 
-              <!-- FORMAT PENANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN -->
+              <!-- STRUKTUR PENANDATANGAN SERAGAM -->
               <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1">Disediakan Oleh:</p>
@@ -343,8 +343,8 @@
         </button>
       </div>
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
-        <div><label class="block text-xs font-bold text-slate-700 mb-1">Username</label><input type="text" id="loginUser" required placeholder="cth: smkseksyen9" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none"></div>
-        <div><label class="block text-xs font-bold text-slate-700 mb-1">Kata Laluan</label><input type="password" id="loginPass" required placeholder="Kata laluan" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none"></div>
+        <div><label class="block text-xs font-bold text-slate-700 mb-1">Username</label><input type="text" id="loginUser" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none"></div>
+        <div><label class="block text-xs font-bold text-slate-700 mb-1">Kata Laluan</label><input type="password" id="loginPass" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm outline-none"></div>
         <button type="submit" id="btnLogin" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-sm shadow">Log Masuk</button>
         <p class="text-xs text-center text-slate-500 pt-2">Belum ada akaun? <a href="javascript:void(0)" onclick="toggleAuth('register')" class="text-sky-600 font-bold underline">Daftar Sekolah Baru</a></p>
       </form>
@@ -356,12 +356,12 @@
           <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kata Laluan *</label><input type="password" id="regPass" required class="w-full border rounded-lg p-2 text-xs"></div>
         </div>
         <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Pendaftar *</label><input type="email" id="regEmail" required class="w-full border rounded-lg p-2 text-xs"></div>
-        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">1. Nama Penuh Sekolah *</label><input type="text" id="regSchoolName" required placeholder="SMK SEKSYEN 9, SHAH ALAM" class="w-full border rounded-lg p-2 text-xs uppercase font-bold"></div>
-        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">2. Alamat Lengkap Sekolah *</label><input type="text" id="regSchoolAddress" required placeholder="Jalan Tengku Ampuan Rahimah 9/20, Shah Alam" class="w-full border rounded-lg p-2 text-xs"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">1. Nama Penuh Sekolah *</label><input type="text" id="regSchoolName" required class="w-full border rounded-lg p-2 text-xs uppercase font-bold"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">2. Alamat Lengkap Sekolah *</label><input type="text" id="regSchoolAddress" required class="w-full border rounded-lg p-2 text-xs"></div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">3. Kod *</label><input type="text" id="regSchoolCode" required placeholder="BEA8653" class="w-full border rounded-lg p-2 text-xs uppercase font-mono"></div>
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">4. Tel *</label><input type="text" id="regSchoolPhone" required placeholder="03-55106782" class="w-full border rounded-lg p-2 text-xs"></div>
-          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">5. Emel Rasmi *</label><input type="email" id="regSchoolEmail" required placeholder="bea8653@moe.edu.my" class="w-full border rounded-lg p-2 text-xs"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">3. Kod *</label><input type="text" id="regSchoolCode" required class="w-full border rounded-lg p-2 text-xs uppercase font-mono"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">4. Tel *</label><input type="text" id="regSchoolPhone" required class="w-full border rounded-lg p-2 text-xs"></div>
+          <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">5. Emel Rasmi *</label><input type="email" id="regSchoolEmail" required class="w-full border rounded-lg p-2 text-xs"></div>
         </div>
         <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Logo Sekolah</label><input type="file" id="regLogoInput" accept="image/*" onchange="compressLogo(this)" class="w-full text-xs text-slate-500 file:py-1 file:px-2"></div>
         <button type="submit" id="btnRegister" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs mt-2">Daftar Akaun Baru (RM20/Bulan)</button>
@@ -425,16 +425,16 @@
             <input type="hidden" id="oprId" value="">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label class="block text-xs font-bold text-slate-700 mb-1">Aktiviti Unit *</label><select id="oprUnit" required class="w-full border rounded-lg p-2.5 text-xs bg-white"><option value="Kokurikulum">Kokurikulum</option><option value="Koakademik">Koakademik</option><option value="Kurikulum">Kurikulum</option><option value="Hem">HEM</option><option value="Pentadbiran">Pentadbiran</option><option value="Lain-lain">Lain-lain</option></select></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Program / Aktiviti *</label><input type="text" id="oprAktiviti" required placeholder="cth: Kejohanan Merentas Desa Peringkat Sekolah" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Program / Aktiviti *</label><input type="text" id="oprAktiviti" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh Aktiviti *</label><input type="date" id="oprTarikh" required onchange="autoFillDay(this.value)" class="w-full border rounded-lg p-2.5 text-xs"></div>
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Hari</label><input type="text" id="oprHari" readonly class="w-full bg-slate-100 border rounded-lg p-2.5 text-xs text-slate-600"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa Aktiviti *</label><input type="text" id="oprMasa" required placeholder="8.00 pagi - 12.00 tgh" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa Aktiviti *</label><input type="text" id="oprMasa" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 bg-slate-50 p-3.5 rounded-xl border">
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pelapor *</label><input type="text" id="oprPelapor" required placeholder="Cikgu Ahmad Faiz" class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan Pelapor *</label><input type="text" id="oprJawatan" required placeholder="Setiausaha Sukan" class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pelapor *</label><input type="text" id="oprPelapor" required class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan Pelapor *</label><input type="text" id="oprJawatan" required class="w-full bg-white border rounded-lg p-2.5 text-xs"></div>
             </div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Penerangan Ringkas Program *</label><textarea id="oprPenerangan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Hasil / Refleksi Program *</label><textarea id="oprHasil" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
@@ -461,25 +461,25 @@
             <input type="hidden" id="curaiRowIndex" value="">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai *</label><input type="text" id="curNama" required placeholder="cth: Cikgu Zulkifli" class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan & Gred *</label><input type="text" id="curJawatan" required placeholder="cth: GPK Kokurikulum (DG48)" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai *</label><input type="text" id="curNama" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-bold text-slate-700 mb-1">Jawatan & Gred *</label><input type="text" id="curJawatan" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="curTajuk" required placeholder="cth: Mesyuarat Penyelarasan Sukan MSSD" class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Tajuk / Perkara Mesyuarat / Kursus *</label><input type="text" id="curTajuk" required class="w-full border rounded-lg p-2.5 text-xs font-bold"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh *</label><input type="date" id="curTarikh" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="curMasa" required placeholder="8.00 pagi - 5.00 ptg" class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="curTempat" required placeholder="PPD / Hotel" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Masa *</label><input type="text" id="curMasa" required class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Tempat *</label><input type="text" id="curTempat" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Anjuran *</label><input type="text" id="curAnjuran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
               <div><label class="block text-xs font-semibold text-slate-700 mb-1">Pengerusi *</label><input type="text" id="curPengerusi" required class="w-full border rounded-lg p-2.5 text-xs"></div>
-              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="curKehadiran" required placeholder="cth: Semua Pengetua" class="w-full border rounded-lg p-2.5 text-xs"></div>
+              <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kehadiran *</label><input type="text" id="curKehadiran" required class="w-full border rounded-lg p-2.5 text-xs"></div>
             </div>
 
-            <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="curButiran" rows="3" required placeholder="1. Perkara penting dibincangkan..." class="w-full border rounded-lg p-2 text-xs"></textarea></div>
+            <div><label class="block text-xs font-bold text-slate-700 mb-1">Butiran Mesyuarat / Taklimat *</label><textarea id="curButiran" rows="3" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Implikasi Kepada Sekolah *</label><textarea id="curImplikasi" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
             <div><label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Sekolah *</label><textarea id="curTindakan" rows="2" required class="w-full border rounded-lg p-2 text-xs"></textarea></div>
 
@@ -496,7 +496,7 @@
               </div>
               <div id="portalRuangKekunci" class="hidden pt-1">
                 <label class="block text-[11px] font-semibold text-slate-600 mb-1">Cipta Kata Laluan Dokumen:</label>
-                <input type="password" id="portalPassword" placeholder="Kata laluan rahsia..." class="w-full border rounded-lg p-2 text-xs">
+                <input type="password" id="portalPassword" class="w-full border rounded-lg p-2 text-xs">
               </div>
             </div>
 
@@ -689,7 +689,7 @@
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI (DENGAN FORMAT TANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN) -->
+          <!-- CETAKAN MINIT CURAI (STRUKTUR PENANDATANGAN SERAGAM: TANDATANGAN -> NAMA -> JAWATAN) -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -717,7 +717,7 @@
               </table>
             </div>
 
-            <!-- FORMAT PENANDATANGAN: TANDATANGAN -> NAMA -> JAWATAN -->
+            <!-- STRUKTUR PENANDATANGAN SERAGAM -->
             <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
               <div>
                 <p class="text-[10px] text-slate-500 uppercase font-semibold mb-1">Disediakan Oleh:</p>
@@ -772,7 +772,7 @@
   <div id="modalForgotPassword" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-sm w-full p-5 text-center shadow-xl">
       <h3 class="text-sm font-bold text-slate-800">Set Semula Kata Laluan</h3>
-      <input type="email" id="forgotEmail" placeholder="nama@gmail.com" class="w-full border rounded-lg p-2 text-xs mt-3">
+      <input type="email" id="forgotEmail" class="w-full border rounded-lg p-2 text-xs mt-3">
       <div class="flex gap-2 mt-4">
         <button onclick="closeForgotPasswordModal()" class="w-1/2 py-2 text-xs border rounded-lg">Batal</button>
         <button onclick="submitForgotPassword()" class="w-1/2 py-2 text-xs bg-sky-600 text-white font-bold rounded-lg">Hantar Emel</button>
@@ -1123,7 +1123,7 @@
         const unitVal = document.getElementById('t_opr_unit').value || "Kokurikulum";
         const cfg = UNIT_CONFIG[unitVal] || UNIT_CONFIG['Lain-lain'];
         document.getElementById('tp-unit-header').style.backgroundColor = cfg.bg;
-        document.getElementById('tp-school').textContent = document.getElementById('t_opr_school').value || "SMK SEKSYEN 9, SHAH ALAM";
+        document.getElementById('tp-school').textContent = document.getElementById('t_opr_school').value || "SEKOLAH MENENGAH";
         document.getElementById('tp-address').textContent = document.getElementById('t_opr_address').value || "-";
         document.getElementById('tp-contact-line').textContent = `Kod: ${document.getElementById('t_opr_code').value} • Tel: ${document.getElementById('t_opr_phone').value} • Emel: ${document.getElementById('t_opr_email').value}`;
         document.getElementById('tp-unit').textContent = cfg.title;
@@ -1142,7 +1142,7 @@
         document.getElementById('preview-curai-sheet').classList.remove('hidden');
         document.getElementById('preview-opr-sheet').classList.add('hidden');
 
-        document.getElementById('tc-school-name').textContent = document.getElementById('t_opr_school')?.value || "SMK SEKSYEN 9, SHAH ALAM";
+        document.getElementById('tc-school-name').textContent = document.getElementById('t_opr_school')?.value || "SEKOLAH MENENGAH";
         document.getElementById('tc-school-address').textContent = document.getElementById('t_opr_address')?.value || "-";
         const tcLogo = document.getElementById('tc-logo');
         if (trialLogo) { tcLogo.src = trialLogo; tcLogo.classList.remove('hidden'); } else { tcLogo.classList.add('hidden'); }
@@ -1174,9 +1174,15 @@
     }
 
     function executeTrialPrint() {
+      document.getElementById('trialPrintSheet')?.classList.remove('print-active');
       document.getElementById('officialPrintSheetOPR')?.classList.remove('print-active');
       document.getElementById('officialPrintSheetCurai')?.classList.remove('print-active');
-      document.getElementById('trialPrintSheet')?.classList.add('print-active');
+      const isOprVisible = !document.getElementById('preview-opr-sheet').classList.contains('hidden');
+      if (isOprVisible) {
+        document.getElementById('trialPrintSheet').classList.add('print-active');
+      } else {
+        document.getElementById('trialPrintSheet').classList.add('print-active');
+      }
       window.print();
     }
 
@@ -1548,7 +1554,7 @@
         document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
         document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || '-';
         
-        // SUSUNAN PORTAL: TANDATANGAN -> NAMA -> JAWATAN
+        // SUSUNAN: TANDATANGAN -> NAMA -> JAWATAN
         document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || '-';
         document.getElementById('pc-sig-jawatan').textContent = d['Jawatan'] || '-';
 
@@ -1565,7 +1571,6 @@
     }
 
     function executeOfficialPrint() {
-      document.getElementById('trialPrintSheet')?.classList.remove('print-active');
       document.getElementById('officialPrintSheetOPR')?.classList.remove('print-active');
       document.getElementById('officialPrintSheetCurai')?.classList.remove('print-active');
       const isOprVisible = !document.getElementById('officialPrintSheetOPR').classList.contains('hidden');
