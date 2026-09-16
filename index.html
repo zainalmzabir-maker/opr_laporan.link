@@ -418,11 +418,11 @@
       <section id="view-opr" class="space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
           <div class="border-b pb-4 mb-5 flex justify-between items-center">
-            <h2 class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="file-pen" class="text-sky-600"></i> Penjana Laporan Satu Muka (OPR)</h2>
-            <span class="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1 rounded-full border border-sky-200">Profil Sendiri</span>
+            <h2 id="oprFormTitle" class="text-lg font-black text-slate-800 flex items-center gap-2"><i data-lucide="file-pen" class="text-sky-600"></i> Penjana Laporan Satu Muka (OPR)</h2>
+            <button type="button" id="cancelOprEditBtn" class="hidden px-3 py-1 bg-slate-200 text-slate-700 rounded-lg text-xs font-bold" onclick="resetOprFormMode()">Batal Kemaskini</button>
           </div>
           <form id="oprForm" onsubmit="handleSaveOPR(event)" class="space-y-4">
-            <input type="hidden" id="oprId" value="">
+            <input type="hidden" id="oprRowIndex" value="">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div><label class="block text-xs font-bold text-slate-700 mb-1">Aktiviti Unit *</label><select id="oprUnit" required class="w-full border rounded-lg p-2.5 text-xs bg-white"><option value="Kokurikulum">Kokurikulum</option><option value="Koakademik">Koakademik</option><option value="Kurikulum">Kurikulum</option><option value="Hem">HEM</option><option value="Pentadbiran">Pentadbiran</option><option value="Lain-lain">Lain-lain</option></select></div>
               <div><label class="block text-xs font-bold text-slate-700 mb-1">Nama Program / Aktiviti *</label><input type="text" id="oprAktiviti" required class="w-full border rounded-lg p-2.5 text-xs"></div>
@@ -449,12 +449,12 @@
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
           <div class="border-b pb-4 mb-5 flex justify-between items-center">
             <div>
-              <h2 class="text-lg font-black text-slate-800 flex items-center gap-2">
+              <h2 id="curaiFormTitle" class="text-lg font-black text-slate-800 flex items-center gap-2">
                 <i data-lucide="clipboard-list" class="text-sky-600"></i> Modul Minit Curai Online
               </h2>
               <p class="text-xs text-slate-500 mt-0.5">Sediakan minit curai rasmi taklimat, mesyuarat, atau kursus luar.</p>
             </div>
-            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Aktif</span>
+            <button type="button" id="cancelCuraiEditBtn" class="hidden px-3 py-1 bg-slate-200 text-slate-700 rounded-lg text-xs font-bold" onclick="resetCuraiFormMode()">Batal Kemaskini</button>
           </div>
 
           <form id="curaiForm" onsubmit="handleSaveCurai(event)" class="space-y-4">
@@ -591,7 +591,7 @@
         <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <div>
             <h3 class="text-sm font-bold text-slate-800">Rekod Pelaporan Sekolah Saya (OPR & Curai)</h3>
-            <p class="text-xs text-slate-400">Pilih jenis laporan untuk paparan rekod.</p>
+            <p class="text-xs text-slate-400">Pilih jenis laporan untuk paparan rekod dan tindakan.</p>
           </div>
           <div class="flex items-center gap-2">
             <select id="recordTypeSelect" onchange="fetchUserReports()" class="border rounded-lg px-2.5 py-1.5 text-xs bg-white font-semibold">
@@ -689,7 +689,7 @@
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI (STRUKTUR PENANDATANGAN SERAGAM: TANDATANGAN -> NAMA -> JAWATAN) -->
+          <!-- CETAKAN MINIT CURAI -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -819,7 +819,6 @@
       initCanvas('trialCuraiCanvas', sig => { trialCuraiWriterSig = sig; });
     };
 
-    // INISIALISASI CANVAS TANDATANGAN DIGITAL
     function initCanvas(canvasId, callback) {
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
@@ -999,7 +998,7 @@
       finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
     }
 
-    // SIMPAN MINIT CURAI PORTAL DENGAN DIALOG LOADING
+    // KEMASKINI ATAU SIMPAN MINIT CURAI
     async function handleSaveCurai(e) {
       e.preventDefault();
       if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
@@ -1045,8 +1044,7 @@
         const result = await res.json();
         if (result.status === "success") {
           alert("Minit Curai berjaya disimpan!");
-          document.getElementById('curaiForm').reset();
-          clearPortalCuraiSig();
+          resetCuraiFormMode();
           fetchUserReports();
           switchMenu('records');
         } else { alert("Ralat: " + result.message); }
@@ -1058,7 +1056,28 @@
       }
     }
 
-    // SIMPAN OPR DENGAN DIALOG LOADING SEPERTI DIMINTA
+    function resetCuraiFormMode() {
+      document.getElementById('curaiForm').reset();
+      document.getElementById('curaiRowIndex').value = "";
+      clearPortalCuraiSig();
+      document.getElementById('curaiFormTitle').innerHTML = `<i data-lucide="clipboard-list" class="text-sky-600"></i> Modul Minit Curai Online`;
+      document.getElementById('btnSavePortalCurai').innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan Minit Curai ke Google Sheets`;
+      document.getElementById('cancelCuraiEditBtn').classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    function resetOprFormMode() {
+      document.getElementById('oprForm').reset();
+      document.getElementById('oprRowIndex').value = "";
+      document.getElementById('oprHari').value = "";
+      oprImages.fill("");
+      document.getElementById('oprFormTitle').innerHTML = `<i data-lucide="file-pen" class="text-sky-600"></i> Penjana Laporan Satu Muka (OPR)`;
+      document.getElementById('btnSaveOPR').innerHTML = `<i data-lucide="printer" class="w-4 h-4"></i> Simpan & Jana Lembaran A4 Rasmi`;
+      document.getElementById('cancelOprEditBtn').classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    // SIMPAN OPR DENGAN DIALOG LOADING
     async function handleSaveOPR(e) {
       e.preventDefault();
       if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
@@ -1074,6 +1093,7 @@
       const payload = {
         action: "save_opr",
         username: currentUser.username,
+        id: document.getElementById('oprRowIndex').value,
         unit: document.getElementById('oprUnit').value,
         tarikh: document.getElementById('oprTarikh').value,
         hari: document.getElementById('oprHari').value,
@@ -1090,7 +1110,8 @@
         const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         const result = await res.json();
         if (result.status === "success") { 
-          alert("Disimpan!"); 
+          alert("Laporan OPR berjaya disimpan!"); 
+          resetOprFormMode();
           fetchUserReports(); 
           switchMenu('records'); 
         } else {
@@ -1210,7 +1231,6 @@
         document.getElementById('tc-implikasi').textContent = document.getElementById('t_cur_implikasi').value || "-";
         document.getElementById('tc-tindakan').textContent = document.getElementById('t_cur_tindakan').value || "-";
         
-        // SUSUNAN: TANDATANGAN -> NAMA -> JAWATAN
         document.getElementById('tc-sig-nama').textContent = document.getElementById('t_cur_nama').value || "-";
         document.getElementById('tc-sig-jawatan').textContent = document.getElementById('t_cur_jawatan').value || "-";
 
@@ -1228,8 +1248,6 @@
 
     function executeTrialPrint() {
       document.getElementById('trialPrintSheet')?.classList.remove('print-active');
-      document.getElementById('officialPrintSheetOPR')?.classList.remove('print-active');
-      document.getElementById('officialPrintSheetCurai')?.classList.remove('print-active');
       document.getElementById('trialPrintSheet').classList.add('print-active');
       window.print();
     }
@@ -1495,12 +1513,16 @@
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 border-b";
         if (type === 'opr') {
+          let oprId = item['ID'] || '';
           tr.innerHTML = `
             <td class="p-3">${item['Tarikh']}</td>
             <td class="p-3 font-semibold">${item['Unit']}</td>
             <td class="p-3 font-bold">${item['Aktiviti']}</td>
             <td class="p-3">${item['Nama Pelapor']}</td>
-            <td class="p-3 text-center"><button onclick="viewPrintRecord(${index}, 'opr')" class="px-2.5 py-1 bg-sky-600 text-white rounded font-bold text-[11px]">Cetak OPR</button></td>
+            <td class="p-3 text-center">
+              <button onclick="prepareEditOpr(${index})" class="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[11px] me-1">Kemaskini</button>
+              <button onclick="viewPrintRecord(${index}, 'opr')" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white rounded font-bold text-[11px]">Cetak OPR</button>
+            </td>
           `;
         } else {
           let isRahsia = item['StatusKawalan'] === 'Kawalan';
@@ -1509,13 +1531,80 @@
             <td class="p-3 font-bold">${item['Tajuk / Perkara']}</td>
             <td class="p-3">${item['Nama Pegawai']}</td>
             <td class="p-3 text-center">${isRahsia ? '<span class="text-rose-600 font-bold">Rahsia</span>' : '<span class="text-slate-600">Biasa</span>'}</td>
-            <td class="p-3 text-center"><button onclick="viewPrintRecord(${index}, 'curai')" class="px-2.5 py-1 bg-emerald-600 text-white rounded font-bold text-[11px]">Cetak Curai</button></td>
+            <td class="p-3 text-center">
+              <button onclick="prepareEditCurai(${index})" class="px-2 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[11px] me-1">Kemaskini</button>
+              <button onclick="viewPrintRecord(${index}, 'curai')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[11px]">Cetak Curai</button>
+            </td>
           `;
         }
         tbody.appendChild(tr);
       });
       lucide.createIcons();
     };
+
+    // LOAD DATA OPR UNTUK KEMASKINI
+    function prepareEditOpr(index) {
+      let d = userReports[index];
+      if (!d) return;
+
+      document.getElementById('oprRowIndex').value = d['ID'] || '';
+      document.getElementById('oprUnit').value = d['Unit'] || 'Kokurikulum';
+      document.getElementById('oprAktiviti').value = d['Aktiviti'] || '';
+      document.getElementById('oprTarikh').value = d['Tarikh'] ? d['Tarikh'].split('/').reverse().join('-') : '';
+      document.getElementById('oprHari').value = d['Hari'] || '';
+      document.getElementById('oprMasa').value = d['Masa'] || '';
+      document.getElementById('oprPelapor').value = d['Nama Pelapor'] || '';
+      document.getElementById('oprJawatan').value = d['Jawatan'] || '';
+      document.getElementById('oprPenerangan').value = d['Penerangan'] || '';
+      document.getElementById('oprHasil').value = d['Hasil'] || '';
+
+      oprImages[0] = d['Gambar 1'] || '';
+      oprImages[1] = d['Gambar 2'] || '';
+      oprImages[2] = d['Gambar 3'] || '';
+      oprImages[3] = d['Gambar 4'] || '';
+
+      document.getElementById('oprFormTitle').innerHTML = `<i data-lucide="file-pen" class="text-amber-600"></i> Kemas Kini Laporan OPR (ID: ${d['ID']})`;
+      document.getElementById('btnSaveOPR').innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Kemas Kini Laporan OPR`;
+      document.getElementById('cancelOprEditBtn').classList.remove('hidden');
+
+      switchMenu('opr');
+      lucide.createIcons();
+    }
+
+    // LOAD DATA CURAI UNTUK KEMASKINI
+    function prepareEditCurai(index) {
+      let d = userReports[index];
+      if (!d) return;
+
+      if (d['StatusKawalan'] === 'Kawalan') {
+        let pass = prompt("Minit Curai ini dilindungi kata laluan rahsia. Sila masukkan kata laluan untuk mengemaskini:");
+        if (pass !== d['Password']) {
+          alert("Kata laluan tidak tepat!");
+          return;
+        }
+      }
+
+      document.getElementById('curaiRowIndex').value = d['ID'] || '';
+      document.getElementById('curNama').value = d['Nama Pegawai'] || '';
+      document.getElementById('curJawatan').value = d['Jawatan'] || '';
+      document.getElementById('curTajuk').value = d['Tajuk / Perkara'] || '';
+      document.getElementById('curTarikh').value = d['Tarikh'] ? d['Tarikh'].split('/').reverse().join('-') : '';
+      document.getElementById('curMasa').value = d['Masa'] || '';
+      document.getElementById('curTempat').value = d['Tempat'] || '';
+      document.getElementById('curAnjuran').value = d['Anjuran'] || '';
+      document.getElementById('curPengerusi').value = d['Pengerusi'] || '';
+      document.getElementById('curKehadiran').value = d['Kehadiran'] || '';
+      document.getElementById('curButiran').value = d['Butiran'] || '';
+      document.getElementById('curImplikasi').value = d['Implikasi'] || '';
+      document.getElementById('curTindakan').value = d['Tindakan Susulan'] || '';
+
+      document.getElementById('curaiFormTitle').innerHTML = `<i data-lucide="clipboard-list" class="text-amber-600"></i> Kemas Kini Minit Curai (ID: ${d['ID']})`;
+      document.getElementById('btnSavePortalCurai').innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Kemas Kini Minit Curai`;
+      document.getElementById('cancelCuraiEditBtn').classList.remove('hidden');
+
+      switchMenu('curai');
+      lucide.createIcons();
+    }
 
     function viewPrintRecord(index, type) {
       const d = userReports[index];
@@ -1576,7 +1665,6 @@
         document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
         document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || '-';
         
-        // SUSUNAN SERAGAM: TANDATANGAN -> NAMA -> JAWATAN
         document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || '-';
         document.getElementById('pc-sig-jawatan').textContent = d['Jawatan'] || '-';
 
