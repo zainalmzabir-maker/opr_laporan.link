@@ -283,7 +283,7 @@
             </div>
 
             <button type="submit" id="btnSavePortalCurai" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
-              <i data-lucide="save" class="w-4 h-4"></i> Simpan Minit Curai ke Google Sheets
+              <i data-lucide="save" class="w-4 h-4"></i> Simpan Minit Curai ke Sistem
             </button>
           </form>
         </div>
@@ -335,7 +335,7 @@
         </div>
       </section>
 
-      <!-- 5. VIEW REKOD PELAPORAN (DASHBOARD) -->
+      <!-- 5. VIEW REKOD PELAPORAN (DASHBOARD DENGAN PENAPIS BUTANG UNIT OPR) -->
       <section id="view-records" class="hidden space-y-4">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
           <div>
@@ -344,6 +344,7 @@
           </div>
           
           <div class="flex flex-wrap items-center gap-2">
+            <!-- GAYA BUTANG PILIHAN JENIS LAPORAN -->
             <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200">
               <button type="button" id="btnFilterOpr" onclick="switchRecordFilter('opr')" class="px-3.5 py-1.5 rounded-lg text-xs font-black transition bg-slate-900 text-white shadow-sm flex items-center gap-1.5">
                 <i data-lucide="file-pen" class="w-3.5 h-3.5"></i> Laporan OPR
@@ -353,10 +354,23 @@
               </button>
             </div>
 
+            <!-- BUTANG SEGAR SEMULA -->
             <button onclick="fetchUserReports()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-1 border border-slate-200 shadow-sm transition">
               <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
             </button>
           </div>
+        </div>
+
+        <!-- BARISAN PENAPIS BUTANG UNIT (HANYA UNTUK OPR) -->
+        <div id="oprUnitFilterBar" class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center gap-1.5">
+          <span class="text-[11px] font-bold text-slate-500 uppercase mr-1 flex items-center gap-1"><i data-lucide="filter" class="w-3 h-3"></i> Tapis Unit:</span>
+          <button type="button" onclick="setOprUnitFilter('Semua')" id="unit-btn-Semua" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-black transition bg-slate-900 text-white shadow-xs">Semua</button>
+          <button type="button" onclick="setOprUnitFilter('Kokurikulum')" id="unit-btn-Kokurikulum" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">Kokurikulum</button>
+          <button type="button" onclick="setOprUnitFilter('Koakademik')" id="unit-btn-Koakademik" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">Koakademik</button>
+          <button type="button" onclick="setOprUnitFilter('Kurikulum')" id="unit-btn-Kurikulum" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">Kurikulum</button>
+          <button type="button" onclick="setOprUnitFilter('Hem')" id="unit-btn-Hem" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">HEM</button>
+          <button type="button" onclick="setOprUnitFilter('Pentadbiran')" id="unit-btn-Pentadbiran" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">Pentadbiran</button>
+          <button type="button" onclick="setOprUnitFilter('Lain-lain')" id="unit-btn-Lain-lain" class="unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200">Lain-lain</button>
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200 overflow-x-auto shadow-sm">
@@ -387,7 +401,7 @@
         </div>
 
         <div class="overflow-x-auto p-2 sm:p-4 flex justify-center bg-slate-200/60 rounded-2xl">
-          <!-- CETAKAN OPR -->
+          <!-- CETAKAN OPR (TANPA TULISAN LAPORAN SAH) -->
           <div id="officialPrintSheetOPR" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden">
             <div class="shrink-0 space-y-2">
               <div id="p-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
@@ -425,14 +439,14 @@
                   <div><p class="text-[9px] text-slate-500 uppercase font-extrabold tracking-wider">Disediakan Oleh:</p><p id="p-pelapor-nama" class="font-black text-slate-900 text-xs">-</p><p id="p-pelapor-jawatan" class="text-[10px] text-slate-600 font-semibold">-</p></div>
                 </div>
                 <div class="text-right">
-                  <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded text-[9px] font-black uppercase">Laporan Lengkap & Sah</span>
+                  <p class="text-[9px] text-slate-500 font-medium">Dicetak pada: <span id="p-print-date" class="font-bold text-slate-700">-</span></p>
                   <p class="text-[8px] text-slate-400 mt-0.5">Kemaskini: <span id="p-last-updated">-</span></p>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- CETAKAN MINIT CURAI (STRUKTUR PENULIS & PENGESAH) -->
+          <!-- CETAKAN MINIT CURAI -->
           <div id="officialPrintSheetCurai" class="sheet-a4 mx-auto rounded-2xl shadow-xl border border-slate-300 hidden justify-between">
             <div class="shrink-0">
               <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -462,7 +476,7 @@
 
             <!-- BAHAGIAN PENANDATANGAN -->
             <div class="shrink-0 border-t border-slate-300 pt-3 flex justify-between items-end text-xs mt-auto">
-              <!-- SISI KIRI: PENULIS -->
+              <!-- PENULIS -->
               <div style="width: 45%;">
                 <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Disediakan Oleh:</p>
                 <div id="pc-sig-area" class="my-1 flex items-center" style="height: 50px;"></div>
@@ -472,7 +486,7 @@
                 </div>
               </div>
 
-              <!-- SISI KANAN: PENGESAH -->
+              <!-- PENGESAH -->
               <div style="width: 45%;" class="text-right">
                 <p class="text-[10px] text-slate-500 uppercase font-bold mb-1">Disahkan Oleh:</p>
                 <div id="pc-pengesah-sig-area" class="my-1 flex items-center justify-end" style="height: 50px;"></div>
@@ -493,12 +507,12 @@
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqyx_cPd1x-bhqNPQ0AK2w-Xmc3_fYOFaIOk9EEUwUi9DXVZKsx6_W9jZJ6TN7_uCn/exec";
 
     const UNIT_CONFIG = {
-      'Kokurikulum': { bg: '#800000', title: 'LAPORAN AKTIVITI KOKURIKULUM' },
-      'Koakademik': { bg: '#c2410c', title: 'LAPORAN AKTIVITI KOAKADEMIK' },
-      'Kurikulum': { bg: '#1d4ed8', title: 'LAPORAN PROGRAM KURIKULUM & AKADEMIK' },
-      'Hem': { bg: '#4338ca', title: 'LAPORAN HAL EHWAL MURID (HEM)' },
-      'Pentadbiran': { bg: '#047857', title: 'LAPORAN PENTADBIRAN & PENGURUSAN' },
-      'Lain-lain': { bg: '#334155', title: 'LAPORAN DOKUMENTASI PROGRAM SEKOLAH' }
+      'Kokurikulum': { bg: '#800000', badgeClass: 'bg-red-100 text-red-800 border-red-200', title: 'LAPORAN AKTIVITI KOKURIKULUM' },
+      'Koakademik': { bg: '#c2410c', badgeClass: 'bg-orange-100 text-orange-800 border-orange-200', title: 'LAPORAN AKTIVITI KOAKADEMIK' },
+      'Kurikulum': { bg: '#1d4ed8', badgeClass: 'bg-blue-100 text-blue-800 border-blue-200', title: 'LAPORAN PROGRAM KURIKULUM & AKADEMIK' },
+      'Hem': { bg: '#4338ca', badgeClass: 'bg-indigo-100 text-indigo-800 border-indigo-200', title: 'LAPORAN HAL EHWAL MURID (HEM)' },
+      'Pentadbiran': { bg: '#047857', badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200', title: 'LAPORAN PENTADBIRAN & PENGURUSAN' },
+      'Lain-lain': { bg: '#334155', badgeClass: 'bg-slate-100 text-slate-800 border-slate-200', title: 'LAPORAN DOKUMENTASI PROGRAM SEKOLAH' }
     };
 
     let currentUser = null;
@@ -506,6 +520,7 @@
     let oprImages = ["", "", "", ""];
     let userReports = [];
     let currentRecordFilter = 'opr';
+    let currentOprUnitFilter = 'Semua';
 
     // TANDATANGAN DIGITAL
     let curaiWriterSig = "";
@@ -515,7 +530,7 @@
 
     lucide.createIcons();
 
-    // PENGENDALI PANGGILAN SELAMAT (MENGELAKKAN CRASH 'UNEXPECTED TOKEN <')
+    // PENGENDALI PANGGILAN SELAMAT
     async function safeFetchJSON(url, payload) {
       let res;
       try {
@@ -524,7 +539,7 @@
           body: JSON.stringify(payload)
         });
       } catch (netErr) {
-        throw new Error("Ralat rangkaian: Tidak dapat menghubungi pelayan Google. Sila semak sambungan internet anda.");
+        throw new Error("Ralat rangkaian: Tidak dapat menghubungi pelayan. Sila semak sambungan internet anda.");
       }
 
       const text = await res.text();
@@ -532,9 +547,9 @@
 
       if (trimmed.startsWith("<")) {
         throw new Error(
-          "Pelayan Google membalas dengan laman web (HTML) dan bukannya data JSON.\n\n" +
-          "PUNCA & CARA SELESAIKAN:\n" +
-          "1. Buka Apps Script, pilih fungsi 'doGet', dan klik Run (tekan 'Allow' kebenaran).\n" +
+          "Pelayan membalas dengan laman web (HTML) dan bukannya data JSON.\n\n" +
+          "PANDUAN PEMBETULAN:\n" +
+          "1. Buka Apps Script, pilih fungsi 'doGet', dan klik Run (tekan 'Allow' kebenaran jika diminta).\n" +
           "2. Klik 'Deploy' > 'Manage deployments' > Edit (pensel).\n" +
           "3. Pastikan 'Who has access' diset kepada 'Anyone'.\n" +
           "4. Pilih 'New version' dan klik 'Deploy'."
@@ -600,23 +615,42 @@
       const thTitle = document.getElementById('thColTitle');
       const thPerson = document.getElementById('thColPerson');
       const thStatus = document.getElementById('thColStatus');
+      const unitBar = document.getElementById('oprUnitFilterBar');
 
       if (type === 'opr') {
         btnOpr.className = "px-3.5 py-1.5 rounded-lg text-xs font-black transition bg-slate-900 text-white shadow-sm flex items-center gap-1.5";
         btnCurai.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5";
-        if (thTitle) thTitle.textContent = "Nama Program / Aktiviti";
+        if (thTitle) thTitle.textContent = "Nama Program / Aktiviti & Unit";
         if (thPerson) thPerson.textContent = "Pelapor";
         if (thStatus) thStatus.textContent = "Tarikh & Masa Kemaskini";
+        if (unitBar) unitBar.classList.remove('hidden');
       } else {
         btnCurai.className = "px-3.5 py-1.5 rounded-lg text-xs font-black transition bg-slate-900 text-white shadow-sm flex items-center gap-1.5";
         btnOpr.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5";
         if (thTitle) thTitle.textContent = "Tajuk / Perkara Mesyuarat";
         if (thPerson) thPerson.textContent = "Pegawai Pelapor";
         if (thStatus) thStatus.textContent = "Status Pengesahan & Kemaskini";
+        if (unitBar) unitBar.classList.add('hidden');
       }
 
       lucide.createIcons();
       fetchUserReports();
+    }
+
+    // PENAPIS BUTANG UNIT UNTUK OPR
+    function setOprUnitFilter(unitName) {
+      currentOprUnitFilter = unitName;
+      const buttons = document.querySelectorAll('.unit-filter-btn');
+      buttons.forEach(btn => {
+        btn.className = "unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-bold transition bg-slate-100 text-slate-600 hover:bg-slate-200";
+      });
+
+      const activeBtn = document.getElementById('unit-btn-' + unitName);
+      if (activeBtn) {
+        activeBtn.className = "unit-filter-btn px-2.5 py-1 rounded-lg text-[11px] font-black transition bg-slate-900 text-white shadow-xs";
+      }
+
+      renderReportsTable(userReports, 'opr');
     }
 
     function compressImageBase64(input, callback) {
@@ -1110,7 +1144,7 @@
       }
     }
 
-    // PAPARAN REKOD DENGAN TARIKH & MASA KEMASKINI & PENGESAHAN
+    // PAPARAN REKOD (LABEL UNIT OPR & STATUS KEMASKINI)
     function renderReportsTable(data, type) {
       userReports = data || [];
       const tbody = document.getElementById('tblReportsBody');
@@ -1121,14 +1155,35 @@
         return;
       }
 
-      tbody.innerHTML = userReports.map((item, index) => {
+      // Tapis OPR mengikut unit jika pengguna memilih butang unit
+      let displayList = userReports;
+      if (type === 'opr' && currentOprUnitFilter !== 'Semua') {
+        displayList = userReports.filter(item => (item['Unit'] || '').toString().toLowerCase() === currentOprUnitFilter.toLowerCase());
+      }
+
+      if (displayList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tiada rekod OPR untuk unit <b>${currentOprUnitFilter}</b>.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = displayList.map((item, index) => {
+        const originalIndex = userReports.indexOf(item);
         const lastUpdated = item['LastUpdated'] || '-';
 
         if (type === 'opr') {
+          const unitName = item['Unit'] || 'Lain-lain';
+          const unitCfg = UNIT_CONFIG[unitName] || UNIT_CONFIG['Lain-lain'];
+
           return `
             <tr class="hover:bg-slate-50 border-b">
               <td class="p-3">${item['Tarikh'] || '-'}</td>
-              <td class="p-3 font-semibold text-slate-900">${item['Aktiviti'] || '-'}</td>
+              <td class="p-3">
+                <span class="font-semibold text-slate-900 block">${item['Aktiviti'] || '-'}</span>
+                <!-- LENCANA LABEL UNIT BERWARNA -->
+                <span class="inline-block mt-1 px-2 py-0.5 rounded-md text-[10px] font-extrabold border ${unitCfg.badgeClass}">
+                  ${unitName}
+                </span>
+              </td>
               <td class="p-3">${item['Nama Pelapor'] || '-'}</td>
               <td class="p-3 text-center whitespace-nowrap">
                 <span class="px-2.5 py-1 bg-slate-100 text-slate-800 rounded-lg text-[10px] font-bold inline-flex items-center gap-1">
@@ -1136,8 +1191,8 @@
                 </span>
               </td>
               <td class="p-3 text-center whitespace-nowrap">
-                <button onclick="prepareEditOpr(${index})" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[11px] me-1 shadow-sm">Kemaskini</button>
-                <button onclick="viewPrintRecord(${index}, 'opr')" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white rounded font-bold text-[11px] shadow-sm">Cetak OPR</button>
+                <button onclick="prepareEditOpr(${originalIndex})" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[11px] me-1 shadow-sm">Kemaskini</button>
+                <button onclick="viewPrintRecord(${originalIndex}, 'opr')" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white rounded font-bold text-[11px] shadow-sm">Cetak OPR</button>
               </td>
             </tr>
           `;
@@ -1167,8 +1222,8 @@
                 </div>
               </td>
               <td class="p-3 text-center whitespace-nowrap">
-                <button onclick="prepareEditCurai(${index})" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-black text-[11px] me-1 shadow-sm">Kemaskini Curai</button>
-                <button onclick="viewPrintRecord(${index}, 'curai')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[11px] shadow-sm">Cetak Curai</button>
+                <button onclick="prepareEditCurai(${originalIndex})" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-black text-[11px] me-1 shadow-sm">Kemaskini Curai</button>
+                <button onclick="viewPrintRecord(${originalIndex}, 'curai')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded font-bold text-[11px] shadow-sm">Cetak Curai</button>
               </td>
             </tr>
           `;
@@ -1298,11 +1353,12 @@
       clearSigCanvas('portalPengesahCanvas', 'pengesah');
       document.getElementById('portalRuangKekunci')?.classList.add('hidden');
       document.getElementById('curaiFormTitle').innerHTML = `<i data-lucide="clipboard-list" class="text-sky-600"></i> Modul Minit Curai Online`;
-      document.getElementById('btnSavePortalCurai').innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan Minit Curai ke Google Sheets`;
+      document.getElementById('btnSavePortalCurai').innerHTML = `<i data-lucide="save" class="w-4 h-4"></i> Simpan Minit Curai ke Sistem`;
       document.getElementById('cancelCuraiEditBtn')?.classList.add('hidden');
       lucide.createIcons();
     }
 
+    // PAPAR & CETAK DOKUMEN
     function viewPrintRecord(index, type) {
       const d = userReports[index];
       if (!d) return;
@@ -1376,6 +1432,7 @@
         if (document.getElementById('pc-implikasi')) document.getElementById('pc-implikasi').textContent = d['Implikasi'] || '-';
         if (document.getElementById('pc-tindakan')) document.getElementById('pc-tindakan').textContent = d['Tindakan Susulan'] || d['Tindakan'] || '-';
         
+        // TANDATANGAN PENULIS
         if (document.getElementById('pc-sig-nama')) document.getElementById('pc-sig-nama').textContent = d['Nama Pegawai'] || d['Nama'] || '-';
         if (document.getElementById('pc-sig-jawatan')) document.getElementById('pc-sig-jawatan').textContent = d['Jawatan'] || '-';
 
@@ -1389,6 +1446,7 @@
           }
         }
 
+        // TANDATANGAN PENGESAH
         const namaPengesah = (d['ApproverName'] || d['Nama Pengesah'] || '').toString().trim();
         const jawatanPengesah = (d['ApproverJawatan'] || d['Jawatan Pengesah'] || '').toString().trim();
         const sigPengesah = d['ApproverSig'] || d['Tandatangan Pengesah'] || '';
@@ -1410,7 +1468,7 @@
         if (namaPengesah !== '' || jawatanPengesah !== '') {
           if (pcPengesahNama) pcPengesahNama.textContent = namaPengesah;
           if (pcPengesahJawatan) pcPengesahJawatan.textContent = jawatanPengesah;
-          if (pcPengesahTarikh) pcPengesahTarikh.textContent = tarikhPengesahan ? `Tarikh Pengesahan: ${tarikhPengesahan}` : '';
+          if (pcPengesahTarikh) pcPengesahTarikh.textContent = tarikhPengesahan ? `Disahkan: ${tarikhPengesahan}` : '';
         } else {
           if (pcPengesahNama) pcPengesahNama.textContent = '';
           if (pcPengesahJawatan) pcPengesahJawatan.textContent = '';
