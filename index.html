@@ -998,7 +998,6 @@
       finally { btn.disabled = false; btn.textContent = "Simpan Perubahan Maklumat Sekolah"; }
     }
 
-    // KEMASKINI ATAU SIMPAN MINIT CURAI
     async function handleSaveCurai(e) {
       e.preventDefault();
       if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
@@ -1077,7 +1076,6 @@
       lucide.createIcons();
     }
 
-    // SIMPAN OPR DENGAN DIALOG LOADING
     async function handleSaveOPR(e) {
       e.preventDefault();
       if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") {
@@ -1513,7 +1511,6 @@
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-50 border-b";
         if (type === 'opr') {
-          let oprId = item['ID'] || '';
           tr.innerHTML = `
             <td class="p-3">${item['Tarikh']}</td>
             <td class="p-3 font-semibold">${item['Unit']}</td>
@@ -1542,7 +1539,6 @@
       lucide.createIcons();
     };
 
-    // LOAD DATA OPR UNTUK KEMASKINI
     function prepareEditOpr(index) {
       let d = userReports[index];
       if (!d) return;
@@ -1571,7 +1567,6 @@
       lucide.createIcons();
     }
 
-    // LOAD DATA CURAI UNTUK KEMASKINI
     function prepareEditCurai(index) {
       let d = userReports[index];
       if (!d) return;
@@ -1633,7 +1628,6 @@
         document.getElementById('p-hasil').textContent = d['Hasil'] || '-';
         document.getElementById('p-pelapor-nama').textContent = d['Nama Pelapor'] || '-';
         document.getElementById('p-pelapor-jawatan').textContent = d['Jawatan'] || '-';
-        document.getElementById('p-id').textContent = d['ID'] || '-';
         document.getElementById('p-print-date').textContent = new Date().toLocaleDateString('ms-MY');
 
         renderDynamicImages(document.getElementById('p-images-grid'), [d['Gambar 1'], d['Gambar 2'], d['Gambar 3'], d['Gambar 4']]);
