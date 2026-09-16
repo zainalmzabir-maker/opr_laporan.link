@@ -43,26 +43,428 @@
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
+      .demo-watermark-grid {
+        display: flex !important;
+        visibility: visible !important;
+      }
     }
     .sheet-a4 {
       width: 210mm;
       min-height: 280mm;
       box-sizing: border-box;
     }
+
+    /* TERA AIR KESELAMATAN BERULANG (PENGHALANG CETAKAN PERCUBAAN) */
+    .demo-watermark-grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      overflow: hidden;
+      opacity: 0.38;
+    }
+    .demo-watermark-row {
+      transform: rotate(-25deg);
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #b91c1c;
+      letter-spacing: 0.25em;
+      white-space: nowrap;
+      text-transform: uppercase;
+      border-top: 2px dashed #b91c1c;
+      border-bottom: 2px dashed #b91c1c;
+      padding: 6px 40px;
+      user-select: none;
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
-  <!-- ==================== SKRIN 1: LOG MASUK & DAFTAR ==================== -->
+  <!-- =========================================================================
+       SKRIN 1: MOD PERCUBAAN (SANDBOX TANPA LOGIN & DATA TIDAK DISIMPAN)
+       ========================================================================= -->
+  <div id="trialSandboxScreen" class="hidden min-h-screen flex-1 flex flex-col bg-slate-100">
+    
+    <!-- HEADER MOD PERCUBAAN -->
+    <header class="bg-amber-500 text-slate-950 p-4 shadow-md sticky top-0 z-40 no-print border-b-2 border-amber-600">
+      <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="bg-slate-950 text-amber-400 p-2 rounded-xl">
+            <i data-lucide="flask-conical" class="w-5 h-5"></i>
+          </span>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-base font-black uppercase tracking-wider">Mod Percubaan Percuma (Demo Sandbox)</h1>
+              <span class="bg-slate-950 text-amber-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase">Tiada Simpanan</span>
+            </div>
+            <p class="text-[11px] text-slate-900 font-medium">Uji susun atur format laporan OPR & Curai tanpa mendaftar akaun.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="exitTrialMode()" class="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i> Log Masuk / Daftar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- KANDUNGAN PENERANGAN & BORANG PERCUBAAN -->
+    <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full space-y-6">
+
+      <!-- KAD PENERANGAN FUNGSI SISTEM (KENAPA PERLU DAFTAR) -->
+      <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-5 sm:p-6 rounded-2xl shadow-lg border border-slate-700 no-print">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div class="space-y-1.5 max-w-2xl">
+            <span class="text-amber-400 font-extrabold text-xs uppercase tracking-wider flex items-center gap-1">
+              <i data-lucide="info" class="w-4 h-4"></i> Panduan Mod Percubaan
+            </span>
+            <h3 class="text-lg font-black tracking-wide">Uji Semua Ciri Sekarang Secara Langsung!</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Anda boleh memasukkan logo sekolah, menaip kandungan, dan melihat hasil cetakan A4. Walau bagaimanapun, dalam <b>Mod Percubaan</b> ini:
+            </p>
+            <ul class="text-[11px] text-slate-300 list-disc list-inside space-y-0.5 pt-1">
+              <li><b>Data Tidak Disimpan:</b> Maklumat akan hilang sebaik sahaja halaman ditutup atau disegarkan (*refresh*).</li>
+              <li><b>Tera Air Keselamatan:</b> Lembaran cetakan dilindungi dengan tera air tebal bagi mengelakkan salah guna dokumen percuma.</li>
+              <li><b>Akses Langganan RM20/Bulan:</b> Anda mendapat simpanan cloud tanpa had, cetakan 100% bersih tanpa tera air, dan profil sekolah auto-simpan.</li>
+            </ul>
+          </div>
+
+          <div class="bg-white/10 p-4 rounded-xl border border-white/20 text-center w-full md:w-auto shrink-0 space-y-2">
+            <span class="text-[11px] font-bold text-amber-300 block">Pakej Penuh Sekolah</span>
+            <span class="text-2xl font-black text-white block">RM20 <span class="text-xs font-normal text-slate-300">/ bulan</span></span>
+            <button onclick="exitTrialMode(true)" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow-md transition flex items-center justify-center gap-1.5">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Daftar & Langgan Sekarang
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAVIGASI TAB MOD PERCUBAAN -->
+      <div class="flex gap-2 border-b border-slate-200 pb-3 no-print">
+        <button onclick="switchTrialTab('opr')" id="tab-trial-opr" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black shadow flex items-center gap-1.5 transition">
+          <i data-lucide="file-pen" class="w-4 h-4"></i> 1. Cuba OPR Online
+        </button>
+        <button onclick="switchTrialTab('curai')" id="tab-trial-curai" class="px-4 py-2 bg-white hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold border border-slate-300 flex items-center gap-1.5 transition">
+          <i data-lucide="clipboard-list" class="w-4 h-4"></i> 2. Cuba Minit Curai
+        </button>
+      </div>
+
+      <!-- ==================== BORANG 1: OPR PERCUBAAN ==================== -->
+      <div id="trial-opr-container" class="space-y-6">
+        <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
+          <div class="border-b pb-3 mb-4">
+            <h3 class="text-base font-black text-slate-800 uppercase flex items-center gap-2">
+              <i data-lucide="file-check-2" class="text-sky-600"></i> Borang Laporan Satu Muka OPR (Percubaan)
+            </h3>
+            <p class="text-xs text-slate-500">Masukkan maklumat dan muat naik gambar untuk melihat simulasi lembaran A4.</p>
+          </div>
+
+          <form onsubmit="generateTrialPreview(event, 'opr')" class="space-y-4">
+            <!-- MAKLUMAT SEKOLAH PERCUBAAN -->
+            <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 space-y-3">
+              <h4 class="text-xs font-bold text-indigo-900 uppercase">Kepala Surat Sekolah</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                <div class="border border-dashed border-indigo-300 bg-white rounded-lg p-2 text-center text-xs">
+                  <input type="file" accept="image/*" onchange="previewTrialLogo(this)" class="w-full text-[10px] file:py-1 file:px-2 file:border-0 file:rounded file:bg-indigo-100 file:text-indigo-800 cursor-pointer">
+                  <span class="text-[9px] text-slate-400 block mt-1">Logo Sekolah Anda</span>
+                </div>
+                <div class="sm:col-span-2 space-y-2">
+                  <input type="text" id="t_opr_school" required placeholder="Nama Sekolah (cth: SMK TUN PERAK)" class="w-full border rounded-lg p-2 text-xs uppercase font-bold">
+                  <input type="text" id="t_opr_school_info" required placeholder="Alamat / Kod / Tel (cth: Segamat, Johor | Kod: JEA7011)" class="w-full border rounded-lg p-2 text-xs">
+                </div>
+              </div>
+            </div>
+
+            <!-- BUTIRAN AKTIVITI -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Aktiviti Unit</label>
+                <select id="t_opr_unit" class="w-full border rounded-lg p-2 text-xs bg-white font-medium">
+                  <option value="Kokurikulum">Kokurikulum</option>
+                  <option value="Kurikulum">Kurikulum</option>
+                  <option value="Hem">HEM</option>
+                  <option value="Pentadbiran">Pentadbiran</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Aktiviti / Program</label>
+                <input type="text" id="t_opr_aktiviti" required placeholder="cth: Perkhemahan Perdana Kadet Remaja" class="w-full border rounded-lg p-2 text-xs font-bold">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh</label>
+                <input type="date" id="t_opr_tarikh" required class="w-full border rounded-lg p-2 text-xs">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Masa</label>
+                <input type="text" id="t_opr_masa" required placeholder="cth: 8.00 pagi - 12.00 tgh" class="w-full border rounded-lg p-2 text-xs">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Pelapor</label>
+                <input type="text" id="t_opr_pelapor" required placeholder="cth: Cikgu Ahmad Faiz" class="w-full border rounded-lg p-2 text-xs">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Penerangan Program</label>
+              <textarea id="t_opr_penerangan" rows="2" required placeholder="Ringkasan agenda..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Hasil & Refleksi</label>
+              <textarea id="t_opr_hasil" rows="2" required placeholder="Impak kepada pelajar..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Evidens (1 atau 2 Keping)</label>
+              <div class="grid grid-cols-2 gap-2">
+                <input type="file" accept="image/*" onchange="previewTrialImg(this, 0)" class="text-[10px] file:py-1 file:px-2 file:border-0 file:rounded file:bg-slate-100">
+                <input type="file" accept="image/*" onchange="previewTrialImg(this, 1)" class="text-[10px] file:py-1 file:px-2 file:border-0 file:rounded file:bg-slate-100">
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-1.5">
+              <i data-lucide="eye" class="w-4 h-4 text-amber-400"></i> Jana Pratonton OPR (Dengan Tera Air Keselamatan)
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ==================== BORANG 2: MINIT CURAI PERCUBAAN ==================== -->
+      <div id="trial-curai-container" class="hidden space-y-6">
+        <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
+          <div class="border-b pb-3 mb-4">
+            <h3 class="text-base font-black text-slate-800 uppercase flex items-center gap-2">
+              <i data-lucide="clipboard-list" class="text-emerald-600"></i> Borang Minit Curai Taklimat / Kursus (Percubaan)
+            </h3>
+            <p class="text-xs text-slate-500">Format rasmi minit curai untuk diserahkan kepada Pengetua / Guru Besar.</p>
+          </div>
+
+          <form onsubmit="generateTrialPreview(event, 'curai')" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Nama Pegawai / Guru *</label>
+                <input type="text" id="t_cur_nama" required placeholder="cth: Pn. Siti Nurhaliza binti Tarudin" class="w-full border rounded-lg p-2 text-xs font-bold">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Jawatan / Gred *</label>
+                <input type="text" id="t_cur_jawatan" required placeholder="cth: Guru Penolong Kanan Kokurikulum (DG44)" class="w-full border rounded-lg p-2 text-xs">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Tajuk Mesyuarat / Seminar / Kursus *</label>
+              <input type="text" id="t_cur_tajuk" required placeholder="cth: Mesyuarat Penyelarasan Sukan MSSD Segamat Bil 1/2026" class="w-full border rounded-lg p-2 text-xs font-bold">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Tarikh</label>
+                <input type="date" id="t_cur_tarikh" required class="w-full border rounded-lg p-2 text-xs">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Masa</label>
+                <input type="text" id="t_cur_masa" required placeholder="cth: 9.00 pagi - 1.00 tgh" class="w-full border rounded-lg p-2 text-xs">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Tempat</label>
+                <input type="text" id="t_cur_tempat" required placeholder="cth: PPD Segamat" class="w-full border rounded-lg p-2 text-xs">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Pengerusi / Anjuran *</label>
+              <input type="text" id="t_cur_anjuran" required placeholder="cth: Pegawai Pendidikan Daerah Segamat" class="w-full border rounded-lg p-2 text-xs">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Isu / Kandungan Penting Mesyuarat *</label>
+              <textarea id="t_cur_isu" rows="3" required placeholder="1. Penetapan takwim kejohanan...&#10;2. Pengurusan elaun dan makan murid..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Tindakan Susulan Pihak Sekolah *</label>
+              <textarea id="t_cur_tindakan" rows="2" required placeholder="Menyediakan senarai nama atlet dan borang kebenaran waris..." class="w-full border rounded-lg p-2 text-xs"></textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-1.5">
+              <i data-lucide="eye" class="w-4 h-4 text-emerald-400"></i> Jana Pratonton Minit Curai (Dengan Tera Air)
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ==================== LEMBARAN CETAKAN PERCUBAAN A4 (WATERMARKED) ==================== -->
+      <div id="trialPrintWrapper" class="hidden space-y-4">
+        
+        <!-- BAR TINDAKAN CETAK PERCUBAAN -->
+        <div class="no-print max-w-4xl mx-auto bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl flex flex-wrap justify-between items-center gap-3">
+          <div>
+            <span class="text-xs font-extrabold text-amber-900 flex items-center gap-1.5">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i> Pratonton Percubaan Dijana
+            </span>
+            <p class="text-[11px] text-amber-800 mt-0.5">Lembaran di bawah disekat dengan tera air keselamatan bagi mengelakkan salinan percuma.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center gap-1 shadow">
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i> Uji Butang Cetak
+            </button>
+            <button onclick="exitTrialMode(true)" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-black shadow flex items-center gap-1">
+              <i data-lucide="unlock" class="w-3.5 h-3.5"></i> Buka Cetakan Bersih (Langgan RM20)
+            </button>
+          </div>
+        </div>
+
+        <!-- SHEET A4 DENGAN TERA AIR KESELAMATAN -->
+        <div id="printArea" class="sheet-a4 mx-auto bg-white p-6 rounded-2xl shadow-xl border border-slate-300 flex flex-col justify-between relative overflow-hidden">
+          
+          <!-- OVERLAY TERA AIR PADAT YANG MENGHALANG PEMBACAAN & PENGGUNAAN PERCUMA -->
+          <div class="demo-watermark-grid">
+            <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
+            <div class="demo-watermark-row">HAK CIPTA TERPELIHARA &bull; LANGGAN RM20/BULAN UNTUK CETAKAN BERSIH</div>
+            <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
+            <div class="demo-watermark-row">HAK CIPTA TERPELIHARA &bull; LANGGAN RM20/BULAN UNTUK CETAKAN BERSIH</div>
+            <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
+          </div>
+
+          <!-- KANDUNGAN A4: OPR PERCUBAAN -->
+          <div id="preview-opr-sheet" class="flex-1 flex flex-col justify-between">
+            <div>
+              <div class="bg-red-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <img id="tp-logo" class="w-12 h-12 object-contain bg-white rounded-lg p-0.5 hidden">
+                  <div>
+                    <h2 id="tp-school" class="text-sm font-black uppercase text-white tracking-wide">NAMA SEKOLAH</h2>
+                    <p id="tp-school-info" class="text-[10px] text-white/80">-</p>
+                    <span id="tp-unit" class="text-[10px] font-extrabold uppercase text-amber-300">LAPORAN AKTIVITI</span>
+                  </div>
+                </div>
+                <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-1 rounded">Format Rasmi OPR</span>
+              </div>
+
+              <table class="w-full text-xs border border-slate-300 mb-2">
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100 w-1/4">Nama Program</td>
+                  <td id="tp-aktiviti" class="border border-slate-300 p-2 font-black" colspan="3">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100">Tarikh & Masa</td>
+                  <td id="tp-datetime" class="border border-slate-300 p-2" colspan="3">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100">Penerangan</td>
+                  <td id="tp-penerangan" class="border border-slate-300 p-2 whitespace-pre-line" colspan="3">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100">Hasil / Refleksi</td>
+                  <td id="tp-hasil" class="border border-slate-300 p-2 whitespace-pre-line" colspan="3">-</td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="flex-1 my-2">
+              <h4 class="text-[11px] font-black uppercase mb-1">Evidens Bergambar:</h4>
+              <div id="tp-images-grid" class="grid grid-cols-2 gap-2 h-64"></div>
+            </div>
+
+            <div class="border-t pt-2 flex justify-between items-center text-xs">
+              <div>
+                <p class="text-[10px] text-slate-500">Disediakan Oleh:</p>
+                <p id="tp-pelapor" class="font-bold">-</p>
+              </div>
+              <div class="text-right text-[9px] text-red-600 font-bold">
+                DRAF PERCUBAAN SAHAJA (DATA TIDAK DISIMPAN)
+              </div>
+            </div>
+          </div>
+
+          <!-- KANDUNGAN A4: MINIT CURAI PERCUBAAN -->
+          <div id="preview-curai-sheet" class="hidden flex-1 flex flex-col justify-between">
+            <div>
+              <div class="border-b-2 border-slate-900 pb-2 mb-4 text-center">
+                <h2 class="text-base font-black uppercase tracking-wider text-slate-900">MINIT CURAI (LAPORAN TAKLIMAT / MESYUARAT LUAR)</h2>
+                <p class="text-xs text-slate-600">SMK / SK KEMENTERIAN PENDIDIKAN MALAYSIA</p>
+              </div>
+
+              <table class="w-full text-xs border border-slate-300 mb-4">
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100 w-1/3">1. Nama Pegawai</td>
+                  <td id="tc-nama" class="border border-slate-300 p-2 font-bold">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100">2. Jawatan & Gred</td>
+                  <td id="tc-jawatan" class="border border-slate-300 p-2">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100">3. Mesyuarat / Kursus Dihadiri</td>
+                  <td id="tc-tajuk" class="border border-slate-300 p-2 font-bold text-slate-900">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100">4. Anjuran / Pengerusi</td>
+                  <td id="tc-anjuran" class="border border-slate-300 p-2">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100">5. Tarikh, Masa & Tempat</td>
+                  <td id="tc-datetime" class="border border-slate-300 p-2">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100 align-top">6. Kandungan / Isu Penting</td>
+                  <td id="tc-isu" class="border border-slate-300 p-2 whitespace-pre-line leading-relaxed">-</td>
+                </tr>
+                <tr>
+                  <td class="border border-slate-300 p-2 font-bold bg-slate-100 align-top">7. Tindakan Sekolah</td>
+                  <td id="tc-tindakan" class="border border-slate-300 p-2 whitespace-pre-line leading-relaxed">-</td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="border-t-2 border-slate-200 pt-3 flex justify-between items-end text-xs">
+              <div>
+                <p class="text-[10px] text-slate-500 uppercase font-semibold">Tandatangan Pegawai Pelapor:</p>
+                <div class="h-10"></div>
+                <p id="tc-pelapor-sign" class="font-bold border-t border-slate-400 pt-1">-</p>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] text-slate-500 uppercase font-semibold">Pengesahan Pengetua / Guru Besar:</p>
+                <div class="h-10"></div>
+                <p class="font-bold border-t border-slate-400 pt-1">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       SKRIN 2: LOG MASUK & DAFTAR (LAMAN UTAMA ASAL)
+       ========================================================================= -->
   <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-700">
       
-      <div class="text-center mb-6">
+      <div class="text-center mb-5">
         <div class="w-14 h-14 bg-sky-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-3 shadow-lg">
           <i data-lucide="file-check" class="w-8 h-8"></i>
         </div>
         <h2 class="text-xl font-black text-slate-800 uppercase tracking-wide">Sistem Pelaporan Digital</h2>
         <p class="text-xs text-slate-500 mt-1">OPR Online &bull; Minit Curai &bull; Panel Pengurusan</p>
+      </div>
+
+      <!-- BUTANG UTAMA: CUBA MOD PERCUBAAN TANPA DAFTAR -->
+      <div class="mb-5 bg-gradient-to-r from-amber-500 to-orange-500 p-0.5 rounded-2xl shadow-md">
+        <button onclick="enterTrialMode()" class="w-full bg-amber-50 hover:bg-amber-100 text-amber-950 p-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 transition">
+          <i data-lucide="sparkles" class="w-4 h-4 text-orange-600"></i>
+          <span>Cuba Mod Percubaan (Percuma & Tanpa Daftar)</span>
+        </button>
       </div>
 
       <!-- BORANG LOG MASUK -->
@@ -128,7 +530,7 @@
         </div>
 
         <button type="submit" id="btnRegister" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl shadow transition text-xs mt-2">
-          Daftar Akaun Baru
+          Daftar Akaun Baru (RM20/Bulan)
         </button>
         <p class="text-xs text-center text-slate-500 pt-1">
           Sudah ada akaun? 
@@ -139,7 +541,9 @@
     </div>
   </div>
 
-  <!-- ==================== SKRIN 2: PORTAL UTAMA ==================== -->
+  <!-- =========================================================================
+       SKRIN 3: PORTAL RASMI SELEPAS LOG MASUK (USER / ADMIN)
+       ========================================================================= -->
   <div id="mainAppScreen" class="hidden flex-1 flex flex-col">
     
     <!-- HEADER PORTAL -->
@@ -169,7 +573,6 @@
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">
             Rekod Pelaporan Saya
           </button>
-          <!-- BUTANG PANEL ADMIN -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1">
             <i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin
           </button>
@@ -193,10 +596,10 @@
       </div>
     </div>
 
-    <!-- KANDUNGAN UTAMA -->
+    <!-- KANDUNGAN UTAMA PORTAL -->
     <main class="max-w-7xl mx-auto p-4 md:p-6 flex-1 w-full">
       
-      <!-- ==================== TAB 1: OPR ONLINE ==================== -->
+      <!-- TAB OPR ONLINE RASMI -->
       <section id="view-opr" class="space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
           <div class="border-b pb-4 mb-5 flex justify-between items-center">
@@ -266,7 +669,6 @@
               <textarea id="oprHasil" rows="2" required class="w-full border border-slate-300 rounded-lg p-2 text-xs"></textarea>
             </div>
 
-            <!-- GAMBAR DOKUMENTASI -->
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">Muat Naik Gambar Dokumentasi (1 hingga 4)</label>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -278,32 +680,29 @@
             </div>
 
             <button type="submit" id="btnSaveOPR" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-xs flex items-center justify-center gap-2">
-              <i data-lucide="printer" class="w-4 h-4"></i> Simpan & Jana Lembaran A4
+              <i data-lucide="printer" class="w-4 h-4"></i> Simpan & Jana Lembaran A4 Rasmi
             </button>
           </form>
         </div>
       </section>
 
-      <!-- ==================== TAB 2: CURAI ONLINE ==================== -->
+      <!-- TAB CURAI ONLINE (TAPAK KOSONG DALAM PORTAL) -->
       <section id="view-curai" class="hidden max-w-2xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 text-center shadow-sm">
         <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <i data-lucide="clipboard-list" class="w-8 h-8"></i>
         </div>
         <h3 class="text-xl font-black text-slate-800">Modul Minit Curai Online</h3>
         <p class="text-xs text-slate-500 mt-2 max-w-md mx-auto">
-          Tapak modul Minit Curai Online telah sedia dihubungkan dengan akaun anda. Ciri kemasukan butiran mesyuarat luar dan taklimat akan diaktifkan tidak lama lagi!
+          Tapak modul Minit Curai Online telah sedia dihubungkan dengan akaun langganan anda. Ciri kemasukan butiran mesyuarat luar dan taklimat akan diaktifkan sepenuhnya tidak lama lagi!
         </p>
-        <span class="inline-block mt-4 text-[11px] font-bold text-sky-700 bg-sky-50 px-3 py-1.5 rounded-full border border-sky-200">
-          Status: Pembangunan Peringkat Akhir
-        </span>
       </section>
 
-      <!-- ==================== TAB 3: REKOD PELAPORAN SAYA ==================== -->
+      <!-- TAB REKOD PELAPORAN SAYA -->
       <section id="view-records" class="hidden space-y-4">
         <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
           <div>
             <h3 class="text-sm font-bold text-slate-800">Rekod Pelaporan Sekolah Saya</h3>
-            <p class="text-xs text-slate-400">Hanya rekod yang dijana oleh akaun anda dipaparkan di sini.</p>
+            <p class="text-xs text-slate-400">Hanya rekod sekolah anda sahaja yang dipaparkan dan boleh dicetak.</p>
           </div>
           <button onclick="fetchUserReports()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg flex items-center gap-1">
             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula
@@ -328,7 +727,7 @@
         </div>
       </section>
 
-      <!-- ==================== TAB 4: PANEL ADMIN (PENGURUSAN SEMUA USER) ==================== -->
+      <!-- TAB PANEL ADMIN -->
       <section id="view-admin" class="hidden space-y-6">
         <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-wrap justify-between items-center gap-4">
           <div>
@@ -337,34 +736,12 @@
             </h2>
             <p class="text-xs text-slate-300 mt-1">Urus semua akaun sekolah, lihat butiran penuh, dan aktifkan langganan manual.</p>
           </div>
-          <div class="flex items-center gap-2">
-            <button onclick="loadAdminAllUsers()" class="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black rounded-xl text-xs flex items-center gap-1.5 shadow transition">
-              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula Senarai
-            </button>
-          </div>
+          <button onclick="loadAdminAllUsers()" class="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black rounded-xl text-xs flex items-center gap-1.5 shadow transition">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Segar Semula Senarai
+          </button>
         </div>
 
-        <!-- STATISTIK RINGKAS ADMIN -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-            <span class="text-[11px] font-bold text-slate-400 uppercase">Jumlah Akaun</span>
-            <p id="statTotalUsers" class="text-2xl font-black text-slate-800 mt-1">0</p>
-          </div>
-          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-            <span class="text-[11px] font-bold text-emerald-600 uppercase">Langganan Aktif</span>
-            <p id="statActiveUsers" class="text-2xl font-black text-emerald-600 mt-1">0</p>
-          </div>
-          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-            <span class="text-[11px] font-bold text-rose-600 uppercase">Tamat / Belum Aktif</span>
-            <p id="statInactiveUsers" class="text-2xl font-black text-rose-600 mt-1">0</p>
-          </div>
-          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-            <span class="text-[11px] font-bold text-sky-600 uppercase">Jumlah Laporan Dijana</span>
-            <p id="statTotalReports" class="text-2xl font-black text-sky-600 mt-1">0</p>
-          </div>
-        </div>
-
-        <!-- JADUAL PENGGUNA DENGAN FUNGSI CARIAN -->
+        <!-- JADUAL ADMIN -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="p-4 border-b flex flex-wrap justify-between items-center gap-3 bg-slate-50">
             <div>
@@ -396,20 +773,19 @@
         </div>
       </section>
 
-      <!-- ==================== TEMPLAT CETAKAN A4 ==================== -->
+      <!-- TEMPLAT CETAKAN RASMI A4 (BERSIH TANPA WATERMARK UNTUK USER BERBAYAR) -->
       <section id="view-print" class="hidden space-y-4">
         <div class="no-print flex justify-between items-center bg-white p-3.5 rounded-xl shadow-sm border border-slate-200">
           <button onclick="switchMenu('records')" class="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1">
             &larr; Kembali ke Senarai
           </button>
           <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow">
-            <i data-lucide="printer" class="w-4 h-4"></i> Cetak Laporan (A4)
+            <i data-lucide="printer" class="w-4 h-4"></i> Cetak Dokumen Rasmi (A4)
           </button>
         </div>
 
         <div id="printArea" class="sheet-a4 mx-auto bg-white p-6 rounded-2xl shadow border border-slate-200 flex flex-col justify-between">
           <div>
-            <!-- KEPALA SURAT -->
             <div class="bg-red-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <img id="p-logo" class="w-12 h-12 object-contain bg-white rounded-lg p-0.5">
@@ -422,7 +798,6 @@
               <span class="text-[9px] font-mono uppercase bg-black/30 px-2 py-1 rounded">Format Rasmi OPR</span>
             </div>
 
-            <!-- JADUAL BUTIRAN -->
             <table class="w-full text-xs border border-slate-300 mb-2">
               <tr>
                 <td class="border border-slate-300 p-2 font-bold bg-slate-100 w-1/4">Nama Aktiviti</td>
@@ -443,13 +818,11 @@
             </table>
           </div>
 
-          <!-- GAMBAR DOKUMENTASI -->
           <div class="flex-1 my-2">
             <h4 class="text-[11px] font-black uppercase mb-1">Evidens Bergambar:</h4>
             <div id="p-images-grid" class="grid grid-cols-2 gap-2 h-72"></div>
           </div>
 
-          <!-- PENGESAHAN -->
           <div class="border-t pt-2 flex justify-between items-center text-xs">
             <div>
               <p class="text-[10px] text-slate-500">Disediakan Oleh:</p>
@@ -465,7 +838,7 @@
     </main>
   </div>
 
-  <!-- ==================== MODAL 1: DETAIL PENGGUNA (UNTUK ADMIN) ==================== -->
+  <!-- MODAL DETAIL PENGGUNA (ADMIN) -->
   <div id="modalAdminUserDetail" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative my-auto">
       <button onclick="closeAdminUserDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
@@ -480,39 +853,37 @@
         </div>
       </div>
 
-      <!-- BUTIRAN TERPERINCI -->
-      <div class="space-y-2.5 text-xs text-slate-700 mb-5">
-        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+      <div class="space-y-2 text-xs text-slate-700 mb-5">
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
           <span class="font-bold text-slate-500">Username:</span>
           <span id="mUserUsername" class="col-span-2 font-mono font-bold text-slate-900">-</span>
         </div>
-        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
           <span class="font-bold text-slate-500">Kata Laluan:</span>
           <span id="mUserPassword" class="col-span-2 font-mono font-bold text-slate-900">-</span>
         </div>
-        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
           <span class="font-bold text-slate-500">Emel:</span>
           <span id="mUserEmail" class="col-span-2 font-semibold text-sky-700">-</span>
         </div>
-        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
-          <span class="font-bold text-slate-500">Alamat / Info:</span>
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
+          <span class="font-bold text-slate-500">Alamat / Tel:</span>
           <span id="mUserInfo" class="col-span-2 text-slate-800">-</span>
         </div>
-        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
           <span class="font-bold text-slate-500">Tarikh Daftar:</span>
           <span id="mUserRegistered" class="col-span-2 text-slate-800">-</span>
         </div>
-        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
           <span class="font-bold text-slate-500">Langganan:</span>
           <span id="mUserSubExpiry" class="col-span-2 font-bold text-emerald-700">-</span>
         </div>
-        <div class="grid grid-cols-3 bg-slate-50 p-2.5 rounded-xl">
+        <div class="grid grid-cols-3 bg-slate-50 p-2 rounded-lg">
           <span class="font-bold text-slate-500">Laporan Dijana:</span>
           <span id="mUserReportsCount" class="col-span-2 font-black text-sky-800 text-sm">-</span>
         </div>
       </div>
 
-      <!-- TINDAKAN ADMIN TERHADAP AKAUN INI -->
       <div class="border-t pt-3 flex flex-wrap gap-2 justify-end">
         <button id="btnGrantSub30" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Tambah 30 Hari
@@ -549,6 +920,10 @@
     let userReports = [];
     let adminUsersList = [];
 
+    // Data Percubaan (Temporary Sandbox Data)
+    let trialLogo = "";
+    const trialImages = ["", ""];
+
     lucide.createIcons();
 
     window.onload = function() {
@@ -559,6 +934,119 @@
       }
     };
 
+    // ==========================================
+    // LOGIK MOD PERCUBAAN (SANDBOX TANPA LOGIN)
+    // ==========================================
+    function enterTrialMode() {
+      document.getElementById('authScreen').classList.add('hidden');
+      document.getElementById('mainAppScreen').classList.add('hidden');
+      document.getElementById('trialSandboxScreen').classList.remove('hidden');
+      switchTrialTab('opr');
+      lucide.createIcons();
+    }
+
+    function exitTrialMode(goToRegister = false) {
+      document.getElementById('trialSandboxScreen').classList.add('hidden');
+      document.getElementById('authScreen').classList.remove('hidden');
+      if (goToRegister) {
+        toggleAuth('register');
+      } else {
+        toggleAuth('login');
+      }
+    }
+
+    function switchTrialTab(tab) {
+      if (tab === 'opr') {
+        document.getElementById('trial-opr-container').classList.remove('hidden');
+        document.getElementById('trial-curai-container').classList.add('hidden');
+        document.getElementById('tab-trial-opr').className = "px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black shadow flex items-center gap-1.5 transition";
+        document.getElementById('tab-trial-curai').className = "px-4 py-2 bg-white hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold border border-slate-300 flex items-center gap-1.5 transition";
+      } else {
+        document.getElementById('trial-curai-container').classList.remove('hidden');
+        document.getElementById('trial-opr-container').classList.add('hidden');
+        document.getElementById('tab-trial-curai').className = "px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black shadow flex items-center gap-1.5 transition";
+        document.getElementById('tab-trial-opr').className = "px-4 py-2 bg-white hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold border border-slate-300 flex items-center gap-1.5 transition";
+      }
+      document.getElementById('trialPrintWrapper').classList.add('hidden');
+    }
+
+    function previewTrialLogo(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          trialLogo = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function previewTrialImg(input, idx) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          trialImages[idx] = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // JANA PRATONTON DENGAN TERA AIR BERULANG (DATA TIDAK DISIMPAN KE DB)
+    function generateTrialPreview(e, type) {
+      e.preventDefault();
+
+      if (type === 'opr') {
+        document.getElementById('preview-opr-sheet').classList.remove('hidden');
+        document.getElementById('preview-curai-sheet').classList.add('hidden');
+
+        document.getElementById('tp-school').textContent = document.getElementById('t_opr_school').value || "NAMA SEKOLAH CONTOH";
+        document.getElementById('tp-school-info').textContent = document.getElementById('t_opr_school_info').value || "-";
+        document.getElementById('tp-unit').textContent = "LAPORAN " + (document.getElementById('t_opr_unit').value || "").toUpperCase();
+        document.getElementById('tp-aktiviti').textContent = document.getElementById('t_opr_aktiviti').value || "-";
+        document.getElementById('tp-datetime').textContent = `${document.getElementById('t_opr_tarikh').value} | Masa: ${document.getElementById('t_opr_masa').value}`;
+        document.getElementById('tp-penerangan').textContent = document.getElementById('t_opr_penerangan').value || "-";
+        document.getElementById('tp-hasil').textContent = document.getElementById('t_opr_hasil').value || "-";
+        document.getElementById('tp-pelapor').textContent = document.getElementById('t_opr_pelapor').value || "-";
+
+        const logoEl = document.getElementById('tp-logo');
+        if (trialLogo) {
+          logoEl.src = trialLogo;
+          logoEl.classList.remove('hidden');
+        } else {
+          logoEl.classList.add('hidden');
+        }
+
+        const grid = document.getElementById('tp-images-grid');
+        grid.innerHTML = '';
+        trialImages.forEach(imgSrc => {
+          if (imgSrc) {
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.className = "w-full h-full object-cover rounded-lg border";
+            grid.appendChild(img);
+          }
+        });
+      } else {
+        document.getElementById('preview-curai-sheet').classList.remove('hidden');
+        document.getElementById('preview-opr-sheet').classList.add('hidden');
+
+        document.getElementById('tc-nama').textContent = document.getElementById('t_cur_nama').value || "-";
+        document.getElementById('tc-jawatan').textContent = document.getElementById('t_cur_jawatan').value || "-";
+        document.getElementById('tc-tajuk').textContent = document.getElementById('t_cur_tajuk').value || "-";
+        document.getElementById('tc-anjuran').textContent = document.getElementById('t_cur_anjuran').value || "-";
+        document.getElementById('tc-datetime').textContent = `${document.getElementById('t_cur_tarikh').value} (${document.getElementById('t_cur_masa').value}) di ${document.getElementById('t_cur_tempat').value}`;
+        document.getElementById('tc-isu').textContent = document.getElementById('t_cur_isu').value || "-";
+        document.getElementById('tc-tindakan').textContent = document.getElementById('t_cur_tindakan').value || "-";
+        document.getElementById('tc-pelapor-sign').textContent = document.getElementById('t_cur_nama').value || "-";
+      }
+
+      document.getElementById('trialPrintWrapper').classList.remove('hidden');
+      document.getElementById('trialPrintWrapper').scrollIntoView({ behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // LOGIK LOG MASUK, DAFTAR & PORTAL
+    // ==========================================
     function toggleAuth(mode) {
       if (mode === 'register') {
         document.getElementById('loginForm').classList.add('hidden');
@@ -611,7 +1099,7 @@
         });
         const result = await res.json();
         if (result.status === "success") {
-          alert("Pendaftaran berjaya! Sila log masuk.");
+          alert("Pendaftaran berjaya! Sila log masuk ke akaun anda.");
           toggleAuth('login');
         } else {
           alert(result.message);
@@ -620,7 +1108,7 @@
         alert("Ralat: " + err.message);
       } finally {
         btn.disabled = false;
-        btn.textContent = "Daftar Akaun Baru";
+        btn.textContent = "Daftar Akaun Baru (RM20/Bulan)";
       }
     }
 
@@ -659,6 +1147,7 @@
 
     function loadAppScreen() {
       document.getElementById('authScreen').classList.add('hidden');
+      document.getElementById('trialSandboxScreen').classList.add('hidden');
       document.getElementById('mainAppScreen').classList.remove('hidden');
 
       document.getElementById('headerSchoolName').textContent = currentUser.namaSekolah || "Sekolah Anda";
@@ -675,7 +1164,6 @@
       const navAdmin = document.getElementById('nav-admin');
       const alertBox = document.getElementById('subscriptionAlert');
 
-      // JIKA PENGGUNA ADALAH ADMIN
       if (currentUser.role === "ADMIN") {
         adminRoleBadge.classList.remove('hidden');
         navAdmin.classList.remove('hidden');
@@ -713,7 +1201,6 @@
         const result = await res.json();
         if (result.status === "success") {
           adminUsersList = result.users;
-          updateAdminMetrics(adminUsersList);
           renderAdminUsersTable(adminUsersList);
         } else {
           tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-red-500">Ralat: ${result.message}</td></tr>`;
@@ -721,20 +1208,6 @@
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-red-500">Gagal berhubung: ${err.message}</td></tr>`;
       }
-    }
-
-    function updateAdminMetrics(users) {
-      let active = 0, inactive = 0, totalReports = 0;
-      users.forEach(u => {
-        if (u.statusLangganan === "AKTIF" || u.role === "ADMIN") active++;
-        else inactive++;
-        totalReports += (u.totalLaporan || 0);
-      });
-
-      document.getElementById('statTotalUsers').textContent = users.length;
-      document.getElementById('statActiveUsers').textContent = active;
-      document.getElementById('statInactiveUsers').textContent = inactive;
-      document.getElementById('statTotalReports').textContent = totalReports;
     }
 
     function renderAdminUsersTable(users) {
@@ -795,7 +1268,6 @@
       renderAdminUsersTable(filtered);
     }
 
-    // MODAL BUTIRAN PENUH PENGGUNA
     function openAdminUserDetailModal(index) {
       const u = adminUsersList[index];
       if (!u) return;
@@ -819,7 +1291,6 @@
         logoEl.classList.add('hidden');
       }
 
-      // Butang modal
       document.getElementById('btnGrantSub30').onclick = () => adminGrantSubscription(u.username, 30);
       document.getElementById('btnGrantSub365').onclick = () => adminGrantSubscription(u.username, 365);
       document.getElementById('btnDeleteUserModal').onclick = () => adminDeleteUser(u.username);
@@ -849,7 +1320,7 @@
     }
 
     async function adminDeleteUser(targetUsername) {
-      if (!confirm(`AMARAN: Adakah anda pasti mahu memadam akaun ${targetUsername}? Semua akses akaun ini akan ditamatkan.`)) return;
+      if (!confirm(`AMARAN: Adakah anda pasti mahu memadam akaun ${targetUsername}?`)) return;
       try {
         const res = await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
@@ -864,7 +1335,7 @@
       }
     }
 
-    // ==================== OPERASI UMUM & PRIVASI ====================
+    // ==================== OPERASI UMUM & CETAKAN USER ====================
     async function payWithToyyibPay() {
       const btn = document.getElementById('btnPaySubscription');
       btn.disabled = true;
@@ -998,11 +1469,10 @@
         alert("Ralat simpan: " + err.message);
       } finally {
         btn.disabled = false;
-        btn.textContent = "Simpan & Jana Lembaran A4";
+        btn.textContent = "Simpan & Jana Lembaran A4 Rasmi";
       }
     }
 
-    // PENGAMBILAN DATA KETAT IKUT USERNAME
     function fetchUserReports() {
       if (!currentUser) return;
       const script = document.createElement('script');
@@ -1039,14 +1509,12 @@
       lucide.createIcons();
     };
 
-    // SEKATAN KETAT: MEMBUKA & MENCETAK REKOD HANYA MILIK SENDIRI
     function viewPrintRecord(index) {
       const d = userReports[index];
       if (!d) return;
 
-      // Semakan hak milik rekod
       if (currentUser.role !== "ADMIN" && d['Username'] && d['Username'] !== currentUser.username) {
-        alert("Akses Ditolak: Anda hanya dibenarkan membuka rekod pelaporan milik sekolah anda sahaja!");
+        alert("Akses Ditolak: Anda hanya dibenarkan membuka rekod sekolah anda sahaja!");
         return;
       }
 
