@@ -648,7 +648,7 @@
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">
             Rekod Pelaporan Saya
           </button>
-          <!-- BUTANG PANEL ADMIN (KEKAL HIDDEN SECARA MUTLAK UNTUK USER BIASA) -->
+          <!-- BUTANG PANEL ADMIN (KEKAL TERSEMBUNYI SECARA MUTLAK UNTUK PENGGUNA BIASA) -->
           <button onclick="switchMenu('admin')" id="nav-admin" class="hidden nav-btn px-3 py-1.5 text-xs font-black rounded-lg transition text-amber-300 hover:bg-amber-400 hover:text-slate-950 flex items-center gap-1">
             <i data-lucide="shield" class="w-3.5 h-3.5"></i> Panel Admin
           </button>
@@ -803,7 +803,7 @@
         </div>
       </section>
 
-      <!-- TAB PANEL ADMIN (TERKUNCI KUKUH UNTUK ADMIN SAHAJA) -->
+      <!-- TAB PANEL ADMIN (TERKUNCI KUKUH) -->
       <section id="view-admin" class="hidden space-y-6">
         <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-wrap justify-between items-center gap-4">
           <div>
@@ -1048,6 +1048,11 @@
     lucide.createIcons();
 
     window.onload = function() {
+      // Semakan jika pengguna baru selesai membuat bayaran di ToyyibPay
+      if (window.location.search.includes("payment_done=1")) {
+        alert("Terima kasih! Bayaran anda telah dihantar. Sistem sedang mengaktifkan langganan akaun anda.");
+      }
+
       const savedUser = localStorage.getItem("opr_logged_user");
       if (savedUser) {
         currentUser = JSON.parse(savedUser);
@@ -1341,7 +1346,6 @@
         const result = await res.json();
         if (result.status === "success") {
           currentUser = result.user;
-          // Simpan kata laluan dalam memori sesi untuk pengesahan Admin yang selamat
           currentUser.password = document.getElementById('loginPass').value.trim();
           localStorage.setItem("opr_logged_user", JSON.stringify(currentUser));
           loadAppScreen();
@@ -1399,7 +1403,6 @@
         }
       }
 
-      // Sentiasa tetapkan skrin mula pada OPR (Bukan Admin)
       switchMenu('opr');
       fetchUserReports();
       lucide.createIcons();
@@ -1409,7 +1412,6 @@
     // NAVIGASI MENU DENGAN SEKATAN ADMIN
     // ==========================================
     function switchMenu(menu) {
-      // SEKATAN KETAT: Jika bukan Admin, tolak serta-merta sebarang cubaan ke panel admin
       if (menu === 'admin') {
         if (!currentUser || currentUser.role !== 'ADMIN') {
           alert("Akses Ditolak: Anda tidak mempunyai kebenaran untuk membuka Panel Admin!");
@@ -1623,7 +1625,7 @@
     async function payWithToyyibPay() {
       const btn = document.getElementById('btnPaySubscription');
       btn.disabled = true;
-      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Membuka ToyyibPay...`;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Menghubungkan ke ToyyibPay...`;
       lucide.createIcons();
 
       try {
@@ -1632,7 +1634,10 @@
           body: JSON.stringify({
             action: "create_payment",
             username: currentUser.username,
-            email: currentUser.email
+            email: currentUser.email,
+            namaSekolah: currentUser.namaSekolah,
+            phone: currentUser.noTelSekolah || "0123456789",
+            returnUrl: window.location.href.split('?')[0]
           })
         });
         const result = await res.json();
@@ -1826,7 +1831,6 @@
       localStorage.removeItem("opr_logged_user");
       currentUser = null;
 
-      // Bersihkan dan sembunyikan semua elemen Admin
       const navAdmin = document.getElementById('nav-admin');
       if (navAdmin) navAdmin.classList.add('hidden');
       const viewAdmin = document.getElementById('view-admin');
