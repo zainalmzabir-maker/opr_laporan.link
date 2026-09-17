@@ -110,6 +110,28 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
+  <!-- ================= MODAL WHATSAPP PENGAKTIFAN AKAUN (RM15/BULAN) ================= -->
+  <div id="whatsappModal" class="fixed inset-0 bg-slate-950/70 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 text-center">
+      <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+        <i data-lucide="message-circle" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-lg font-black text-slate-900">Aktifkan Pelan Berbayar</h3>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Nikmati akses penuh tanpa had sistem pelaporan sekolah dengan langganan sebanyak <b class="text-emerald-700 font-black">RM15 sebulan</b>.
+      </p>
+      <div class="bg-slate-50 p-3 rounded-xl border text-[11px] text-slate-500 font-mono">
+        Sila hubungi <b>@CikguEnal</b> melalui WhatsApp untuk pengesahan pembayaran dan pengaktifan akaun anda.
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button type="button" onclick="closeWhatsappModal()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">Tutup</button>
+        <a href="https://wa.me/60137788999?text=Hai%20@CikguEnal,%20saya%20nak%20aktifkan%20akaun%20sistem%20pelaporan%20sekolah%20(RM15/bulan)." target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
+          <i data-lucide="send" class="w-4 h-4"></i> WhatsApp @CikguEnal
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= SKRIN 1: MOD PERCUBAAN (SANDBOX) ================= -->
   <div id="trialSandboxScreen" class="hidden min-h-screen flex-1 flex flex-col bg-slate-100">
     <header class="bg-amber-500 text-slate-950 p-4 shadow-md sticky top-0 z-40 no-print border-b-2 border-amber-600">
@@ -338,7 +360,6 @@
         <h2 class="text-xl font-black text-slate-800 uppercase tracking-wide">Sistem Pelaporan Digital</h2>
       </div>
 
-      <!-- BUTANG CUBA MOD PERCUBAAN (SANDBOX) -->
       <div class="mb-5 bg-gradient-to-r from-amber-500 to-orange-500 p-0.5 rounded-2xl shadow-md">
         <button onclick="enterTrialMode()" class="w-full bg-amber-50 hover:bg-amber-100 text-amber-950 p-3 rounded-2xl text-xs font-black flex items-center justify-center gap-2 transition">
           <i data-lucide="sparkles" class="w-4 h-4 text-orange-600"></i> Cuba Mod Percubaan (Percuma & Tanpa Daftar)
@@ -358,17 +379,17 @@
           Log Masuk
         </button>
         <p class="text-xs text-center text-slate-500 pt-2">
-          Belum ada akaun? <a href="javascript:void(0)" onclick="toggleAuth('register')" class="text-sky-600 font-bold underline">Daftar Sekolah Baru</a>
+          Belum ada akaun? <a href="javascript:void(0)" onclick="toggleAuth('register')" class="text-sky-600 font-bold underline">Daftar Sendiri di Sini</a>
         </p>
       </form>
 
       <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-3 hidden">
-        <div class="border-b pb-2 mb-2"><span class="text-xs font-black uppercase text-indigo-700">Pendaftaran Profil Sekolah</span></div>
+        <div class="border-b pb-2 mb-2"><span class="text-xs font-black uppercase text-indigo-700">Pendaftaran Sendiri Akaun Sekolah</span></div>
         <div class="grid grid-cols-2 gap-2">
           <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Username *</label><input type="text" id="regUser" required placeholder="cth: sktmnusa" class="w-full border rounded-lg p-2 text-xs"></div>
           <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Kata Laluan *</label><input type="password" id="regPass" required placeholder="••••••••" class="w-full border rounded-lg p-2 text-xs"></div>
         </div>
-        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Pendaftar * (Credential dihantar ke sini)</label><input type="email" id="regEmail" required placeholder="admin@sekolah.edu.my" class="w-full border rounded-lg p-2 text-xs"></div>
+        <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Pendaftar *</label><input type="email" id="regEmail" required placeholder="admin@sekolah.edu.my" class="w-full border rounded-lg p-2 text-xs"></div>
         <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Nama Penuh Sekolah *</label><input type="text" id="regSchoolName" required placeholder="SK TAMAN NUSA" class="w-full border rounded-lg p-2 text-xs uppercase font-bold"></div>
         <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Alamat Lengkap Sekolah *</label><input type="text" id="regSchoolAddress" required placeholder="Jalan NUSA 5, Taman Nusa" class="w-full border rounded-lg p-2 text-xs"></div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -377,7 +398,7 @@
           <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Emel Rasmi *</label><input type="email" id="regSchoolEmail" required placeholder="jba1234@moe.edu.my" class="w-full border rounded-lg p-2 text-xs"></div>
         </div>
         <div><label class="block text-[11px] font-bold text-slate-700 mb-0.5">Logo Sekolah</label><input type="file" id="regLogoInput" accept="image/*" onchange="compressImageBase64(this, val => base64RegLogo = val)" class="w-full text-xs text-slate-500 file:py-1 file:px-2"></div>
-        <button type="submit" id="btnRegister" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs mt-2 flex justify-center items-center gap-2">Daftar Akaun Baru (RM20/Bulan)</button>
+        <button type="submit" id="btnRegister" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs mt-2 flex justify-center items-center gap-2">Daftar Akaun Sekarang</button>
         <p class="text-xs text-center text-slate-500 pt-1">Sudah ada akaun? <a href="javascript:void(0)" onclick="toggleAuth('login')" class="text-indigo-600 font-bold underline">Log Masuk</a></p>
       </form>
     </div>
@@ -402,7 +423,7 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Saya</button>
           
-          <a href="https://wa.me/?text=Hai%20Admin%20(admin@laporan.link),%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm" title="Emel Admin: admin@laporan.link">
+          <a href="https://wa.me/60137788999?text=Hai%20@CikguEnal,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (WhatsApp)
           </a>
 
@@ -411,11 +432,12 @@
       </div>
     </header>
 
+    <!-- AMARAN LANGGANAN TIDAK AKTIF DENGAN BUTANG WHATSAPP (RM15/BULAN) -->
     <div id="subscriptionAlert" class="hidden bg-rose-600 text-white p-3 no-print shadow-md">
       <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
-        <span class="text-sm font-semibold"><i data-lucide="lock" class="w-4 h-4 inline"></i> Akses Terkunci: Langganan bulanan belum aktif.</span>
-        <button onclick="payWithToyyibPay()" class="bg-white text-slate-900 font-extrabold px-4 py-1.5 rounded-lg text-xs shadow flex items-center gap-1.5">
-          <i data-lucide="credit-card" class="w-4 h-4"></i> Langgan RM20/Bulan
+        <span class="text-sm font-semibold"><i data-lucide="lock" class="w-4 h-4 inline"></i> Akses Terkunci: Pelan berbayar belum diaktifkan.</span>
+        <button onclick="openWhatsappModal()" class="bg-white text-slate-900 font-extrabold px-4 py-1.5 rounded-lg text-xs shadow flex items-center gap-1.5 hover:bg-emerald-50 hover:text-emerald-800 transition">
+          <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i> Aktifkan Akaun melalui WhatsApp (RM15/Bulan)
         </button>
       </div>
     </div>
@@ -796,6 +818,15 @@
 
     lucide.createIcons();
 
+    function openWhatsappModal() {
+      document.getElementById('whatsappModal')?.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeWhatsappModal() {
+      document.getElementById('whatsappModal')?.classList.add('hidden');
+    }
+
     async function safeFetchJSON(url, payload) {
       let res;
       try {
@@ -986,7 +1017,6 @@
       document.getElementById('registerForm')?.classList.toggle('hidden', mode === 'login');
     }
 
-    // MOD PERCUBAAN (SANDBOX)
     function enterTrialMode() {
       document.getElementById('authScreen').classList.add('hidden');
       document.getElementById('trialSandboxScreen').classList.remove('hidden');
@@ -1165,10 +1195,19 @@
 
       try {
         const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, payload);
-        if (result.status === "success") { alert("Pendaftaran berjaya! Maklumat credential telah dihantar ke emel anda."); toggleAuth('login'); }
-        else { alert(result.message); }
-      } catch (err) { alert("Ralat pendaftaran:\n\n" + err.message); }
-      finally { btn.disabled = false; btn.innerHTML = `Daftar Akaun Baru (RM20/Bulan)`; lucide.createIcons(); }
+        if (result.status === "success") {
+          alert("Pendaftaran akaun berjaya! Sila log masuk.");
+          toggleAuth('login');
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        alert("Ralat pendaftaran:\n\n" + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `Daftar Akaun Sekarang`;
+        lucide.createIcons();
+      }
     }
 
     function loadAppScreen() {
@@ -1243,7 +1282,7 @@
 
     async function handleSaveOPR(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Langganan belum aktif!"); return; }
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @CikguEnal melalui WhatsApp."); return; }
       const btn = document.getElementById('btnSaveOPR'); btn.disabled = true; const originalText = btn.innerHTML;
       btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Menyimpan OPR... Sila tunggu...`; lucide.createIcons();
 
@@ -1267,7 +1306,7 @@
 
     async function handleSaveCurai(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Langganan belum aktif!"); return; }
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @CikguEnal melalui WhatsApp."); return; }
       const isKawalan = document.getElementById('portalIsKawalan')?.checked;
       const pass = document.getElementById('portalPassword')?.value.trim();
       if (isKawalan && !pass) { alert("Sila masukkan kata laluan untuk Minit Curai Kawalan."); return; }
@@ -1678,20 +1717,6 @@
         container.innerHTML = valid.slice(0, 4).map(src => `<div class="flex items-center justify-center bg-slate-50 rounded-xl p-1 border overflow-hidden"><img src="${src}" class="max-w-full max-h-full object-contain rounded-lg"></div>`).join('');
       }
       lucide.createIcons();
-    }
-
-    async function payWithToyyibPay() {
-      try {
-        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
-          action: "create_payment",
-          username: currentUser.username,
-          email: currentUser.email,
-          namaSekolah: currentUser.namaSekolah,
-          returnUrl: window.location.href.split('?')[0]
-        });
-        if (result.status === "success" && result.billUrl) { window.location.href = result.billUrl; }
-        else { alert("Ralat: " + result.message); }
-      } catch (err) { alert("Ralat: " + err.message); }
     }
 
     function logout() {
