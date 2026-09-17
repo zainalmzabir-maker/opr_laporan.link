@@ -418,6 +418,11 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Saya</button>
           
+          <!-- DASHBOARD ADMIN (PAPAR KHAS UNTUK ADMIN SAHAJA) -->
+          <button onclick="switchMenu('admin')" id="nav-admin" class="nav-btn hidden px-3 py-1.5 text-xs font-bold rounded-lg transition text-amber-300 hover:bg-amber-600 hover:text-slate-950 flex items-center gap-1.5 bg-amber-700/60 border border-amber-600/50 shadow-sm">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Dashboard Admin
+          </button>
+
           <a id="lnkNavWhatsapp" href="#" target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (WhatsApp)
           </a>
@@ -662,7 +667,38 @@
         </div>
       </section>
 
-      <!-- 6. TEMPLAT CETAKAN A4 -->
+      <!-- 6. DASHBOARD ADMIN (KHAS PAPARAN ADMIN) -->
+      <section id="view-admin" class="hidden space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b pb-4">
+            <div>
+              <h2 class="text-base font-black text-slate-900 flex items-center gap-2"><i data-lucide="shield-check" class="text-amber-500"></i> Panel Pentadbir Sistem (Admin Dashboard)</h2>
+              <p class="text-xs text-slate-500">Urus akaun sekolah berdaftar dan status langganan pelan berbayar.</p>
+            </div>
+            <button onclick="fetchAllAdminUsers()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-1 border border-slate-200 shadow-sm transition">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Muat Semula Senarai
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100 text-slate-700 uppercase font-bold border-b">
+                <tr>
+                  <th class="p-3">Username & Sekolah</th>
+                  <th class="p-3">Kod & Emel</th>
+                  <th class="p-3 text-center">Status Langganan</th>
+                  <th class="p-3 text-center">Tindakan Pengaktifan</th>
+                </tr>
+              </thead>
+              <tbody id="tblAdminUsersBody" class="divide-y text-slate-600">
+                <tr><td colspan="4" class="p-4 text-center text-slate-400">Memuatkan senarai sekolah...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. TEMPLAT CETAKAN A4 -->
       <section id="view-print" class="hidden space-y-4">
         <div class="no-print flex justify-between items-center bg-white p-3.5 rounded-xl border max-w-4xl mx-auto shadow-sm">
           <button onclick="switchMenu('records')" class="text-xs font-bold text-slate-600 flex items-center gap-1">&larr; Kembali ke Senarai</button>
@@ -785,7 +821,7 @@
   <script>
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqyx_cPd1x-bhqNPQ0AK2w-Xmc3_fYOFaIOk9EEUwUi9DXVZKsx6_W9jZJ6TN7_uCn/exec";
 
-    // KONFIGURASI USERNAME WHATSAPP RASMI (CASE-SENSITIVE)
+    // KONFIGURASI USERNAME WHATSAPP RASMI (@cikguenal)
     const ADMIN_WHATSAPP_USERNAME = "@cikguenal";
 
     const UNIT_CONFIG = {
@@ -1239,11 +1275,14 @@
 
       const badge = document.getElementById('lblSubscriptionBadge');
       const alertBox = document.getElementById('subscriptionAlert');
+      const navAdminBtn = document.getElementById('nav-admin');
 
       if (currentUser.role === "ADMIN") {
         if (badge) { badge.textContent = "Admin"; badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-amber-500 text-slate-950"; }
         alertBox?.classList.add('hidden');
+        if (navAdminBtn) navAdminBtn.classList.remove('hidden');
       } else {
+        if (navAdminBtn) navAdminBtn.classList.add('hidden');
         if (currentUser.statusLangganan === "AKTIF") {
           if (badge) { badge.textContent = `Aktif (${currentUser.tarikhTamat})`; badge.className = "font-bold px-2 py-0.5 rounded text-[10px] bg-emerald-600 text-white"; }
           alertBox?.classList.add('hidden');
@@ -1261,17 +1300,96 @@
     }
 
     function switchMenu(menu) {
-      ['opr', 'curai', 'school', 'account', 'records', 'print'].forEach(m => {
+      ['opr', 'curai', 'school', 'account', 'records', 'admin', 'print'].forEach(m => {
         document.getElementById(`view-${m}`)?.classList.add('hidden');
         const nav = document.getElementById(`nav-${m}`);
-        if (nav) nav.className = "nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white";
+        if (nav && m !== 'admin') nav.className = "nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white";
       });
 
       document.getElementById(`view-${menu}`)?.classList.remove('hidden');
       const activeNav = document.getElementById(`nav-${menu}`);
-      if (activeNav) activeNav.className = "nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow";
+      if (activeNav && menu !== 'admin') {
+        activeNav.className = "nav-btn px-3 py-1.5 text-xs font-bold rounded-lg transition bg-white text-slate-900 shadow";
+      }
 
       if (menu === 'records') fetchUserReports();
+      if (menu === 'admin') fetchAllAdminUsers();
+    }
+
+    // FUNGSI KHAS ADMIN DASHBOARD
+    async function fetchAllAdminUsers() {
+      if (!currentUser || currentUser.role !== "ADMIN") return;
+      const tbody = document.getElementById('tblAdminUsersBody');
+      if (tbody) tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500"><i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto mb-1"></i> Mengambil senarai sekolah...</td></tr>`;
+      lucide.createIcons();
+
+      try {
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, { action: "admin_get_users", username: currentUser.username });
+        if (result.status === "success") {
+          renderAdminUsersTable(result.users);
+        } else {
+          if (tbody) tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-rose-500">${result.message}</td></tr>`;
+        }
+      } catch (err) {
+        if (tbody) tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-rose-500">${err.message}</td></tr>`;
+      }
+    }
+
+    function renderAdminUsersTable(users) {
+      const tbody = document.getElementById('tblAdminUsersBody');
+      if (!tbody) return;
+
+      if (!users || users.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Tiada akaun sekolah berdaftar.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = users.map(u => {
+        const isActive = u.statusLangganan === 'AKTIF';
+        return `
+          <tr class="hover:bg-slate-50 border-b">
+            <td class="p-3">
+              <span class="font-bold text-slate-900 block">${u.namaSekolah}</span>
+              <span class="text-[11px] text-slate-500 font-mono">ID: ${u.username}</span>
+            </td>
+            <td class="p-3">
+              <span class="font-mono text-slate-700 block">Kod: ${u.kodSekolah || '-'}</span>
+              <span class="text-[11px] text-slate-400">${u.email}</span>
+            </td>
+            <td class="p-3 text-center whitespace-nowrap">
+              <span class="px-2 py-1 rounded text-[10px] font-black ${isActive ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                ${u.statusLangganan} (${u.tarikhTamat})
+              </span>
+            </td>
+            <td class="p-3 text-center whitespace-nowrap space-x-1">
+              <button onclick="adminUpdateSub('${u.username}', 'aktifkan_30')" class="px-2.5 py-1 bg-sky-600 hover:bg-sky-700 text-white rounded font-bold text-[10px] shadow-sm">+30 Hari</button>
+              <button onclick="adminUpdateSub('${u.username}', 'seumur_hidup')" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded font-bold text-[10px] shadow-sm">Seumur Hidup</button>
+              <button onclick="adminUpdateSub('${u.username}', 'tamat')" class="px-2.5 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded font-bold text-[10px] shadow-sm">Kunci</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    async function adminUpdateSub(targetUsername, subAction) {
+      if (!confirm(`Anda pasti untuk kemaskini status langganan bagi [${targetUsername}]?`)) return;
+      try {
+        const result = await safeFetchJSON(GOOGLE_SCRIPT_URL, {
+          action: "admin_update_subscription",
+          username: currentUser.username,
+          targetUsername: targetUsername,
+          subAction: subAction
+        });
+        if (result.status === "success") {
+          alert("Berjaya dikemaskini!");
+          fetchAllAdminUsers();
+        } else {
+          alert("Ralat: " + result.message);
+        }
+      } catch (err) {
+        alert("Ralat sambungan: " + err.message);
+      }
     }
 
     async function handleUpdateAccount(e) {
