@@ -121,12 +121,12 @@
         Nikmati akses penuh tanpa had sistem pelaporan sekolah dengan langganan sebanyak <b class="text-emerald-700 font-black">RM15 sebulan</b>.
       </p>
       <div class="bg-slate-50 p-3 rounded-xl border text-[11px] text-slate-500 font-mono">
-        Sila hubungi <b>@cikguenal</b> melalui WhatsApp untuk pengesahan pembayaran dan pengaktifan akaun anda.
+        Sila hubungi <b id="lblModalAdminName">@cikguenal</b> melalui WhatsApp untuk pengesahan pembayaran dan pengaktifan akaun anda.
       </div>
       <div class="flex gap-2 pt-2">
         <button type="button" onclick="closeWhatsappModal()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">Tutup</button>
-        <a href="https://wa.me/60137788999?text=Hai%20@cikguenal,%20saya%20nak%20aktifkan%20akaun%20sistem%20pelaporan%20sekolah%20(RM15/bulan)." target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
-          <i data-lucide="send" class="w-4 h-4"></i> WhatsApp @cikguenal
+        <a id="lnkModalWhatsapp" href="#" target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
+          <i data-lucide="send" class="w-4 h-4"></i> WhatsApp <span id="lblModalAdminBtn">@cikguenal</span>
         </a>
       </div>
     </div>
@@ -418,7 +418,7 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Saya</button>
           
-          <a href="https://wa.me/60137788999?text=Hai%20@cikguenal,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
+          <a id="lnkNavWhatsapp" href="#" target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (WhatsApp)
           </a>
 
@@ -785,6 +785,9 @@
   <script>
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqyx_cPd1x-bhqNPQ0AK2w-Xmc3_fYOFaIOk9EEUwUi9DXVZKsx6_W9jZJ6TN7_uCn/exec";
 
+    // KONFIGURASI USERNAME WHATSAPP RASMI (CASE-SENSITIVE)
+    const ADMIN_WHATSAPP_USERNAME = "@cikguenal";
+
     const UNIT_CONFIG = {
       'Kokurikulum': { bg: '#800000', badgeClass: 'bg-red-100 text-red-800 border-red-200', title: 'LAPORAN AKTIVITI KOKURIKULUM' },
       'Koakademik': { bg: '#c2410c', badgeClass: 'bg-orange-100 text-orange-800 border-orange-200', title: 'LAPORAN AKTIVITI KOAKADEMIK' },
@@ -811,6 +814,22 @@
     let trialImages = ["", "", "", ""];
 
     lucide.createIcons();
+
+    // SETUP DINAMIK PENGGUNAAN USERNAME WHATSAPP (@cikguenal)
+    document.addEventListener("DOMContentLoaded", () => {
+      const cleanUsername = ADMIN_WHATSAPP_USERNAME.replace('@', '');
+      const waMsg = encodeURIComponent("Hai " + ADMIN_WHATSAPP_USERNAME + ", saya nak aktifkan akaun sistem pelaporan sekolah (RM15/bulan).");
+      const waUrl = `https://wa.me/${cleanUsername}?text=${waMsg}`;
+
+      document.querySelectorAll('#lnkNavWhatsapp').forEach(el => el.href = waUrl);
+      
+      const modalLnk = document.getElementById('lnkModalWhatsapp');
+      if (modalLnk) modalLnk.href = waUrl;
+
+      document.querySelectorAll('#lblModalAdminName, #lblModalAdminBtn').forEach(el => {
+        el.textContent = ADMIN_WHATSAPP_USERNAME;
+      });
+    });
 
     function openWhatsappModal() {
       document.getElementById('whatsappModal')?.classList.remove('hidden');
@@ -1277,7 +1296,7 @@
 
     async function handleSaveOPR(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @cikguenal melalui WhatsApp."); return; }
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi " + ADMIN_WHATSAPP_USERNAME + " melalui WhatsApp."); return; }
       const btn = document.getElementById('btnSaveOPR'); btn.disabled = true; const originalText = btn.innerHTML;
       btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Menyimpan OPR... Sila tunggu...`; lucide.createIcons();
 
@@ -1301,7 +1320,7 @@
 
     async function handleSaveCurai(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @cikguenal melalui WhatsApp."); return; }
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi " + ADMIN_WHATSAPP_USERNAME + " melalui WhatsApp."); return; }
       const isKawalan = document.getElementById('portalIsKawalan')?.checked;
       const pass = document.getElementById('portalPassword')?.value.trim();
       if (isKawalan && !pass) { alert("Sila masukkan kata laluan untuk Minit Curai Kawalan."); return; }
