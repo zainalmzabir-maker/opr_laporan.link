@@ -110,7 +110,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col">
 
-  <!-- ================= MODAL WHATSAPP PENGAKTIFAN AKAUN (RM15/BULAN) ================= -->
+  <!-- ================= MODAL WHATSAPP PENGAKTIFAN AKAUN (@cikguenal) ================= -->
   <div id="whatsappModal" class="fixed inset-0 bg-slate-950/70 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 text-center">
       <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
@@ -121,12 +121,12 @@
         Nikmati akses penuh tanpa had sistem pelaporan sekolah dengan langganan sebanyak <b class="text-emerald-700 font-black">RM15 sebulan</b>.
       </p>
       <div class="bg-slate-50 p-3 rounded-xl border text-[11px] text-slate-500 font-mono">
-        Sila hubungi <b>@CikguEnal</b> melalui WhatsApp untuk pengesahan pembayaran dan pengaktifan akaun anda.
+        Sila hubungi <b>@cikguenal</b> melalui WhatsApp untuk pengesahan pembayaran dan pengaktifan akaun anda.
       </div>
       <div class="flex gap-2 pt-2">
         <button type="button" onclick="closeWhatsappModal()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2.5 rounded-xl text-xs transition">Tutup</button>
-        <a href="https://wa.me/60137788999?text=Hai%20@CikguEnal,%20saya%20nak%20aktifkan%20akaun%20sistem%20pelaporan%20sekolah%20(RM15/bulan)." target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
-          <i data-lucide="send" class="w-4 h-4"></i> WhatsApp @CikguEnal
+        <a href="https://wa.me/60137788999?text=Hai%20@cikguenal,%20saya%20nak%20aktifkan%20akaun%20sistem%20pelaporan%20sekolah%20(RM15/bulan)." target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
+          <i data-lucide="send" class="w-4 h-4"></i> WhatsApp @cikguenal
         </a>
       </div>
     </div>
@@ -162,7 +162,6 @@
         </button>
       </div>
 
-      <!-- TRIAL OPR CONTAINER -->
       <div id="trial-opr-container" class="space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <form onsubmit="generateTrialPreview(event, 'opr')" class="space-y-4">
@@ -198,7 +197,6 @@
         </div>
       </div>
 
-      <!-- TRIAL CURAI CONTAINER -->
       <div id="trial-curai-container" class="hidden space-y-6">
         <div class="max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 no-print">
           <form onsubmit="generateTrialPreview(event, 'curai')" class="space-y-4">
@@ -232,7 +230,6 @@
         </div>
       </div>
 
-      <!-- LEMBARAN CETAKAN PERCUBAAN A4 -->
       <div id="trialPrintWrapper" class="hidden space-y-4">
         <div class="no-print max-w-4xl mx-auto bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl flex justify-between items-center gap-3">
           <span class="text-xs font-extrabold text-amber-900">Lembaran A4 Percubaan (Mengandungi Watermark Demo)</span>
@@ -249,7 +246,6 @@
               <div class="demo-watermark-row">CONTOH PERCUBAAN &bull; TIDAK SAH UNTUK EDARAN RASMI</div>
             </div>
 
-            <!-- OPR TRIAL PREVIEW -->
             <div id="preview-opr-sheet" class="h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0 space-y-2">
                 <div id="tp-unit-header" class="bg-red-900 text-white p-2.5 sm:p-3 rounded-xl flex items-center justify-between shadow-sm">
@@ -294,7 +290,6 @@
               </div>
             </div>
 
-            <!-- CURAI TRIAL PREVIEW -->
             <div id="preview-curai-sheet" class="hidden h-full flex flex-col justify-between overflow-hidden">
               <div class="shrink-0">
                 <div class="bg-slate-900 text-white p-3.5 rounded-xl mb-3 flex items-center justify-between">
@@ -423,7 +418,7 @@
           <button onclick="switchMenu('account')" id="nav-account" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Maklumat Akaun</button>
           <button onclick="switchMenu('records')" id="nav-records" class="nav-btn px-3 py-1.5 text-xs font-semibold rounded-lg transition text-slate-300 hover:text-white">Rekod Saya</button>
           
-          <a href="https://wa.me/60137788999?text=Hai%20@CikguEnal,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
+          <a href="https://wa.me/60137788999?text=Hai%20@cikguenal,%20saya%20ada%20pertanyaan%20berkenaan%20sistem%20pelaporan." target="_blank" class="px-3 py-1.5 text-xs font-bold rounded-lg transition text-emerald-300 hover:bg-emerald-600 hover:text-white flex items-center gap-1.5 bg-emerald-700/60 border border-emerald-600/50 shadow-sm">
             <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> Hubungi Admin (WhatsApp)
           </a>
 
@@ -432,7 +427,6 @@
       </div>
     </header>
 
-    <!-- AMARAN LANGGANAN TIDAK AKTIF DENGAN BUTANG WHATSAPP (RM15/BULAN) -->
     <div id="subscriptionAlert" class="hidden bg-rose-600 text-white p-3 no-print shadow-md">
       <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
         <span class="text-sm font-semibold"><i data-lucide="lock" class="w-4 h-4 inline"></i> Akses Terkunci: Pelan berbayar belum diaktifkan.</span>
@@ -938,7 +932,8 @@
           const MAX_WIDTH = 800;
           let width = img.width, height = img.height;
           if (width > MAX_WIDTH) { height = Math.round(height * MAX_WIDTH / width); width = MAX_WIDTH; }
-          canvas.width = width; canvas.height = height;
+          canvas.width = width;
+          canvas.height = height;
           canvas.getContext('2d').drawImage(img, 0, 0, width, height);
           callback(canvas.toDataURL('image/jpeg', 0.7));
         };
@@ -1282,7 +1277,7 @@
 
     async function handleSaveOPR(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @CikguEnal melalui WhatsApp."); return; }
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @cikguenal melalui WhatsApp."); return; }
       const btn = document.getElementById('btnSaveOPR'); btn.disabled = true; const originalText = btn.innerHTML;
       btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Menyimpan OPR... Sila tunggu...`; lucide.createIcons();
 
@@ -1306,7 +1301,7 @@
 
     async function handleSaveCurai(e) {
       e.preventDefault();
-      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @CikguEnal melalui WhatsApp."); return; }
+      if (currentUser.role !== "ADMIN" && currentUser.statusLangganan !== "AKTIF") { alert("Pelan berbayar belum diaktifkan. Sila hubungi @cikguenal melalui WhatsApp."); return; }
       const isKawalan = document.getElementById('portalIsKawalan')?.checked;
       const pass = document.getElementById('portalPassword')?.value.trim();
       if (isKawalan && !pass) { alert("Sila masukkan kata laluan untuk Minit Curai Kawalan."); return; }
